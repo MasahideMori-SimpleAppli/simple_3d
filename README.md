@@ -96,3 +96,6 @@ Advanced graphics.
 ## License
 This software is released under the MIT License, see LICENSE file.  
 このソフトウェアはMITライセンスの元配布されます。LICENSEファイルの内容をご覧ください。
+
+## Copyright notice
+The “Dart” name and logo are trademarks of Google LLC.
