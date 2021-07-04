@@ -27,9 +27,11 @@ class Sp3dObj {
   List<Sp3dMaterial> materials;
   // PNG Image data
   List<Uint8List> images;
+  // Option parameters.
+  Map<String, dynamic>? option;
 
   /// Constructor
-  Sp3dObj(this.id, this.name, this.fragments, this.materials, this.images);
+  Sp3dObj(this.id, this.name, this.fragments, this.materials, this.images, this.option);
 
   Sp3dObj deep_copy(){
     List<Sp3dFragment> frgs = [];
@@ -48,7 +50,11 @@ class Sp3dObj {
       }
       imgs.add(Uint8List.fromList(il));
     }
-    return Sp3dObj(this.id, this.name, frgs, mtrs, imgs);
+    if(this.option!=null) {
+      return Sp3dObj(this.id, this.name, frgs, mtrs, imgs, {...this.option!});
+    }else{
+      return Sp3dObj(this.id, this.name, frgs, mtrs, imgs, null);
+    }
   }
 
   Map<String, dynamic> to_dict(){
@@ -76,6 +82,7 @@ class Sp3dObj {
       imgs.add(il);
     }
     d['images'] = imgs;
+    d['option'] = this.option;
     return d;
   }
 
@@ -92,7 +99,7 @@ class Sp3dObj {
     for(List<int> i in src['images']){
       imgs.add(Uint8List.fromList([...i]));
     }
-    return Sp3dObj(src['id'], src['name'], frgs, mtrs, imgs);
+    return Sp3dObj(src['id'], src['name'], frgs, mtrs, imgs, src['option']);
   }
 
 }

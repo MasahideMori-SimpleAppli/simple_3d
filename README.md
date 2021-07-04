@@ -45,7 +45,8 @@ Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に
               null
           )
         ],
-        []);
+        [],
+        null);
 ### Convert
     final sp3dobj_d = sp3dobj.to_dict();
 ### Load
@@ -92,6 +93,7 @@ Advanced graphics.
             - option: Map<String, dynamic>, Optional attributes that may be added for each app.
     - images: list
         - image: Uint8List, png data.
+    - option: Map<String, dynamic>, Optional attributes that may be added for each app.
 
 ## License
 This software is released under the MIT License, see LICENSE file.  
