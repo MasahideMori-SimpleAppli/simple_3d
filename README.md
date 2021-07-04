@@ -99,4 +99,4 @@ This software is released under the MIT License, see LICENSE file.
 
 ## Copyright notice
 The “Dart” name and “Flutter” name are trademarks of Google LLC.  
-*The developer of this package is not Google LLC. It is an individual.
+*The developer of this package is not Google LLC.
