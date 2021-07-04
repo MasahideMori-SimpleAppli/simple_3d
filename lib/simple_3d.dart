@@ -5,7 +5,7 @@ import 'dart:ui';
 
 ///
 /// Sp3dObjのFlutter実装です。
-/// opt属性は辞書であり、アプリケーション毎に自由に拡張できます。
+/// このオブジェクト及び内部要素のoptionはアプリケーション毎に自由に拡張できます。
 /// 書きだす場合はto_dictしたものをjson化します。読み込む場合はfrom_dict呼び出しで簡単に復元できます。
 ///
 /// Author Masahide Mori
