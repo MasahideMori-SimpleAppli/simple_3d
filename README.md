@@ -4,14 +4,14 @@ The explanation is in English and Japanese.
 （日本語版は各項目の後半にあります）  
 
 ## Overview
-This package is a working Dart implementation of Simple 3D Format.  
+This package is a working Flutter(Dart) implementation of Simple 3D Format.  
 Simple 3D Format is a file format that makes it easy for non-experts to handle 3D objects.  
 The file output in this format has the extension .sp3d, and the inner class convert to JSON. All the data about one object is contained in one file.  
 This specification aims to minimize complexity, make it easier to read in a text editor, and make it versatile.  
 Made for science, it can be difficult to use in other genres. 
 For the development of science, I aim to be able to use it without being affected by interests and conflicts.
 
-このパッケージはSimple 3D Formatの実用的なDart実装です。  
+このパッケージはSimple 3D Formatの実用的なFlutter(Dart)実装です。  
 Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に扱えるようにするためのファイル・フォーマットです。  
 このフォーマットで出力されたファイルは拡張子.sp3dを持ち、内部クラスがJSONに変換されます。１つのオブジェクトに関する全てのデータが１つのファイル内に含まれています。
 この仕様は様々な用途に使用できるように複雑さを最小限に抑え、かつ簡単にテキストエディタで内容が確認できることを目的としています。  
@@ -98,4 +98,5 @@ This software is released under the MIT License, see LICENSE file.
 このソフトウェアはMITライセンスの元配布されます。LICENSEファイルの内容をご覧ください。
 
 ## Copyright notice
-The “Dart” name and logo are trademarks of Google LLC.
+The “Dart” name and “Flutter” name are trademarks of Google LLC.  
+*The developer of this package is not Google LLC. It is an individual.

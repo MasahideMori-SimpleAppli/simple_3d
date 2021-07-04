@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 ///
-/// Sp3dObjのDart実装です。
+/// Sp3dObjのFlutter実装です。
 /// opt属性は辞書であり、アプリケーション毎に自由に拡張できます。
 /// 書きだす場合はto_dictしたものをjson化します。読み込む場合はfrom_dict呼び出しで簡単に復元できます。
 ///
@@ -99,7 +99,7 @@ class Sp3dObj {
 
 
 ///
-/// Sp3dFragmentのDart実装です。
+/// Sp3dFragmentのflutter実装です。
 /// Sp3dFragmentはsimple3dObj内で使用される、部品情報を扱うクラスです。
 ///
 /// Author Masahide Mori
@@ -160,7 +160,7 @@ class Sp3dFragment {
 }
 
 ///
-/// Sp3dFaceのDart実装です。
+/// Sp3dFaceのflutter実装です。
 /// Sp3dFaceはSp3dFragment内で使用される、頂点などの情報を扱うクラスです。
 ///
 /// Author Masahide Mori
@@ -249,7 +249,7 @@ class Sp3dV3D {
 }
 
 ///
-/// Sp3dMaterialのDart実装です。
+/// Sp3dMaterialのflutter実装です。
 /// Sp3dMaterialはSp3dObj内で使用される、色などの情報を扱うクラスです。
 ///
 /// Author Masahide Mori
