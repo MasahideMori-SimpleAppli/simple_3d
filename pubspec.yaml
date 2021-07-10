@@ -1,6 +1,6 @@
 name: simple_3d
-description: Simple 3D Format for Dart.
-version: 0.1.0
+description: This package was created for the convenience of 3D non-experts, including scientists.
+version: 0.1.1
 repository: https://github.com/MasahideMori1111/simple_3d
 
 environment:

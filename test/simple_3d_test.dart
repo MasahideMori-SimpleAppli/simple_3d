@@ -10,25 +10,16 @@ void main() {
         "test",
         [
           Sp3dFragment(
-            true,
-            [
-              Sp3dFace(
-                  [Sp3dV3D(0,0,0)],
-                  0
-              )
-            ],
-            1,
-            null)
+              true,
+              [
+                Sp3dFace([Sp3dV3D(0, 0, 0)], 0)
+              ],
+              1,
+              null)
         ],
         [
-          Sp3dMaterial(
-              Color.fromARGB(255, 0, 255, 0),
-              true,
-              1,
-              Color.fromARGB(255, 0, 255, 0),
-              null,
-              null
-          )
+          Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+              Color.fromARGB(255, 0, 255, 0), null, null)
         ],
         [],
         null);
@@ -41,7 +32,7 @@ void main() {
     print("is match");
     final pre = jsonEncode(sp3dobj_d);
     final reloaded = jsonEncode(restored.to_dict());
-    print(pre==reloaded);
-    expect(pre,reloaded);
+    print(pre == reloaded);
+    expect(pre, reloaded);
   });
 }

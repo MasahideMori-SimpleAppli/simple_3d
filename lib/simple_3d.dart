@@ -4,7 +4,11 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 ///
-/// Sp3dObjのFlutter実装です。
+/// (en) Flutter implementation of Sp3dObj.
+/// The options for this object and internal elements can be freely extended for each application.
+/// When writing out, to_dict is converted to json. If you want to read it, you can easily restore it by calling from_dict.
+///
+/// (ja) Sp3dObjのFlutter実装です。
 /// このオブジェクト及び内部要素のoptionはアプリケーション毎に自由に拡張できます。
 /// 書きだす場合はto_dictしたものをjson化します。読み込む場合はfrom_dict呼び出しで簡単に復元できます。
 ///
@@ -17,22 +21,23 @@ class Sp3dObj {
 
   final String class_name = 'Sp3dObj';
   final String version = '1';
-  // Object ID
   String? id;
-  // Object Name
   String? name;
-  // Object fragment
   List<Sp3dFragment> fragments;
-  // Information such as object color
   List<Sp3dMaterial> materials;
-  // PNG Image data
   List<Uint8List> images;
-  // Option parameters.
   Map<String, dynamic>? option;
 
   /// Constructor
+  /// * [id] : Object ID.
+  /// * [name] : Object Name.
+  /// * [fragments] : This includes information such as the vertex information of the object.
+  /// * [materials] : This includes information such as colors.
+  /// * [images] : Image data.
+  /// * [option] : Optional attributes that may be added for each app.
   Sp3dObj(this.id, this.name, this.fragments, this.materials, this.images, this.option);
 
+  /// Deep copy the object.
   Sp3dObj deep_copy(){
     List<Sp3dFragment> frgs = [];
     for(var i in this.fragments){
@@ -57,6 +62,7 @@ class Sp3dObj {
     }
   }
 
+  /// Convert the object to a dictionary.
   Map<String, dynamic> to_dict(){
     Map<String, dynamic> d = {};
     d['class_name'] = this.class_name;
@@ -86,7 +92,9 @@ class Sp3dObj {
     return d;
   }
 
-  static Sp3dObj from_dict(src){
+  /// Restore this object from the dictionary.
+  /// * [src] : A dictionary made with to_dict of this class.
+  static Sp3dObj from_dict(Map<String, dynamic> src){
     List<Sp3dFragment> frgs = [];
     for(var i in src['fragments']){
       frgs.add(Sp3dFragment.from_dict(i));
@@ -106,7 +114,10 @@ class Sp3dObj {
 
 
 ///
-/// Sp3dFragmentのflutter実装です。
+/// (en) A flutter implementation of Sp3dFragment.
+/// Sp3dFragment is a class that handles part information used in simple3dObj.
+///
+/// (ja) Sp3dFragmentのflutter実装です。
 /// Sp3dFragmentはsimple3dObj内で使用される、部品情報を扱うクラスです。
 ///
 /// Author Masahide Mori
@@ -117,18 +128,19 @@ class Sp3dFragment {
 
   final String class_name = 'Sp3dFragment';
   final String version = '1';
-  // If true, this is particle.
   bool is_particle;
-  // Face obj.
   List<Sp3dFace> faces;
-  // Particle radius.
   double r;
-  // Option parameters.
   Map<String, dynamic>? option;
 
   /// Constructor
+  /// * [is_particle] : If true, this is particle.
+  /// * [faces] : Face Object list. This includes vertex information.
+  /// * [r] : Particle radius.
+  /// * [option] : Optional attributes that may be added for each app.
   Sp3dFragment(this.is_particle, this.faces, this.r, this.option);
 
+  /// Deep copy the object.
   Sp3dFragment deep_copy(){
     List<Sp3dFace> f = [];
     for(var i in this.faces){
@@ -141,6 +153,7 @@ class Sp3dFragment {
     }
   }
 
+  /// Convert the object to a dictionary.
   Map<String, dynamic> to_dict(){
     Map<String, dynamic> d = {};
     d['class_name'] = this.class_name;
@@ -156,7 +169,9 @@ class Sp3dFragment {
     return d;
   }
 
-  static Sp3dFragment from_dict(src){
+  /// Restore this object from the dictionary.
+  /// * [src] : A dictionary made with to_dict of this class.
+  static Sp3dFragment from_dict(Map<String, dynamic> src){
     List<Sp3dFace> f = [];
     for(var i in src['faces']){
       f.add(Sp3dFace.from_dict(i));
@@ -167,7 +182,10 @@ class Sp3dFragment {
 }
 
 ///
-/// Sp3dFaceのflutter実装です。
+/// (en) A flutter implementation of Sp3dFace.
+/// Sp3dFace is a class used in Sp3dFragment that handles information such as vertices.
+///
+/// (ja) Sp3dFaceのflutter実装です。
 /// Sp3dFaceはSp3dFragment内で使用される、頂点などの情報を扱うクラスです。
 ///
 /// Author Masahide Mori
@@ -178,14 +196,15 @@ class Sp3dFace {
 
   final String class_name = 'Sp3dFace';
   final String version = '1';
-  // 3d vertex.
   List<Sp3dV3D> vertex;
-  // use material index. If null, disable.
   int? material_index;
 
   /// Constructor
+  /// * [vertex] : 3D vertex.
+  /// * [material_index] : use material index. If null, disable.
   Sp3dFace(this.vertex, this.material_index);
 
+  /// Deep copy the object.
   Sp3dFace deep_copy(){
     List<Sp3dV3D> v = [];
     for(var i in this.vertex){
@@ -194,6 +213,7 @@ class Sp3dFace {
     return Sp3dFace(v, this.material_index);
   }
 
+  /// Convert the object to a dictionary.
   Map<String, dynamic> to_dict(){
     Map<String, dynamic> d = {};
     d['class_name'] = this.class_name;
@@ -207,7 +227,9 @@ class Sp3dFace {
     return d;
   }
 
-  static Sp3dFace from_dict(src){
+  /// Restore this object from the dictionary.
+  /// * [src] : A dictionary made with to_dict of this class.
+  static Sp3dFace from_dict(Map<String, dynamic> src){
     List<Sp3dV3D> v = [];
     for(var i in src['vertex']){
       v.add(Sp3dV3D.from_dict(i));
@@ -218,7 +240,9 @@ class Sp3dFace {
 }
 
 ///
-/// ３次元ベクトルを扱うためのクラスです。
+/// (en) This is a class for handling 3D vectors.
+///
+/// (ja) ３次元ベクトルを扱うためのクラスです。
 ///
 /// Author Masahide Mori
 /// Version 1.00
@@ -232,13 +256,18 @@ class Sp3dV3D {
   final double y;
   final double z;
 
-  /// 通常のコンストラクタ
+  /// Constructor
+  /// * [x] : The x coordinate of the 3D vertex.
+  /// * [y] : The x coordinate of the 3D vertex.
+  /// * [z] : The x coordinate of the 3D vertex.
   Sp3dV3D(this.x, this.y, this.z);
 
+  /// Deep copy the object.
   Sp3dV3D deep_copy(){
     return Sp3dV3D(this.x, this.y, this.z);
   }
 
+  /// Convert the object to a dictionary.
   Map<String, dynamic> to_dict(){
     Map<String, dynamic> d = {};
     d['class_name'] = this.class_name;
@@ -249,14 +278,19 @@ class Sp3dV3D {
     return d;
   }
 
-  static Sp3dV3D from_dict(src){
+  /// Restore this object from the dictionary.
+  /// * [src] : A dictionary made with to_dict of this class.
+  static Sp3dV3D from_dict(Map<String, dynamic> src){
     return Sp3dV3D(src['x'],src['y'],src['z']);
   }
 
 }
 
 ///
-/// Sp3dMaterialのflutter実装です。
+/// (en) Flutter implementation of Sp3dMaterial.
+/// Sp3dMaterial is a class used in Sp3dObj that handles information such as colors.
+///
+/// (ja) Sp3dMaterialのflutter実装です。
 /// Sp3dMaterialはSp3dObj内で使用される、色などの情報を扱うクラスです。
 ///
 /// Author Masahide Mori
@@ -267,22 +301,23 @@ class Sp3dMaterial {
 
   final String class_name = 'Sp3dMaterial';
   final String version = '1';
-  // bg Color
   Color bg;
-  //
   bool is_fill;
-  // double
   double stroke_width;
-  //
   Color stroke_color;
-  // Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
   int? image_index;
-  // Option parameters.
   Map<String, dynamic>? option;
 
   /// Constructor
+  /// * [bg] : Background color
+  /// * [is_fill] : If true, fill by bg color.
+  /// * [stroke_width] : Stroke width.
+  /// * [stroke_color] : Stroke color.
+  /// * [image_index] : Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
+  /// * [option] : Optional attributes that may be added for each app.
   Sp3dMaterial(this.bg, this.is_fill, this.stroke_width, this.stroke_color, this.image_index, this.option);
 
+  /// Convert the object to a dictionary.
   Sp3dMaterial deep_copy(){
     var mbg = Color.fromARGB(this.bg.alpha, this.bg.red, this.bg.green, this.bg.blue);
     var msc = Color.fromARGB(this.stroke_color.alpha, this.stroke_color.red, this.stroke_color.green, this.stroke_color.blue);
@@ -298,6 +333,7 @@ class Sp3dMaterial {
     }
   }
 
+  /// Convert the object to a dictionary.
   Map<String, dynamic> to_dict(){
     Map<String, dynamic> d = {};
     d['class_name'] = this.class_name;
@@ -311,7 +347,9 @@ class Sp3dMaterial {
     return d;
   }
 
-  static Sp3dMaterial from_dict(src){
+  /// Restore this object from the dictionary.
+  /// * [src] : A dictionary made with to_dict of this class.
+  static Sp3dMaterial from_dict(Map<String, dynamic> src){
     var mbg = Color.fromARGB(src['bg'][0], src['bg'][1], src['bg'][2], src['bg'][3]);
     var msc = Color.fromARGB(src['stroke_color'][0], src['stroke_color'][1], src['stroke_color'][2], src['stroke_color'][3]);
     return Sp3dMaterial(mbg, src['is_fill'], src['stroke_width'], msc, src['image_index'], src['option']);
