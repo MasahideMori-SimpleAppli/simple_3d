@@ -8,11 +8,12 @@ void main() {
     final sp3dobj = Sp3dObj(
         "1",
         "test",
+        [Sp3dV3D(0, 0, 0)],
         [
           Sp3dFragment(
               true,
               [
-                Sp3dFace([Sp3dV3D(0, 0, 0)], 0)
+                Sp3dFace([0], 0)
               ],
               1,
               null)

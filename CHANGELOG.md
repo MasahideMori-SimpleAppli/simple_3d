@@ -1,3 +1,7 @@
+## 1.0.0
+
+* Fixed a structural problem.
+
 ## 0.1.1
 
 * Updated meta and api description.

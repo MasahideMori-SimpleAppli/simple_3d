@@ -13,16 +13,17 @@ import 'dart:ui';
 /// 書きだす場合はto_dictしたものをjson化します。読み込む場合はfrom_dict呼び出しで簡単に復元できます。
 ///
 /// Author Masahide Mori
-/// Version 1.00
+/// Version 1.01
 /// First edition creation date 2021-06-30 22:54:22
 ///
 ///
 class Sp3dObj {
 
   final String class_name = 'Sp3dObj';
-  final String version = '1';
+  final String version = '2';
   String? id;
   String? name;
+  List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
   List<Uint8List> images;
@@ -31,14 +32,19 @@ class Sp3dObj {
   /// Constructor
   /// * [id] : Object ID.
   /// * [name] : Object Name.
+  /// * [vertices] : vertex list.
   /// * [fragments] : This includes information such as the vertex information of the object.
   /// * [materials] : This includes information such as colors.
   /// * [images] : Image data.
   /// * [option] : Optional attributes that may be added for each app.
-  Sp3dObj(this.id, this.name, this.fragments, this.materials, this.images, this.option);
+  Sp3dObj(this.id, this.name, this.vertices, this.fragments, this.materials, this.images, this.option);
 
   /// Deep copy the object.
   Sp3dObj deep_copy(){
+    List<Sp3dV3D> v = [];
+    for(var i in this.vertices){
+      v.add(i.deep_copy());
+    }
     List<Sp3dFragment> frgs = [];
     for(var i in this.fragments){
       frgs.add(i.deep_copy());
@@ -56,9 +62,9 @@ class Sp3dObj {
       imgs.add(Uint8List.fromList(il));
     }
     if(this.option!=null) {
-      return Sp3dObj(this.id, this.name, frgs, mtrs, imgs, {...this.option!});
+      return Sp3dObj(this.id, this.name, v, frgs, mtrs, imgs, {...this.option!});
     }else{
-      return Sp3dObj(this.id, this.name, frgs, mtrs, imgs, null);
+      return Sp3dObj(this.id, this.name, v, frgs, mtrs, imgs, null);
     }
   }
 
@@ -69,6 +75,11 @@ class Sp3dObj {
     d['version'] = this.version;
     d['id'] = this.id;
     d['name'] = this.name;
+    List<Map<String,dynamic>> v = [];
+    for(var i in this.vertices){
+      v.add(i.to_dict());
+    }
+    d['vertices'] = v;
     List<Map<String,dynamic>> frgs = [];
     for(var i in this.fragments){
       frgs.add(i.to_dict());
@@ -95,6 +106,10 @@ class Sp3dObj {
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with to_dict of this class.
   static Sp3dObj from_dict(Map<String, dynamic> src){
+    List<Sp3dV3D> v = [];
+    for(var i in src['vertices']){
+      v.add(Sp3dV3D.from_dict(i));
+    }
     List<Sp3dFragment> frgs = [];
     for(var i in src['fragments']){
       frgs.add(Sp3dFragment.from_dict(i));
@@ -107,7 +122,7 @@ class Sp3dObj {
     for(List<int> i in src['images']){
       imgs.add(Uint8List.fromList([...i]));
     }
-    return Sp3dObj(src['id'], src['name'], frgs, mtrs, imgs, src['option']);
+    return Sp3dObj(src['id'], src['name'], v, frgs, mtrs, imgs, src['option']);
   }
 
 }
@@ -189,28 +204,24 @@ class Sp3dFragment {
 /// Sp3dFaceはSp3dFragment内で使用される、頂点などの情報を扱うクラスです。
 ///
 /// Author Masahide Mori
-/// Version 1.00
+/// Version 1.01
 /// First edition creation date 2021-06-30 23:39:49
 ///
 class Sp3dFace {
 
   final String class_name = 'Sp3dFace';
-  final String version = '1';
-  List<Sp3dV3D> vertex;
+  final String version = '2';
+  List<int> vertex_index_list;
   int? material_index;
 
   /// Constructor
-  /// * [vertex] : 3D vertex.
+  /// * [vertex_index_list] : 3D vertex index list.
   /// * [material_index] : use material index. If null, disable.
-  Sp3dFace(this.vertex, this.material_index);
+  Sp3dFace(this.vertex_index_list, this.material_index);
 
   /// Deep copy the object.
   Sp3dFace deep_copy(){
-    List<Sp3dV3D> v = [];
-    for(var i in this.vertex){
-      v.add(i.deep_copy());
-    }
-    return Sp3dFace(v, this.material_index);
+    return Sp3dFace([...vertex_index_list], this.material_index);
   }
 
   /// Convert the object to a dictionary.
@@ -218,11 +229,7 @@ class Sp3dFace {
     Map<String, dynamic> d = {};
     d['class_name'] = this.class_name;
     d['version'] = this.version;
-    List<Map<String,dynamic>> v = [];
-    for(var i in this.vertex){
-      v.add(i.to_dict());
-    }
-    d['vertex'] = v;
+    d['vertex_index_list'] = this.vertex_index_list;
     d['material_index'] = this.material_index;
     return d;
   }
@@ -230,11 +237,7 @@ class Sp3dFace {
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with to_dict of this class.
   static Sp3dFace from_dict(Map<String, dynamic> src){
-    List<Sp3dV3D> v = [];
-    for(var i in src['vertex']){
-      v.add(Sp3dV3D.from_dict(i));
-    }
-    return Sp3dFace(v, src['material_index']);
+    return Sp3dFace(src['vertex_index_list'], src['material_index']);
   }
 
 }
