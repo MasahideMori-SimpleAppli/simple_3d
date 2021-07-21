@@ -23,27 +23,19 @@ Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に
     final sp3dobj = Sp3dObj(
         "1",
         "test",
+        [Sp3dV3D(0, 0, 0)],
         [
           Sp3dFragment(
-            true,
-            [
-              Sp3dFace(
-                  [Sp3dV3D(0,0,0)],
-                  0
-              )
-            ],
-            1,
-            null)
+              true,
+              [
+                Sp3dFace([0], 0)
+              ],
+              1,
+              null)
         ],
         [
-          Sp3dMaterial(
-              Color.fromARGB(255, 0, 255, 0),
-              true,
-              1,
-              Color.fromARGB(255, 0, 255, 0),
-              null,
-              null
-          )
+          Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+              Color.fromARGB(255, 0, 255, 0), null, null)
         ],
         [],
         null);
@@ -73,13 +65,15 @@ Advanced graphics.
 - Sp3dObj
     - id: String?
     - name: String?
+    - vertices: List
+        - v: Sp3dV3D
     - fragments: List
         - fragment: Sp3dFragment
             - is_particle: bool
             - faces: List, One vertex for particle type.
                 - face: Sp3dFace
-                    - vertex: List, Clockwise rotation from the upper left.
-                        - Sp3dV3D
+                    - vertex_index_list: List, Vertices index. Clockwise rotation from the upper left.
+                        - index: int
                     - material_index: int?
                 - r: double, Radius for particle type.
                 - option: Map<String, dynamic>, Optional attributes that may be added for each app.
