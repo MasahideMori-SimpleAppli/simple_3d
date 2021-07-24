@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Removed final from Sp3v3d variables.
+
 ## 1.0.0
 
 * Fixed a structural problem.

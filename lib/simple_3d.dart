@@ -254,10 +254,10 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '1';
-  final double x;
-  final double y;
-  final double z;
+  final String version = '2';
+  double x;
+  double y;
+  double z;
 
   /// Constructor
   /// * [x] : The x coordinate of the 3D vertex.
