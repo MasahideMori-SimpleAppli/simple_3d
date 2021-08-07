@@ -2,6 +2,7 @@ library simple_3d;
 
 import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:math';
 
 ///
 /// (en) Flutter implementation of Sp3dObj.
@@ -13,7 +14,7 @@ import 'dart:ui';
 /// 書きだす場合はto_dictしたものをjson化します。読み込む場合はfrom_dict呼び出しで簡単に復元できます。
 ///
 /// Author Masahide Mori
-/// Version 1.01
+///
 /// First edition creation date 2021-06-30 22:54:22
 ///
 ///
@@ -136,7 +137,7 @@ class Sp3dObj {
 /// Sp3dFragmentはsimple3dObj内で使用される、部品情報を扱うクラスです。
 ///
 /// Author Masahide Mori
-/// Version 1.00
+///
 /// First edition creation date 2021-06-30 23:21:09
 ///
 class Sp3dFragment {
@@ -204,7 +205,7 @@ class Sp3dFragment {
 /// Sp3dFaceはSp3dFragment内で使用される、頂点などの情報を扱うクラスです。
 ///
 /// Author Masahide Mori
-/// Version 1.01
+///
 /// First edition creation date 2021-06-30 23:39:49
 ///
 class Sp3dFace {
@@ -248,13 +249,13 @@ class Sp3dFace {
 /// (ja) ３次元ベクトルを扱うためのクラスです。
 ///
 /// Author Masahide Mori
-/// Version 1.00
+///
 /// First edition creation date 2021-05-23 18:38:57
 ///
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '2';
+  final String version = '3';
   double x;
   double y;
   double z;
@@ -287,6 +288,43 @@ class Sp3dV3D {
     return Sp3dV3D(src['x'],src['y'],src['z']);
   }
 
+  Sp3dV3D operator +(Sp3dV3D v) {
+    return Sp3dV3D(this.x+v.x,this.y+v.y,this.z+v.z);
+  }
+
+  Sp3dV3D operator -(Sp3dV3D v) {
+    return Sp3dV3D(this.x-v.x,this.y-v.y,this.z-v.z);
+  }
+
+  Sp3dV3D operator *(double scalar) {
+    return Sp3dV3D(this.x*scalar,this.y*scalar,this.z*scalar);
+  }
+
+  Sp3dV3D operator /(double scalar) {
+    return Sp3dV3D(this.x/scalar,this.y/scalar,this.z/scalar);
+  }
+
+  /// Return vector length.
+  double len(){
+    return sqrt(this.x*this.x+this.y*this.y+this.z*this.z);
+  }
+
+  /// Return Normalized Vector.
+  Sp3dV3D norm(){
+    double length = this.len();
+    if(length==0){
+      return this.deep_copy();
+    }
+    else{
+      return this/length;
+    }
+  }
+
+  @override
+  String toString(){
+    return '['+this.x.toString()+','+this.y.toString()+','+this.z.toString()+']';
+  }
+
 }
 
 ///
@@ -297,7 +335,7 @@ class Sp3dV3D {
 /// Sp3dMaterialはSp3dObj内で使用される、色などの情報を扱うクラスです。
 ///
 /// Author Masahide Mori
-/// Version 1.00
+///
 /// First edition creation date 2021-06-30 23:30:52
 ///
 class Sp3dMaterial {

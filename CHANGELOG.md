@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Added four arithmetic operations, len () method, and norm () method to Sp3dV3D.
+
 ## 1.0.1
 
 * Removed final from Sp3v3d variables.
