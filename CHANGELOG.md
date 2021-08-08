@@ -1,6 +1,10 @@
+## 1.0.3
+
+* Added add, sub, mul and div method to Sp3dV3D.
+
 ## 1.0.2
 
-* Added four arithmetic operations, len () method, and norm () method to Sp3dV3D.
+* Added four arithmetic operations, len method, and norm method to Sp3dV3D.
 
 ## 1.0.1
 

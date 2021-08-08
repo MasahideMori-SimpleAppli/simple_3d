@@ -255,7 +255,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '3';
+  final String version = '4';
   double x;
   double y;
   double z;
@@ -304,6 +304,15 @@ class Sp3dV3D {
     return Sp3dV3D(this.x/scalar,this.y/scalar,this.z/scalar);
   }
 
+  bool operator ==(Object v) {
+    if(v is Sp3dV3D) {
+      return this.x == v.x && this.y == v.y && this.z == v.z;
+    }
+    else{
+      return false;
+    }
+  }
+
   /// Return vector length.
   double len(){
     return sqrt(this.x*this.x+this.y*this.y+this.z*this.z);
@@ -320,9 +329,74 @@ class Sp3dV3D {
     }
   }
 
+  /// (en)Adds other vector to this vector and returns this vector.
+  ///
+  /// (ja)このベクトルに他のベクトルを加算し、このベクトルを返します。
+  ///
+  /// * [v] : Other vector.
+  ///
+  /// Returns : This vector.
+  Sp3dV3D add(Sp3dV3D v){
+    this.x += v.x;
+    this.y += v.y;
+    this.z += v.z;
+    return this;
+  }
+
+  /// (en)Subtracts other vector from this vector and returns this vector.
+  ///
+  /// (ja)このベクトルから他のベクトルを減算し、このベクトルを返します。
+  ///
+  /// * [v] : Other vector.
+  ///
+  /// Returns : This vector.
+  Sp3dV3D sub(Sp3dV3D v){
+    this.x -= v.x;
+    this.y -= v.y;
+    this.z -= v.z;
+    return this;
+  }
+
+  /// (en)Multiplies this vector by a scalar value and returns this vector.
+  ///
+  /// (ja)このベクトルにスカラー値を掛け、このベクトルを返します。
+  ///
+  /// * [scalar] : Scalar value.
+  ///
+  /// Returns : This vector.
+  Sp3dV3D mul(double scalar){
+    this.x *= scalar;
+    this.y *= scalar;
+    this.z *= scalar;
+    return this;
+  }
+
+  /// (en)Divide this vector by the scalar value and return this vector.
+  ///
+  /// (ja)このベクトルをスカラー値で割り、このベクトルを返します。
+  ///
+  /// * [scalar] : Scalar value.
+  ///
+  /// Returns : This vector.
+  Sp3dV3D div(double scalar){
+    this.x /= scalar;
+    this.y /= scalar;
+    this.z /= scalar;
+    return this;
+  }
+
   @override
   String toString(){
     return '['+this.x.toString()+','+this.y.toString()+','+this.z.toString()+']';
+  }
+
+  @override
+  int get hashCode {
+    int result = 17;
+    result = 37 * result + this.x.hashCode;
+    result = 37 * result + this.y.hashCode;
+    result = 37 * result + this.z.hashCode;
+    return result;
   }
 
 }
