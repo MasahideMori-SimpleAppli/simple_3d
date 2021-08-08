@@ -255,7 +255,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '4';
+  final String version = '5';
   double x;
   double y;
   double z;
@@ -319,7 +319,7 @@ class Sp3dV3D {
   }
 
   /// Return Normalized Vector.
-  Sp3dV3D norm(){
+  Sp3dV3D nor(){
     double length = this.len();
     if(length==0){
       return this.deep_copy();
@@ -327,6 +327,28 @@ class Sp3dV3D {
     else{
       return this/length;
     }
+  }
+
+  /// Return dot product.
+  static double dot(Sp3dV3D a, Sp3dV3D b){
+    return a.x*b.x + a.y*b.y + a.z*b.z;
+  }
+
+  /// Return cross product.
+  static Sp3dV3D cross(Sp3dV3D a, Sp3dV3D b){
+    return Sp3dV3D(
+        (a.y*b.z)-(a.z*b.y),
+        (a.z*b.x)-(a.x*b.z),
+        (a.x*b.y)-(a.y*b.x)
+    );
+  }
+
+  /// Return projection vector.
+  ///
+  /// * [v] : vector.
+  /// * [nor_v] : normalized vector.
+  static Sp3dV3D proj(Sp3dV3D v, Sp3dV3D nor_v){
+    return nor_v * Sp3dV3D.dot(v, nor_v);
   }
 
   /// (en)Adds other vector to this vector and returns this vector.

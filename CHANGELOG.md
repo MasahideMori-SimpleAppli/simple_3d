@@ -1,10 +1,14 @@
+## 1.0.4
+
+* Fix method name (norm to nor) of Sp3dV3D. And add dot, cross and proj method to Sp3dV3D.
+
 ## 1.0.3
 
 * Added add, sub, mul and div method to Sp3dV3D.
 
 ## 1.0.2
 
-* Added four arithmetic operations, len method, and norm method to Sp3dV3D.
+* Added four arithmetic operations, len method, and nor method to Sp3dV3D.
 
 ## 1.0.1
 
