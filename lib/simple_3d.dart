@@ -351,6 +351,11 @@ class Sp3dV3D {
     return nor_v * Sp3dV3D.dot(v, nor_v);
   }
 
+  /// Return euclidean distance.
+  static double dist(Sp3dV3D a, Sp3dV3D b){
+    return (a-b).len();
+  }
+
   /// (en)Adds other vector to this vector and returns this vector.
   ///
   /// (ja)このベクトルに他のベクトルを加算し、このベクトルを返します。

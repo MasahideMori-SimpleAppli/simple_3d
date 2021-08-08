@@ -1,6 +1,6 @@
 ## 1.0.4
 
-* Fix method name (norm to nor) of Sp3dV3D. And add dot, cross and proj method to Sp3dV3D.
+* Fix method name (norm to nor) of Sp3dV3D. And add dot, cross, proj and dist method to Sp3dV3D.
 
 ## 1.0.3
 
