@@ -255,7 +255,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '5';
+  final String version = '6';
   double x;
   double y;
   double z;
@@ -296,11 +296,11 @@ class Sp3dV3D {
     return Sp3dV3D(this.x-v.x,this.y-v.y,this.z-v.z);
   }
 
-  Sp3dV3D operator *(double scalar) {
+  Sp3dV3D operator *(num scalar) {
     return Sp3dV3D(this.x*scalar,this.y*scalar,this.z*scalar);
   }
 
-  Sp3dV3D operator /(double scalar) {
+  Sp3dV3D operator /(num scalar) {
     return Sp3dV3D(this.x/scalar,this.y/scalar,this.z/scalar);
   }
 
@@ -391,7 +391,7 @@ class Sp3dV3D {
   /// * [scalar] : Scalar value.
   ///
   /// Returns : This vector.
-  Sp3dV3D mul(double scalar){
+  Sp3dV3D mul(num scalar){
     this.x *= scalar;
     this.y *= scalar;
     this.z *= scalar;
@@ -405,7 +405,7 @@ class Sp3dV3D {
   /// * [scalar] : Scalar value.
   ///
   /// Returns : This vector.
-  Sp3dV3D div(double scalar){
+  Sp3dV3D div(num scalar){
     this.x /= scalar;
     this.y /= scalar;
     this.z /= scalar;

@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Changed the argument type of mul and div of Sp3dV3D from double to num.
+
 ## 1.0.4
 
 * Fixed method name (norm to nor) of Sp3dV3D. And add dot, cross, proj and dist method to Sp3dV3D.
