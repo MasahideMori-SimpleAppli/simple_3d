@@ -1,3 +1,7 @@
+## 1.0.6
+
+* Add rotate, is_zero, ortho method to Sp3dV3D.
+
 ## 1.0.5
 
 * Changed the argument type of mul and div of Sp3dV3D from double to num.

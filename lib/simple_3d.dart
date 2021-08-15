@@ -255,7 +255,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '6';
+  final String version = '7';
   double x;
   double y;
   double z;
@@ -313,12 +313,16 @@ class Sp3dV3D {
     }
   }
 
-  /// Return vector length.
+  /// (en)Return vector length.
+  ///
+  /// (ja)長さを返します。
   double len(){
     return sqrt(this.x*this.x+this.y*this.y+this.z*this.z);
   }
 
-  /// Return Normalized Vector.
+  /// (en)Return Normalized Vector.
+  ///
+  /// (ja)正規化したベクトルを返します。
   Sp3dV3D nor(){
     double length = this.len();
     if(length==0){
@@ -329,12 +333,16 @@ class Sp3dV3D {
     }
   }
 
-  /// Return dot product.
+  /// (en)Return dot product.
+  ///
+  /// (ja)ドット積を返します。
   static double dot(Sp3dV3D a, Sp3dV3D b){
     return a.x*b.x + a.y*b.y + a.z*b.z;
   }
 
-  /// Return cross product.
+  /// (en)Return cross product.
+  ///
+  /// (ja)クロス積を返します。
   static Sp3dV3D cross(Sp3dV3D a, Sp3dV3D b){
     return Sp3dV3D(
         (a.y*b.z)-(a.z*b.y),
@@ -343,7 +351,9 @@ class Sp3dV3D {
     );
   }
 
-  /// Return projection vector.
+  /// (en)Return projection vector.
+  ///
+  /// (ja)射影ベクトルを返します。
   ///
   /// * [v] : vector.
   /// * [nor_v] : normalized vector.
@@ -351,9 +361,49 @@ class Sp3dV3D {
     return nor_v * Sp3dV3D.dot(v, nor_v);
   }
 
-  /// Return euclidean distance.
+  /// (en)Return euclidean distance.
+  ///
+  /// (ja)ユークリッド距離を返します。
   static double dist(Sp3dV3D a, Sp3dV3D b){
     return (a-b).len();
+  }
+
+  /// (en)Return rotated new vector.
+  ///
+  /// (ja)このベクトルを回転した新しいベクトルを返します。
+  ///
+  /// * [nor_axis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dV3D rotate(Sp3dV3D nor_axis, double radian){
+    Sp3dV3D c = Sp3dV3D.proj(this, nor_axis);
+    Sp3dV3D w = this - c;
+    return c + (w * cos(radian)) + (Sp3dV3D.cross(nor_axis, w) * sin(radian));
+  }
+
+  /// (en)Return true if parameter is all zero, otherwise false.
+  ///
+  /// (ja)全てのパラメータが0であればtrue、それ以外はfalseを返します。
+  bool is_zero(){
+    return this.x==0 && this.y==0 && this.z == 0;
+  }
+
+  /// (en)Return random orthogonal vector.
+  ///
+  /// (ja)このベクトルに直交するランダムなベクトルを返します。
+  Sp3dV3D ortho(){
+    if(this.is_zero()){
+      return this.deep_copy();
+    }
+    double r = Random().nextDouble() + 1;
+    if(this.x!=0){
+      return Sp3dV3D((-1*this.y*r-this.z*r)/this.x, r, r);
+    }
+    else if(this.y!=0){
+      return Sp3dV3D(r, (-1*this.x*r-this.z*r)/this.y, r);
+    }
+    else{
+      return Sp3dV3D(r, r, (-1*this.x*r-this.y*r)/this.z);
+    }
   }
 
   /// (en)Adds other vector to this vector and returns this vector.
@@ -361,8 +411,6 @@ class Sp3dV3D {
   /// (ja)このベクトルに他のベクトルを加算し、このベクトルを返します。
   ///
   /// * [v] : Other vector.
-  ///
-  /// Returns : This vector.
   Sp3dV3D add(Sp3dV3D v){
     this.x += v.x;
     this.y += v.y;
@@ -375,8 +423,6 @@ class Sp3dV3D {
   /// (ja)このベクトルから他のベクトルを減算し、このベクトルを返します。
   ///
   /// * [v] : Other vector.
-  ///
-  /// Returns : This vector.
   Sp3dV3D sub(Sp3dV3D v){
     this.x -= v.x;
     this.y -= v.y;
@@ -389,8 +435,6 @@ class Sp3dV3D {
   /// (ja)このベクトルにスカラー値を掛け、このベクトルを返します。
   ///
   /// * [scalar] : Scalar value.
-  ///
-  /// Returns : This vector.
   Sp3dV3D mul(num scalar){
     this.x *= scalar;
     this.y *= scalar;
@@ -403,8 +447,6 @@ class Sp3dV3D {
   /// (ja)このベクトルをスカラー値で割り、このベクトルを返します。
   ///
   /// * [scalar] : Scalar value.
-  ///
-  /// Returns : This vector.
   Sp3dV3D div(num scalar){
     this.x /= scalar;
     this.y /= scalar;
