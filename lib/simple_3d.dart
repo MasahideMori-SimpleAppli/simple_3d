@@ -406,6 +406,24 @@ class Sp3dV3D {
     }
   }
 
+  /// (en)Return the averaged vector.
+  ///
+  /// (ja)平均したベクトルを返します。
+  static Sp3dV3D ave(List<Sp3dV3D> v){
+    double x = 0;
+    double y = 0;
+    double z = 0;
+    for(Sp3dV3D i in v){
+      x += i.x;
+      y += i.y;
+      z += i.z;
+    }
+    x /= v.length;
+    y /= v.length;
+    z /= v.length;
+    return Sp3dV3D(x,y,z);
+  }
+
   /// (en)Adds other vector to this vector and returns this vector.
   ///
   /// (ja)このベクトルに他のベクトルを加算し、このベクトルを返します。

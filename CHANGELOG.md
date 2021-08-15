@@ -1,3 +1,7 @@
+## 1.0.7
+
+* Add ave method to Sp3dV3D.
+
 ## 1.0.6
 
 * Add rotate, is_zero, ortho method to Sp3dV3D.
