@@ -21,7 +21,7 @@ import 'dart:math';
 class Sp3dObj {
 
   final String class_name = 'Sp3dObj';
-  final String version = '2';
+  final String version = '3';
   String? id;
   String? name;
   List<Sp3dV3D> vertices;
@@ -67,6 +67,16 @@ class Sp3dObj {
     }else{
       return Sp3dObj(this.id, this.name, v, frgs, mtrs, imgs, null);
     }
+  }
+
+  /// (en)Adds the specified vector to all vectors of this object.
+  ///
+  /// (ja)このオブジェクトの全てのベクトルに指定したベクトルを加算します。
+  Sp3dObj move(Sp3dV3D v){
+    for(Sp3dV3D i in this.vertices){
+      i.add(v);
+    }
+    return this;
   }
 
   /// Convert the object to a dictionary.
@@ -255,7 +265,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '7';
+  final String version = '8';
   double x;
   double y;
   double z;
@@ -311,6 +321,16 @@ class Sp3dV3D {
     else{
       return false;
     }
+  }
+
+  /// (en)Overwrites the contents of this vector with the contents of the other vector and returns this vector.
+  ///
+  /// (ja)このベクトルの内容を指定したベクトルの内容で上書きし、このベクトルを返します。
+  Sp3dV3D set(Sp3dV3D v){
+    this.x = v.x;
+    this.y = v.y;
+    this.z = v.z;
+    return this;
   }
 
   /// (en)Return vector length.

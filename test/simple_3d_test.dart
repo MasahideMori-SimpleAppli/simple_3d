@@ -57,5 +57,7 @@ void main() {
     expect(nv1,v3);
     nv3.div(scalar);
     expect(nv3,v1);
+    print("move test");
+    expect(sp3dobj.move(v1).vertices.first, v1);
   });
 }

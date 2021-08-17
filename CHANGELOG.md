@@ -1,10 +1,14 @@
+## 1.0.8
+
+* Added set method to Sp3dV3D. Added move method to Sp3dObj.
+
 ## 1.0.7
 
-* Add ave method to Sp3dV3D.
+* Added ave method to Sp3dV3D.
 
 ## 1.0.6
 
-* Add rotate, is_zero, ortho method to Sp3dV3D.
+* Added rotate, is_zero, ortho method to Sp3dV3D.
 
 ## 1.0.5
 
