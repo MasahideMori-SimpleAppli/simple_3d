@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:simple_3d/simple_3d.dart';
+import 'package:collection/collection.dart';
 
 void main() {
   test('create, to_dict, from_dict', () {
@@ -59,5 +60,17 @@ void main() {
     expect(nv3,v1);
     print("move test");
     expect(sp3dobj.move(v1).vertices.first, v1);
+    print("equals_test");
+    expect((v1*2.5).equals(v2, 0.6),true);
+    expect((v1*1.5).equals(v2, 0.6),true);
+    expect((v1*2.7).equals(v2, 0.6),false);
+    print("face test");
+    Function eq = const ListEquality().equals;
+    final face1 = Sp3dFace([0,1,2], 0);
+    final face2 = Sp3dFace([0,2,1], 0);
+    expect(eq([0,2,1],[0,2,1]),true);
+    expect(eq(face1.reversed().vertex_index_list,face2.vertex_index_list),true);
+    face1.reverse();
+    expect(eq(face1.vertex_index_list,face2.vertex_index_list), true);
   });
 }

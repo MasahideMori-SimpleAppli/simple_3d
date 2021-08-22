@@ -1,3 +1,9 @@
+## 2.0.0
+
+* The coordinate system on the specifications has been changed to the right-hand coordinate system(pre-version is left-hand).
+  Regarding this change, only the description of the specification of README.md has been changed.
+* Added equals method to Sp3dV3D. Added reverse, and reversed method to Sp3dFace.
+
 ## 1.0.8
 
 * Added set method to Sp3dV3D. Added move method to Sp3dObj.

@@ -221,7 +221,7 @@ class Sp3dFragment {
 class Sp3dFace {
 
   final String class_name = 'Sp3dFace';
-  final String version = '2';
+  final String version = '3';
   List<int> vertex_index_list;
   int? material_index;
 
@@ -251,6 +251,29 @@ class Sp3dFace {
     return Sp3dFace(src['vertex_index_list'], src['material_index']);
   }
 
+  /// (en)Reverse the orientation of this face.
+  /// Internally, the order of 3D vectors except the beginning is reversed.
+  ///
+  /// (ja)この面の向きを反転します。内部では先頭を除く3Dベクトルの順番が反転します。
+  void reverse(){
+    if(this.vertex_index_list.length>2){
+      List<int> nl = [];
+      nl.add(this.vertex_index_list.removeAt(0));
+      nl.addAll(this.vertex_index_list.reversed);
+      this.vertex_index_list = nl;
+    }
+  }
+
+  /// (en)Returns a new face with the orientation of this face reversed.
+  /// Internally, the order of 3D vectors except the beginning is reversed.
+  ///
+  /// (ja)この面の向きを反転した新しい面を返します。内部では先頭を除く3Dベクトルの順番が反転します。
+  Sp3dFace reversed(){
+    Sp3dFace r = this.deep_copy();
+    r.reverse();
+    return r;
+  }
+
 }
 
 ///
@@ -265,7 +288,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '8';
+  final String version = '9';
   double x;
   double y;
   double z;
@@ -490,6 +513,18 @@ class Sp3dV3D {
     this.y /= scalar;
     this.z /= scalar;
     return this;
+  }
+
+
+  /// (en)Compare while considering the error. Returns true if x, y, z are all within the e_range.
+  ///
+  /// (ja)誤差を考慮しつつ比較します。x,y,zの全てが誤差e_range以内の場合はtrueを返します。
+  /// * [other] : other vector.
+  /// * [e_range] : The range of error to allow. This must be a positive number.
+  bool equals(Sp3dV3D other, double e_range){
+    return this.x - e_range <= other.x && other.x <= this.x + e_range
+        && this.y - e_range <= other.y && other.y <= this.y + e_range
+        && this.z - e_range <= other.z && other.z <= this.z + e_range;
   }
 
   @override

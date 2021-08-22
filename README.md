@@ -72,7 +72,7 @@ Advanced graphics.
             - is_particle: bool
             - faces: List, One vertex for particle type.
                 - face: Sp3dFace
-                    - vertex_index_list: List, Vertices index. Clockwise rotation from the upper left.
+                    - vertex_index_list: List, Vertices index. Counterclockwise rotation from the upper left.
                         - index: int
                     - material_index: int?
                 - r: double, Radius for particle type.
@@ -83,7 +83,7 @@ Advanced graphics.
             - is_fill: bool, if false, stroke line only.
             - stroke_width: double
             - stroke_color: Color, argb
-            - image_index: int?, Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
+            - image_index: int?, Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the Counterclockwise order as the vertices from the upper left.
             - option: Map<String, dynamic>, Optional attributes that may be added for each app.
     - images: list
         - image: Uint8List, png data.
