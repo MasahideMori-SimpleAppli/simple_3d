@@ -1,3 +1,10 @@
+## 3.0.0
+
+* Fixed the reverse function of Sp3dFace. Along with this, the behavior of the reversed function also changes.
+  The previous reverse and reversed have been changed to reverse_ft and reversed_ft.
+* Fixed the rotate function of Sp3dV3D. The previous rotate function have been changed to the rotated function.
+* Added rotate method to Sp3dObj.
+
 ## 2.0.0
 
 * The coordinate system on the specifications has been changed to the right-hand coordinate system(pre-version is left-hand).

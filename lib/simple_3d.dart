@@ -21,7 +21,7 @@ import 'dart:math';
 class Sp3dObj {
 
   final String class_name = 'Sp3dObj';
-  final String version = '3';
+  final String version = '4';
   String? id;
   String? name;
   List<Sp3dV3D> vertices;
@@ -75,6 +75,19 @@ class Sp3dObj {
   Sp3dObj move(Sp3dV3D v){
     for(Sp3dV3D i in this.vertices){
       i.add(v);
+    }
+    return this;
+  }
+
+  /// (en)Rotates all vectors of this object based on the specified axis.
+  ///
+  /// (ja)このオブジェクトの全てのベクトルを指定した軸をベースに回転させます。
+  ///
+  /// * [nor_axis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dObj rotate(Sp3dV3D nor_axis, double radian){
+    for(Sp3dV3D i in this.vertices){
+      i.rotate(nor_axis, radian);
     }
     return this;
   }
@@ -221,7 +234,7 @@ class Sp3dFragment {
 class Sp3dFace {
 
   final String class_name = 'Sp3dFace';
-  final String version = '3';
+  final String version = '4';
   List<int> vertex_index_list;
   int? material_index;
 
@@ -252,10 +265,32 @@ class Sp3dFace {
   }
 
   /// (en)Reverse the orientation of this face.
+  /// Internally, the order of the referenced indexes is reversed.
+  ///
+  /// (ja)この面の向きを反転します。
+  /// 内部的には、参照しているインデックスの順序が反転します。
+  void reverse(){
+    if(this.vertex_index_list.length>2){
+      this.vertex_index_list = this.vertex_index_list.reversed.toList();
+    }
+  }
+
+  /// (en)Returns a new face with the orientation of this face reversed.
+  /// Internally, the order of the referenced indexes is reversed.
+  ///
+  /// (ja)この面の向きを反転した新しい面を返します。
+  /// 内部的には、参照しているインデックスの順序が反転します。
+  Sp3dFace reversed(){
+    Sp3dFace r = this.deep_copy();
+    r.reverse();
+    return r;
+  }
+
+  /// (en)Reverse the orientation of this face.
   /// Internally, the order of 3D vectors except the beginning is reversed.
   ///
   /// (ja)この面の向きを反転します。内部では先頭を除く3Dベクトルの順番が反転します。
-  void reverse(){
+  void reverse_ft(){
     if(this.vertex_index_list.length>2){
       List<int> nl = [];
       nl.add(this.vertex_index_list.removeAt(0));
@@ -268,9 +303,9 @@ class Sp3dFace {
   /// Internally, the order of 3D vectors except the beginning is reversed.
   ///
   /// (ja)この面の向きを反転した新しい面を返します。内部では先頭を除く3Dベクトルの順番が反転します。
-  Sp3dFace reversed(){
+  Sp3dFace reversed_ft(){
     Sp3dFace r = this.deep_copy();
-    r.reverse();
+    r.reverse_ft();
     return r;
   }
 
@@ -288,7 +323,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '9';
+  final String version = '10';
   double x;
   double y;
   double z;
@@ -411,13 +446,27 @@ class Sp3dV3D {
     return (a-b).len();
   }
 
+  /// (en)Return rotated this vector.
+  ///
+  /// (ja)このベクトルを回転します。
+  ///
+  /// * [nor_axis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dV3D rotate(Sp3dV3D nor_axis, double radian){
+    Sp3dV3D c = this.rotated(nor_axis, radian);
+    this.x = c.x;
+    this.y = c.y;
+    this.z = c.z;
+    return this;
+  }
+
   /// (en)Return rotated new vector.
   ///
   /// (ja)このベクトルを回転した新しいベクトルを返します。
   ///
   /// * [nor_axis] : normalized rotate axis vector.
   /// * [radian] : radian = degree * pi / 180.
-  Sp3dV3D rotate(Sp3dV3D nor_axis, double radian){
+  Sp3dV3D rotated(Sp3dV3D nor_axis, double radian){
     Sp3dV3D c = Sp3dV3D.proj(this, nor_axis);
     Sp3dV3D w = this - c;
     return c + (w * cos(radian)) + (Sp3dV3D.cross(nor_axis, w) * sin(radian));
