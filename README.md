@@ -94,7 +94,7 @@ model/x.sp3d
     - option: Map<String, dynamic>, Optional attributes that may be added for each app.
 
 ## About version control
-(en)It is as follows in version 3.0.0 or later.  
+(en)It is as follows in version 3.1.0 or later.  
 The C part will be changed at the time of version upgrade.
 - Changes such as adding variables, structure change that cause problems when reading previous files. 
   - C.X.X
@@ -103,7 +103,7 @@ The C part will be changed at the time of version upgrade.
 - Minor changes and bug fixes. 
   - X.X.C
   
-(ja)バージョン3.0.0以降において以下のようになっています。  
+(ja)バージョン3.1.0以降において以下のようになっています。  
 それぞれ、Cの部分が変更されます。
 - 変数の追加など、以前のファイルの読み込み時に問題が起こったり、ファイルの構造が変わるような変更 
   - C.X.X
