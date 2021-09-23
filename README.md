@@ -44,6 +44,10 @@ Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に
 ### Load
     final restored = Sp3dObj.from_dict(sp3dobj_d);
 
+## About future development
+(en)I'm developing a package to easily create some geometry and a package to easily screen Sp3dObj. Please wait.  
+(ja)いくつかのジオメトリを簡単に作成するためのパッケージと、Sp3dObjを簡単に画面表示するためのパッケージを開発中です。公開までしばらくお待ちください。
+
 ## Format Name
 Simple 3D Format
 
@@ -54,12 +58,12 @@ Simple 3D Format
 model/x.sp3d
 
 ## Suitable
-Science, Simple Games, etc.   
-科学や簡単なゲームなどに向いています。
+(en)Science, Simple Games, etc.   
+(ja)科学や簡単なゲームなどに向いています。
 
 ## Not Suitable
-Advanced graphics.  
-高度なグラフィックを必要とするものには向いていません。
+(en)Advanced graphics.  
+(ja)高度なグラフィックを必要とするものには向いていません。
 
 ## Structure ( Decoded object )
 - Sp3dObj
@@ -89,9 +93,28 @@ Advanced graphics.
         - image: Uint8List, png data.
     - option: Map<String, dynamic>, Optional attributes that may be added for each app.
 
+## About version control
+(en)It is as follows in version 3.0.0 or later.  
+The C part will be changed at the time of version upgrade.
+- Changes such as adding variables, structure change that cause problems when reading previous files. 
+  - C.X.X
+- Adding methods, etc. 
+  - X.C.X
+- Minor changes and bug fixes. 
+  - X.X.C
+  
+(ja)バージョン3.0.0以降において以下のようになっています。  
+それぞれ、Cの部分が変更されます。
+- 変数の追加など、以前のファイルの読み込み時に問題が起こったり、ファイルの構造が変わるような変更 
+  - C.X.X
+- メソッドの追加など 
+  - X.C.X
+- 軽微な変更やバグ修正 
+  - X.X.C
+
 ## License
-This software is released under the MIT License, see LICENSE file.  
-このソフトウェアはMITライセンスの元配布されます。LICENSEファイルの内容をご覧ください。
+(en)This software is released under the MIT License, see LICENSE file.  
+(ja)このソフトウェアはMITライセンスの元配布されます。LICENSEファイルの内容をご覧ください。
 
 ## Copyright notice
 The “Dart” name and “Flutter” name are trademarks of Google LLC.  

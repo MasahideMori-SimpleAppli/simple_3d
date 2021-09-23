@@ -1,3 +1,8 @@
+## 3.1.0
+
+* Added angle method to Sp3dV3D.
+* From this version, the method of managing version numbers has changed. See the readme for details.
+
 ## 3.0.0
 
 * Fixed the reverse function of Sp3dFace. Along with this, the behavior of the reversed function also changes.
@@ -21,7 +26,7 @@
 
 ## 1.0.6
 
-* Added rotate, is_zero, ortho method to Sp3dV3D.
+* Added rotate, is_zero, and ortho method to Sp3dV3D.
 
 ## 1.0.5
 

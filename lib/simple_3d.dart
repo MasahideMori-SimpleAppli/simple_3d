@@ -323,7 +323,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '10';
+  final String version = '11';
   double x;
   double y;
   double z;
@@ -427,6 +427,15 @@ class Sp3dV3D {
         (a.z*b.x)-(a.x*b.z),
         (a.x*b.y)-(a.y*b.x)
     );
+  }
+
+  /// (en)Return the radian between vector A and vector B.
+  /// When converting to degrees, degrees = radian*180/pi.
+  ///
+  /// (ja)２つのベクトルの成す角（ラジアン）を返します。
+  /// 度に変換する場合は degrees = radian*180/pi です。
+  static double angle(Sp3dV3D a, Sp3dV3D b){
+    return acos(Sp3dV3D.dot(a,b)/(a.len()*b.len()));
   }
 
   /// (en)Return projection vector.
