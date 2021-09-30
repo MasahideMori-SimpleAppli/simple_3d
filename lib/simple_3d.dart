@@ -323,7 +323,7 @@ class Sp3dFace {
 class Sp3dV3D {
 
   final String class_name = 'Sp3dV3D';
-  final String version = '11';
+  final String version = '12';
   double x;
   double y;
   double z;
@@ -436,6 +436,36 @@ class Sp3dV3D {
   /// 度に変換する場合は degrees = radian*180/pi です。
   static double angle(Sp3dV3D a, Sp3dV3D b){
     return acos(Sp3dV3D.dot(a,b)/(a.len()*b.len()));
+  }
+
+  /// (en)Calculates and returns the surface normal.
+  /// The order of the vertices must be counterclockwise.
+  /// Note that this cannot be used for degenerate polygons.
+  ///
+  /// (ja)面法線を計算して返します。
+  /// 頂点の順は逆時計回りである必要があります。
+  /// これは縮退ポリゴンには使えないので注意が必要です。
+  ///
+  /// * [face] : face vertices.
+  ///
+  /// Returns surface normal.
+  static Sp3dV3D surface_normal(List<Sp3dV3D> face) {
+    final int vlen = face.length;
+    if(vlen==3) {
+      return Sp3dV3D.cross(face[1]-face[0], face[1]-face[2]);
+    }
+    else{
+      // Newellの方法の反転版
+      Sp3dV3D r = Sp3dV3D(0, 0, 0);
+      for (int i = 0; i < vlen; i++) {
+        Sp3dV3D cv = face[i];
+        Sp3dV3D nv = face[(i + 1) % vlen];
+        r.x -= (cv.y - nv.y) * (cv.z + nv.z);
+        r.y -= (cv.z - nv.z) * (cv.x + nv.x);
+        r.z -= (cv.x - nv.x) * (cv.y + nv.y);
+      }
+      return r;
+    }
   }
 
   /// (en)Return projection vector.

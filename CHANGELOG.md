@@ -1,3 +1,7 @@
+## 3.2.0
+
+* Added surface_normal method to Sp3dV3D.
+
 ## 3.1.0
 
 * Added angle method to Sp3dV3D.
