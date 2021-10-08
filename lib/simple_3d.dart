@@ -234,7 +234,7 @@ class Sp3dFragment {
 class Sp3dFace {
 
   final String class_name = 'Sp3dFace';
-  final String version = '4';
+  final String version = '5';
   List<int> vertex_index_list;
   int? material_index;
 
@@ -262,6 +262,18 @@ class Sp3dFace {
   /// * [src] : A dictionary made with to_dict of this class.
   static Sp3dFace from_dict(Map<String, dynamic> src){
     return Sp3dFace(src['vertex_index_list'], src['material_index']);
+  }
+
+  /// (en)Gets the vertices of this face.
+  ///
+  /// (ja)この面の頂点を取得します。
+  /// * [obj] : The object to which this face belongs.
+  List<Sp3dV3D> get_vertices(Sp3dObj obj){
+    List<Sp3dV3D> r = [];
+    for(int i in this.vertex_index_list){
+      r.add(obj.vertices[i]);
+    }
+    return r;
   }
 
   /// (en)Reverse the orientation of this face.

@@ -1,3 +1,7 @@
+## 3.3.0
+
+* Added get_vertices method to Sp3dFace.
+
 ## 3.2.0
 
 * Added surface_normal method to Sp3dV3D.

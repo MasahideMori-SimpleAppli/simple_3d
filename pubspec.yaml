@@ -1,6 +1,6 @@
 name: simple_3d
 description: This package was created for the convenience of 3D non-experts, including scientists.
-version: 3.2.0
+version: 3.3.0
 repository: https://github.com/MasahideMori1111/simple_3d
 
 environment:
