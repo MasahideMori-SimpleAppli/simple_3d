@@ -19,34 +19,65 @@ Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に
 科学の発展のため、利権や争いなどに影響されずに利用できることを目指しています。
 
 ## Usage
+### Quick Start
+(en)I created a package for rendering Sp3dObj.  
+You can use it more easily by using the following packages.  
+See the simple_3d_renderer package for how to use it.  
+
+(ja)Sp3dObjのレンダリングのためのパッケージを用意しています。  
+下記のパッケージを利用すると、より簡単にご利用になれます。  
+利用方法はsimple_3d_rendererパッケージをご覧ください。  
+
+[simple_3d_renderer](https://pub.dev/packages/simple_3d_renderer)  
+[util_simple_3d](https://pub.dev/packages/util_simple_3d)
+
 ### Create Data
-    final sp3dobj = Sp3dObj(
-        "1",
-        "test",
-        [Sp3dV3D(0, 0, 0)],
-        [
-          Sp3dFragment(
-              true,
-              [
-                Sp3dFace([0], 0)
-              ],
-              1,
-              null)
-        ],
-        [
-          Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-              Color.fromARGB(255, 0, 255, 0), null, null)
-        ],
-        [],
-        null);
+```dart
+final sp3dobj = Sp3dObj(
+    "1",
+    "test",
+    [Sp3dV3D(0, 0, 0)],
+    [
+      Sp3dFragment(
+          true,
+          [
+            Sp3dFace([0], 0)
+          ],
+          1,
+          null)
+    ],
+    [
+      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+          Color.fromARGB(255, 0, 255, 0), null, null)
+    ],
+    [],
+    null);
+```
+### Operation example
+```dart
+// Move
+sp3dobj.move(Sp3dV3D(1,0,0));
+// Rotate
+sp3dobj.rotate(Sp3dV3D(0,1,0),45*pi/180);
+// Vertex manipulation
+// (en)You can do many other things with the Sp3dV3D feature.
+// (ja)Sp3dV3Dの機能を使うと、他にも様々なことが出来ます。
+sp3dobj.vertices[0] += Sp3dV3D(1,0,0);
+```
 ### Convert
-    final sp3dobj_d = sp3dobj.to_dict();
+```dart
+final sp3dobj_d = sp3dobj.to_dict();
+```
 ### Load
-    final restored = Sp3dObj.from_dict(sp3dobj_d);
+```dart
+final restored = Sp3dObj.from_dict(sp3dobj_d);
+```
 
 ## About future development
-(en)I'm developing a package to easily create some geometry and a package to easily screen Sp3dObj. Please wait.  
-(ja)いくつかのジオメトリを簡単に作成するためのパッケージと、Sp3dObjを簡単に画面表示するためのパッケージを開発中です。公開までしばらくお待ちください。
+(en)I continue to develop packages for rendering.  
+Currently, drawing of image files is not supported. I plan to support it in the future.  
+(ja)レンダリングのためのパッケージの開発を継続しています。  
+現在、画像ファイルの描画が未サポートです。今後、対応させる予定です。
 
 ## Format Name
 Simple 3D Format

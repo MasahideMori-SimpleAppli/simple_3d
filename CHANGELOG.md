@@ -1,3 +1,7 @@
+## 3.3.1
+
+* Update README.md.
+
 ## 3.3.0
 
 * Added get_vertices method to Sp3dFace.
