@@ -72,6 +72,13 @@ final sp3dobj_d = sp3dobj.to_dict();
 final restored = Sp3dObj.from_dict(sp3dobj_d);
 ```
 
+## Support
+(en)If for any reason you need paid support, please contact my company.  
+[SimpleAppli Inc.](https://simpleappli.com/en/index_en.html)
+(ja)もし何らかの理由で有償のサポートが必要な場合は私の会社に問い合わせてください。  
+このパッケージは私が個人で開発していますが、会社経由でサポートできる場合があります。  
+[合同会社シンプルアプリ](https://simpleappli.com/index.html)  
+
 ## Format Name
 Simple 3D Format
 
@@ -144,6 +151,7 @@ The C part will be changed at the time of version upgrade.
   - X.C.X
 - 軽微な変更やバグ修正 
   - X.X.C
+    
 
 ## License
 (en)This software is released under the MIT License, see LICENSE file.  
