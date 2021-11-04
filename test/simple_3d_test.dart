@@ -19,8 +19,19 @@ void main() {
               null)
         ],
         [
-          Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-              Color.fromARGB(255, 0, 255, 0), null, null)
+          Sp3dMaterial(
+            Color.fromARGB(255, 0, 255, 0),
+            true,
+            1,
+            Color.fromARGB(255, 0, 255, 0),
+            image_index: null,
+            texture_coordinates: [
+              Offset(0, 0),
+              Offset(0, 1),
+              Offset(1, 1),
+              Offset(1, 0),
+            ],
+          )
         ],
         [],
         null);
@@ -41,27 +52,27 @@ void main() {
     final v2 = Sp3dV3D(2, 2, 2);
     final v3 = Sp3dV3D(3, 3, 3);
     final double scalar = 3;
-    expect(v1+v2,v3);
-    expect(v2-v1,v1);
-    expect(v1*scalar,v3);
-    expect(v3/scalar,v1);
+    expect(v1 + v2, v3);
+    expect(v2 - v1, v1);
+    expect(v1 * scalar, v3);
+    expect(v3 / scalar, v1);
     Sp3dV3D nv1 = v1.deep_copy();
     Sp3dV3D nv2 = v2.deep_copy();
     Sp3dV3D nv3 = v3.deep_copy();
     nv1.add(v2);
-    expect(nv1,v3);
+    expect(nv1, v3);
     nv2.sub(v1);
-    expect(nv2,v1);
+    expect(nv2, v1);
     nv1 = v1.deep_copy();
     nv1.mul(scalar);
-    expect(nv1,v3);
+    expect(nv1, v3);
     nv3.div(scalar);
-    expect(nv3,v1);
+    expect(nv3, v1);
     print("move test");
     expect(sp3dobj.move(v1).vertices.first, v1);
     print("equals_test");
-    expect((v1*2.5).equals(v2, 0.6),true);
-    expect((v1*1.5).equals(v2, 0.6),true);
-    expect((v1*2.7).equals(v2, 0.6),false);
+    expect((v1 * 2.5).equals(v2, 0.6), true);
+    expect((v1 * 1.5).equals(v2, 0.6), true);
+    expect((v1 * 2.7).equals(v2, 0.6), false);
   });
 }

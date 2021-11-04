@@ -47,8 +47,7 @@ final sp3dobj = Sp3dObj(
           null)
     ],
     [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0), null, null)
+      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1, Color.fromARGB(255, 0, 255, 0))
     ],
     [],
     null);
@@ -72,12 +71,6 @@ final sp3dobj_d = sp3dobj.to_dict();
 ```dart
 final restored = Sp3dObj.from_dict(sp3dobj_d);
 ```
-
-## About future development
-(en)I continue to develop packages for rendering.  
-Currently, drawing of image files is not supported. I plan to support it in the future.  
-(ja)レンダリングのためのパッケージの開発を継続しています。  
-現在、画像ファイルの描画が未サポートです。今後、対応させる予定です。
 
 ## Format Name
 Simple 3D Format
@@ -104,7 +97,7 @@ model/x.sp3d
         - v: Sp3dV3D
     - fragments: List
         - fragment: Sp3dFragment
-            - is_particle: bool
+            - is_particle: bool.
             - faces: List, One vertex for particle type.
                 - face: Sp3dFace
                     - vertex_index_list: List, Vertices index. Counterclockwise rotation from the upper left.
@@ -119,10 +112,19 @@ model/x.sp3d
             - stroke_width: double
             - stroke_color: Color, argb
             - image_index: int?, Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the Counterclockwise order as the vertices from the upper left.
+            - texture_coordinates: List<Offset>, Cutout coordinates when you want to use a part of the image. 3 or 4 points. 
             - option: Map<String, dynamic>, Optional attributes that may be added for each app.
     - images: list
         - image: Uint8List, png data.
     - option: Map<String, dynamic>, Optional attributes that may be added for each app.
+    
+## Parameter Note
+(en)If you use Sp3dObj to calculate a large number of atoms, consider using the is_particle flag and r(radius).  
+Each atom has one vertex when calculated or saved, and you can draw a sphere using Util_Sp3dGeometry etc. only when drawing on the screen.  
+(That is, create a new Sp3dObj when drawing).  
+(ja)多数の原子の計算にSp3dObjを使用する場合は、is_particleフラグとr（半径）の使用を検討してください。  
+各原子は計算または保存時に1つの頂点を持ち、画面上に描画する場合にのみUtil_Sp3dGeometryなどを使用して球を描画することが出来ます。  
+（つまり、描画の時には新しいSp3dObjを作ります）。  
 
 ## About version control
 (en)It is as follows in version 3.1.0 or later.  

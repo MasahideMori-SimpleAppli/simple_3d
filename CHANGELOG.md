@@ -1,3 +1,8 @@
+## 4.0.0
+
+* Update README.md.
+* Texture support has been added to Sp3dMaterial.
+
 ## 3.3.1
 
 * Update README.md.
