@@ -112,7 +112,7 @@ model/x.sp3d
             - stroke_width: double
             - stroke_color: Color, argb
             - image_index: int?, Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the Counterclockwise order as the vertices from the upper left.
-            - texture_coordinates: List<Offset>, Cutout coordinates when you want to use a part of the image. 3 or 4 points. 
+            - texture_coordinates: List, Cutout coordinates when you want to use a part of the image. 3 or 4 points. 
             - option: Map<String, dynamic>, Optional attributes that may be added for each app.
     - images: list
         - image: Uint8List, png data.
