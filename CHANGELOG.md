@@ -1,3 +1,8 @@
+## 5.0.0
+
+* Changed Class member name to lower camel case.
+* Separated the Japanese README file.
+
 ## 4.0.0
 
 * Update README.md.

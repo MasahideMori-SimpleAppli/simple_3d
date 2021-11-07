@@ -7,20 +7,19 @@ import 'dart:math';
 ///
 /// (en) Flutter implementation of Sp3dObj.
 /// The options for this object and internal elements can be freely extended for each application.
-/// When writing out, to_dict is converted to json. If you want to read it, you can easily restore it by calling from_dict.
+/// When writing out, toDict is converted to json. If you want to read it, you can easily restore it by calling fromDict.
 ///
 /// (ja) Sp3dObjのFlutter実装です。
 /// このオブジェクト及び内部要素のoptionはアプリケーション毎に自由に拡張できます。
-/// 書きだす場合はto_dictしたものをjson化します。読み込む場合はfrom_dict呼び出しで簡単に復元できます。
+/// 書きだす場合はtoDictしたものをjson化します。読み込む場合はfromDict呼び出しで簡単に復元できます。
 ///
 /// Author Masahide Mori
 ///
 /// First edition creation date 2021-06-30 22:54:22
 ///
-///
 class Sp3dObj {
-  final String class_name = 'Sp3dObj';
-  final String version = '4';
+  final String className = 'Sp3dObj';
+  final String version = '5';
   String? id;
   String? name;
   List<Sp3dV3D> vertices;
@@ -41,18 +40,18 @@ class Sp3dObj {
       this.images, this.option);
 
   /// Deep copy the object.
-  Sp3dObj deep_copy() {
+  Sp3dObj deepCopy() {
     List<Sp3dV3D> v = [];
     for (var i in this.vertices) {
-      v.add(i.deep_copy());
+      v.add(i.deepCopy());
     }
     List<Sp3dFragment> frgs = [];
     for (var i in this.fragments) {
-      frgs.add(i.deep_copy());
+      frgs.add(i.deepCopy());
     }
     List<Sp3dMaterial> mtrs = [];
     for (var i in this.materials) {
-      mtrs.add(i.deep_copy());
+      mtrs.add(i.deepCopy());
     }
     List<Uint8List> imgs = [];
     for (Uint8List i in this.images) {
@@ -84,35 +83,35 @@ class Sp3dObj {
   ///
   /// (ja)このオブジェクトの全てのベクトルを指定した軸をベースに回転させます。
   ///
-  /// * [nor_axis] : normalized rotate axis vector.
+  /// * [norAxis] : normalized rotate axis vector.
   /// * [radian] : radian = degree * pi / 180.
-  Sp3dObj rotate(Sp3dV3D nor_axis, double radian) {
+  Sp3dObj rotate(Sp3dV3D norAxis, double radian) {
     for (Sp3dV3D i in this.vertices) {
-      i.rotate(nor_axis, radian);
+      i.rotate(norAxis, radian);
     }
     return this;
   }
 
   /// Convert the object to a dictionary.
-  Map<String, dynamic> to_dict() {
+  Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = this.class_name;
+    d['class_name'] = this.className;
     d['version'] = this.version;
     d['id'] = this.id;
     d['name'] = this.name;
     List<Map<String, dynamic>> v = [];
     for (var i in this.vertices) {
-      v.add(i.to_dict());
+      v.add(i.toDict());
     }
     d['vertices'] = v;
     List<Map<String, dynamic>> frgs = [];
     for (var i in this.fragments) {
-      frgs.add(i.to_dict());
+      frgs.add(i.toDict());
     }
     d['fragments'] = frgs;
     List<Map<String, dynamic>> mtrs = [];
     for (var i in this.materials) {
-      mtrs.add(i.to_dict());
+      mtrs.add(i.toDict());
     }
     d['materials'] = mtrs;
     List<List<int>> imgs = [];
@@ -129,19 +128,19 @@ class Sp3dObj {
   }
 
   /// Restore this object from the dictionary.
-  /// * [src] : A dictionary made with to_dict of this class.
-  static Sp3dObj from_dict(Map<String, dynamic> src) {
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dObj fromDict(Map<String, dynamic> src) {
     List<Sp3dV3D> v = [];
     for (var i in src['vertices']) {
-      v.add(Sp3dV3D.from_dict(i));
+      v.add(Sp3dV3D.fromDict(i));
     }
     List<Sp3dFragment> frgs = [];
     for (var i in src['fragments']) {
-      frgs.add(Sp3dFragment.from_dict(i));
+      frgs.add(Sp3dFragment.fromDict(i));
     }
     List<Sp3dMaterial> mtrs = [];
     for (var i in src['materials']) {
-      mtrs.add(Sp3dMaterial.from_dict(i));
+      mtrs.add(Sp3dMaterial.fromDict(i));
     }
     List<Uint8List> imgs = [];
     for (List<int> i in src['images']) {
@@ -163,42 +162,42 @@ class Sp3dObj {
 /// First edition creation date 2021-06-30 23:21:09
 ///
 class Sp3dFragment {
-  final String class_name = 'Sp3dFragment';
-  final String version = '1';
-  bool is_particle;
+  final String className = 'Sp3dFragment';
+  final String version = '2';
+  bool isParticle;
   List<Sp3dFace> faces;
   double r;
   Map<String, dynamic>? option;
 
   /// Constructor
-  /// * [is_particle] : If true, this is particle.
+  /// * [isParticle] : If true, this is particle.
   /// * [faces] : Face Object list. This includes vertex information.
   /// * [r] : Particle radius.
   /// * [option] : Optional attributes that may be added for each app.
-  Sp3dFragment(this.is_particle, this.faces, this.r, this.option);
+  Sp3dFragment(this.isParticle, this.faces, this.r, this.option);
 
   /// Deep copy the object.
-  Sp3dFragment deep_copy() {
+  Sp3dFragment deepCopy() {
     List<Sp3dFace> f = [];
     for (var i in this.faces) {
-      f.add(i.deep_copy());
+      f.add(i.deepCopy());
     }
     if (this.option != null) {
-      return Sp3dFragment(this.is_particle, f, this.r, {...this.option!});
+      return Sp3dFragment(this.isParticle, f, this.r, {...this.option!});
     } else {
-      return Sp3dFragment(this.is_particle, f, this.r, null);
+      return Sp3dFragment(this.isParticle, f, this.r, null);
     }
   }
 
   /// Convert the object to a dictionary.
-  Map<String, dynamic> to_dict() {
+  Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = this.class_name;
+    d['class_name'] = this.className;
     d['version'] = this.version;
-    d['is_particle'] = this.is_particle;
+    d['is_particle'] = this.isParticle;
     List<Map<String, dynamic>> f = [];
     for (var i in this.faces) {
-      f.add(i.to_dict());
+      f.add(i.toDict());
     }
     d['faces'] = f;
     d['r'] = this.r;
@@ -207,11 +206,11 @@ class Sp3dFragment {
   }
 
   /// Restore this object from the dictionary.
-  /// * [src] : A dictionary made with to_dict of this class.
-  static Sp3dFragment from_dict(Map<String, dynamic> src) {
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dFragment fromDict(Map<String, dynamic> src) {
     List<Sp3dFace> f = [];
     for (var i in src['faces']) {
-      f.add(Sp3dFace.from_dict(i));
+      f.add(Sp3dFace.fromDict(i));
     }
     return Sp3dFragment(src['is_particle'], f, src['r'], src['option']);
   }
@@ -229,34 +228,34 @@ class Sp3dFragment {
 /// First edition creation date 2021-06-30 23:39:49
 ///
 class Sp3dFace {
-  final String class_name = 'Sp3dFace';
-  final String version = '5';
-  List<int> vertex_index_list;
-  int? material_index;
+  final String className = 'Sp3dFace';
+  final String version = '6';
+  List<int> vertexIndexList;
+  int? materialIndex;
 
   /// Constructor
-  /// * [vertex_index_list] : 3D vertex index list.
-  /// * [material_index] : use material index. If null, disable.
-  Sp3dFace(this.vertex_index_list, this.material_index);
+  /// * [vertexIndexList] : 3D vertex index list.
+  /// * [materialIndex] : use material index. If null, disable.
+  Sp3dFace(this.vertexIndexList, this.materialIndex);
 
   /// Deep copy the object.
-  Sp3dFace deep_copy() {
-    return Sp3dFace([...vertex_index_list], this.material_index);
+  Sp3dFace deepCopy() {
+    return Sp3dFace([...vertexIndexList], this.materialIndex);
   }
 
   /// Convert the object to a dictionary.
-  Map<String, dynamic> to_dict() {
+  Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = this.class_name;
+    d['class_name'] = this.className;
     d['version'] = this.version;
-    d['vertex_index_list'] = this.vertex_index_list;
-    d['material_index'] = this.material_index;
+    d['vertex_index_list'] = this.vertexIndexList;
+    d['material_index'] = this.materialIndex;
     return d;
   }
 
   /// Restore this object from the dictionary.
-  /// * [src] : A dictionary made with to_dict of this class.
-  static Sp3dFace from_dict(Map<String, dynamic> src) {
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dFace fromDict(Map<String, dynamic> src) {
     return Sp3dFace(src['vertex_index_list'], src['material_index']);
   }
 
@@ -264,9 +263,9 @@ class Sp3dFace {
   ///
   /// (ja)この面の頂点を取得します。
   /// * [obj] : The object to which this face belongs.
-  List<Sp3dV3D> get_vertices(Sp3dObj obj) {
+  List<Sp3dV3D> getVertices(Sp3dObj obj) {
     List<Sp3dV3D> r = [];
-    for (int i in this.vertex_index_list) {
+    for (int i in this.vertexIndexList) {
       r.add(obj.vertices[i]);
     }
     return r;
@@ -278,8 +277,8 @@ class Sp3dFace {
   /// (ja)この面の向きを反転します。
   /// 内部的には、参照しているインデックスの順序が反転します。
   void reverse() {
-    if (this.vertex_index_list.length > 2) {
-      this.vertex_index_list = this.vertex_index_list.reversed.toList();
+    if (this.vertexIndexList.length > 2) {
+      this.vertexIndexList = this.vertexIndexList.reversed.toList();
     }
   }
 
@@ -289,7 +288,7 @@ class Sp3dFace {
   /// (ja)この面の向きを反転した新しい面を返します。
   /// 内部的には、参照しているインデックスの順序が反転します。
   Sp3dFace reversed() {
-    Sp3dFace r = this.deep_copy();
+    Sp3dFace r = this.deepCopy();
     r.reverse();
     return r;
   }
@@ -298,12 +297,12 @@ class Sp3dFace {
   /// Internally, the order of 3D vectors except the beginning is reversed.
   ///
   /// (ja)この面の向きを反転します。内部では先頭を除く3Dベクトルの順番が反転します。
-  void reverse_ft() {
-    if (this.vertex_index_list.length > 2) {
+  void reverseFt() {
+    if (this.vertexIndexList.length > 2) {
       List<int> nl = [];
-      nl.add(this.vertex_index_list.removeAt(0));
-      nl.addAll(this.vertex_index_list.reversed);
-      this.vertex_index_list = nl;
+      nl.add(this.vertexIndexList.removeAt(0));
+      nl.addAll(this.vertexIndexList.reversed);
+      this.vertexIndexList = nl;
     }
   }
 
@@ -311,9 +310,9 @@ class Sp3dFace {
   /// Internally, the order of 3D vectors except the beginning is reversed.
   ///
   /// (ja)この面の向きを反転した新しい面を返します。内部では先頭を除く3Dベクトルの順番が反転します。
-  Sp3dFace reversed_ft() {
-    Sp3dFace r = this.deep_copy();
-    r.reverse_ft();
+  Sp3dFace reversedFt() {
+    Sp3dFace r = this.deepCopy();
+    r.reverseFt();
     return r;
   }
 }
@@ -328,8 +327,8 @@ class Sp3dFace {
 /// First edition creation date 2021-05-23 18:38:57
 ///
 class Sp3dV3D {
-  final String class_name = 'Sp3dV3D';
-  final String version = '12';
+  final String className = 'Sp3dV3D';
+  final String version = '13';
   double x;
   double y;
   double z;
@@ -341,14 +340,14 @@ class Sp3dV3D {
   Sp3dV3D(this.x, this.y, this.z);
 
   /// Deep copy the object.
-  Sp3dV3D deep_copy() {
+  Sp3dV3D deepCopy() {
     return Sp3dV3D(this.x, this.y, this.z);
   }
 
   /// Convert the object to a dictionary.
-  Map<String, dynamic> to_dict() {
+  Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = this.class_name;
+    d['class_name'] = this.className;
     d['version'] = this.version;
     d['x'] = this.x;
     d['y'] = this.y;
@@ -357,8 +356,8 @@ class Sp3dV3D {
   }
 
   /// Restore this object from the dictionary.
-  /// * [src] : A dictionary made with to_dict of this class.
-  static Sp3dV3D from_dict(Map<String, dynamic> src) {
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dV3D fromDict(Map<String, dynamic> src) {
     return Sp3dV3D(src['x'], src['y'], src['z']);
   }
 
@@ -409,7 +408,7 @@ class Sp3dV3D {
   Sp3dV3D nor() {
     double length = this.len();
     if (length == 0) {
-      return this.deep_copy();
+      return this.deepCopy();
     } else {
       return this / length;
     }
@@ -450,16 +449,16 @@ class Sp3dV3D {
   /// * [face] : face vertices.
   ///
   /// Returns surface normal.
-  static Sp3dV3D surface_normal(List<Sp3dV3D> face) {
-    final int vlen = face.length;
-    if (vlen == 3) {
+  static Sp3dV3D surfaceNormal(List<Sp3dV3D> face) {
+    final int vLen = face.length;
+    if (vLen == 3) {
       return Sp3dV3D.cross(face[1] - face[0], face[1] - face[2]);
     } else {
       // Newellの方法の反転版
       Sp3dV3D r = Sp3dV3D(0, 0, 0);
-      for (int i = 0; i < vlen; i++) {
+      for (int i = 0; i < vLen; i++) {
         Sp3dV3D cv = face[i];
-        Sp3dV3D nv = face[(i + 1) % vlen];
+        Sp3dV3D nv = face[(i + 1) % vLen];
         r.x -= (cv.y - nv.y) * (cv.z + nv.z);
         r.y -= (cv.z - nv.z) * (cv.x + nv.x);
         r.z -= (cv.x - nv.x) * (cv.y + nv.y);
@@ -473,9 +472,9 @@ class Sp3dV3D {
   /// (ja)射影ベクトルを返します。
   ///
   /// * [v] : vector.
-  /// * [nor_v] : normalized vector.
-  static Sp3dV3D proj(Sp3dV3D v, Sp3dV3D nor_v) {
-    return nor_v * Sp3dV3D.dot(v, nor_v);
+  /// * [norV] : normalized vector.
+  static Sp3dV3D proj(Sp3dV3D v, Sp3dV3D norV) {
+    return norV * Sp3dV3D.dot(v, norV);
   }
 
   /// (en)Return euclidean distance.
@@ -489,10 +488,10 @@ class Sp3dV3D {
   ///
   /// (ja)このベクトルを回転します。
   ///
-  /// * [nor_axis] : normalized rotate axis vector.
+  /// * [norAxis] : normalized rotate axis vector.
   /// * [radian] : radian = degree * pi / 180.
-  Sp3dV3D rotate(Sp3dV3D nor_axis, double radian) {
-    Sp3dV3D c = this.rotated(nor_axis, radian);
+  Sp3dV3D rotate(Sp3dV3D norAxis, double radian) {
+    Sp3dV3D c = this.rotated(norAxis, radian);
     this.x = c.x;
     this.y = c.y;
     this.z = c.z;
@@ -503,18 +502,18 @@ class Sp3dV3D {
   ///
   /// (ja)このベクトルを回転した新しいベクトルを返します。
   ///
-  /// * [nor_axis] : normalized rotate axis vector.
+  /// * [norAxis] : normalized rotate axis vector.
   /// * [radian] : radian = degree * pi / 180.
-  Sp3dV3D rotated(Sp3dV3D nor_axis, double radian) {
-    Sp3dV3D c = Sp3dV3D.proj(this, nor_axis);
+  Sp3dV3D rotated(Sp3dV3D norAxis, double radian) {
+    Sp3dV3D c = Sp3dV3D.proj(this, norAxis);
     Sp3dV3D w = this - c;
-    return c + (w * cos(radian)) + (Sp3dV3D.cross(nor_axis, w) * sin(radian));
+    return c + (w * cos(radian)) + (Sp3dV3D.cross(norAxis, w) * sin(radian));
   }
 
   /// (en)Return true if parameter is all zero, otherwise false.
   ///
   /// (ja)全てのパラメータが0であればtrue、それ以外はfalseを返します。
-  bool is_zero() {
+  bool isZero() {
     return this.x == 0 && this.y == 0 && this.z == 0;
   }
 
@@ -522,8 +521,8 @@ class Sp3dV3D {
   ///
   /// (ja)このベクトルに直交するランダムなベクトルを返します。
   Sp3dV3D ortho() {
-    if (this.is_zero()) {
-      return this.deep_copy();
+    if (this.isZero()) {
+      return this.deepCopy();
     }
     double r = Random().nextDouble() + 1;
     if (this.x != 0) {
@@ -605,14 +604,14 @@ class Sp3dV3D {
   ///
   /// (ja)誤差を考慮しつつ比較します。x,y,zの全てが誤差e_range以内の場合はtrueを返します。
   /// * [other] : other vector.
-  /// * [e_range] : The range of error to allow. This must be a positive number.
-  bool equals(Sp3dV3D other, double e_range) {
-    return this.x - e_range <= other.x &&
-        other.x <= this.x + e_range &&
-        this.y - e_range <= other.y &&
-        other.y <= this.y + e_range &&
-        this.z - e_range <= other.z &&
-        other.z <= this.z + e_range;
+  /// * [eRange] : The range of error to allow. This must be a positive number.
+  bool equals(Sp3dV3D other, double eRange) {
+    return this.x - eRange <= other.x &&
+        other.x <= this.x + eRange &&
+        this.y - eRange <= other.y &&
+        other.y <= this.y + eRange &&
+        this.z - eRange <= other.z &&
+        other.z <= this.z + eRange;
   }
 
   @override
@@ -648,97 +647,97 @@ class Sp3dV3D {
 /// First edition creation date 2021-06-30 23:30:52
 ///
 class Sp3dMaterial {
-  final String class_name = 'Sp3dMaterial';
-  final String version = '2';
+  final String className = 'Sp3dMaterial';
+  final String version = '3';
   Color bg;
-  bool is_fill;
-  double stroke_width;
-  Color stroke_color;
-  int? image_index;
-  List<Offset>? texture_coordinates;
+  bool isFill;
+  double strokeWidth;
+  Color strokeColor;
+  int? imageIndex;
+  List<Offset>? textureCoordinates;
   Map<String, dynamic>? option;
 
   /// Constructor
   /// * [bg] : Background color
-  /// * [is_fill] : If true, fill by bg color.
-  /// * [stroke_width] : Stroke width.
-  /// * [stroke_color] : Stroke color.
-  /// * [image_index] : Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
-  /// * [texture_coordinates] : You can specify the part of the image that you want to cut out and use. Use by specifying the coordinate information for the image.
+  /// * [isFill] : If true, fill by bg color.
+  /// * [strokeWidth] : Stroke width.
+  /// * [strokeColor] : Stroke color.
+  /// * [imageIndex] : Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
+  /// * [textureCoordinates] : You can specify the part of the image that you want to cut out and use. Use by specifying the coordinate information for the image.
   /// Specify the coordinates counterclockwise with a triangle or rectangle.
   /// * [option] : Optional attributes that may be added for each app.
-  Sp3dMaterial(this.bg, this.is_fill, this.stroke_width, this.stroke_color,
-      {this.image_index, this.texture_coordinates, this.option});
+  Sp3dMaterial(this.bg, this.isFill, this.strokeWidth, this.strokeColor,
+      {this.imageIndex, this.textureCoordinates, this.option});
 
   /// Convert the object to a dictionary.
-  Sp3dMaterial deep_copy() {
+  Sp3dMaterial deepCopy() {
     var mbg =
         Color.fromARGB(this.bg.alpha, this.bg.red, this.bg.green, this.bg.blue);
-    var msc = Color.fromARGB(this.stroke_color.alpha, this.stroke_color.red,
-        this.stroke_color.green, this.stroke_color.blue);
-    List<Offset>? t_coord;
-    if (this.texture_coordinates != null) {
-      t_coord = [];
-      for (Offset o in this.texture_coordinates!) {
-        t_coord.add(Offset(o.dx, o.dy));
+    var msc = Color.fromARGB(this.strokeColor.alpha, this.strokeColor.red,
+        this.strokeColor.green, this.strokeColor.blue);
+    List<Offset>? tCoord;
+    if (this.textureCoordinates != null) {
+      tCoord = [];
+      for (Offset o in this.textureCoordinates!) {
+        tCoord.add(Offset(o.dx, o.dy));
       }
     }
-    return Sp3dMaterial(mbg, this.is_fill, this.stroke_width, msc,
-        image_index: this.image_index,
-        texture_coordinates: t_coord,
+    return Sp3dMaterial(mbg, this.isFill, this.strokeWidth, msc,
+        imageIndex: this.imageIndex,
+        textureCoordinates: tCoord,
         option: this.option != null ? {...this.option!} : null);
   }
 
   /// Convert the object to a dictionary.
-  Map<String, dynamic> to_dict() {
-    List<double>? t_coord;
-    if (this.texture_coordinates != null) {
-      t_coord = [];
-      for (Offset o in this.texture_coordinates!) {
-        t_coord.add(o.dx);
-        t_coord.add(o.dy);
+  Map<String, dynamic> toDict() {
+    List<double>? tCoord;
+    if (this.textureCoordinates != null) {
+      tCoord = [];
+      for (Offset o in this.textureCoordinates!) {
+        tCoord.add(o.dx);
+        tCoord.add(o.dy);
       }
     }
     Map<String, dynamic> d = {};
-    d['class_name'] = this.class_name;
+    d['class_name'] = this.className;
     d['version'] = this.version;
     d['bg'] = [this.bg.alpha, this.bg.red, this.bg.green, this.bg.blue];
-    d['is_fill'] = this.is_fill;
-    d['stroke_width'] = this.stroke_width;
+    d['is_fill'] = this.isFill;
+    d['stroke_width'] = this.strokeWidth;
     d['stroke_color'] = [
-      this.stroke_color.alpha,
-      this.stroke_color.red,
-      this.stroke_color.green,
-      this.stroke_color.blue
+      this.strokeColor.alpha,
+      this.strokeColor.red,
+      this.strokeColor.green,
+      this.strokeColor.blue
     ];
-    d['image_index'] = this.image_index;
-    d['texture_coordinates'] = t_coord;
+    d['image_index'] = this.imageIndex;
+    d['texture_coordinates'] = tCoord;
     d['option'] = this.option;
     return d;
   }
 
   /// Restore this object from the dictionary.
-  /// * [src] : A dictionary made with to_dict of this class.
-  static Sp3dMaterial from_dict(Map<String, dynamic> src) {
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dMaterial fromDict(Map<String, dynamic> src) {
     var mbg =
         Color.fromARGB(src['bg'][0], src['bg'][1], src['bg'][2], src['bg'][3]);
     var msc = Color.fromARGB(src['stroke_color'][0], src['stroke_color'][1],
         src['stroke_color'][2], src['stroke_color'][3]);
-    List<Offset>? t_coord;
+    List<Offset>? tCoord;
     if (src.containsKey('texture_coordinates')) {
-      t_coord = [];
-      List<double> c_buff = [];
+      tCoord = [];
+      List<double> cBuff = [];
       for (double d in src['texture_coordinates']) {
-        c_buff.add(d);
-        if(c_buff.length==2){
-          t_coord.add(Offset(c_buff[0], c_buff[1]));
-          c_buff.clear();
+        cBuff.add(d);
+        if (cBuff.length == 2) {
+          tCoord.add(Offset(cBuff[0], cBuff[1]));
+          cBuff.clear();
         }
       }
     }
     return Sp3dMaterial(mbg, src['is_fill'], src['stroke_width'], msc,
-        image_index: src['image_index'],
-        texture_coordinates: t_coord,
+        imageIndex: src['image_index'],
+        textureCoordinates: tCoord,
         option: src['option']);
   }
 }

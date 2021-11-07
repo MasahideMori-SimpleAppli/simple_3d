@@ -5,7 +5,7 @@ import 'package:simple_3d/simple_3d.dart';
 
 void main() {
   test('create, to_dict, from_dict', () {
-    final sp3dobj = Sp3dObj(
+    final sp3dObj = Sp3dObj(
         "1",
         "test",
         [Sp3dV3D(0, 0, 0)],
@@ -24,8 +24,8 @@ void main() {
             true,
             1,
             Color.fromARGB(255, 0, 255, 0),
-            image_index: null,
-            texture_coordinates: [
+            imageIndex: null,
+            textureCoordinates: [
               Offset(0, 0),
               Offset(0, 1),
               Offset(1, 1),
@@ -35,15 +35,15 @@ void main() {
         ],
         [],
         null);
-    final sp3dobj_d = sp3dobj.to_dict();
+    final sp3dObjDict = sp3dObj.toDict();
     print("to_dict");
-    print(sp3dobj_d);
-    final restored = Sp3dObj.from_dict(sp3dobj_d);
+    print(sp3dObjDict);
+    final restored = Sp3dObj.fromDict(sp3dObjDict);
     print("restored");
-    print(restored.to_dict());
+    print(restored.toDict());
     print("is match");
-    final pre = jsonEncode(sp3dobj_d);
-    final reloaded = jsonEncode(restored.to_dict());
+    final pre = jsonEncode(sp3dObjDict);
+    final reloaded = jsonEncode(restored.toDict());
     print(pre == reloaded);
     expect(pre, reloaded);
     // vector test
@@ -56,20 +56,20 @@ void main() {
     expect(v2 - v1, v1);
     expect(v1 * scalar, v3);
     expect(v3 / scalar, v1);
-    Sp3dV3D nv1 = v1.deep_copy();
-    Sp3dV3D nv2 = v2.deep_copy();
-    Sp3dV3D nv3 = v3.deep_copy();
+    Sp3dV3D nv1 = v1.deepCopy();
+    Sp3dV3D nv2 = v2.deepCopy();
+    Sp3dV3D nv3 = v3.deepCopy();
     nv1.add(v2);
     expect(nv1, v3);
     nv2.sub(v1);
     expect(nv2, v1);
-    nv1 = v1.deep_copy();
+    nv1 = v1.deepCopy();
     nv1.mul(scalar);
     expect(nv1, v3);
     nv3.div(scalar);
     expect(nv3, v1);
     print("move test");
-    expect(sp3dobj.move(v1).vertices.first, v1);
+    expect(sp3dObj.move(v1).vertices.first, v1);
     print("equals_test");
     expect((v1 * 2.5).equals(v2, 0.6), true);
     expect((v1 * 1.5).equals(v2, 0.6), true);
