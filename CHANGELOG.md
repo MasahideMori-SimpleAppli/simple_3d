@@ -3,6 +3,7 @@
 * Changed Class member name to lower camel case.
 * Separated the Japanese README file.
 * Fixed README.md(textureCoordinates length).
+* Fixed explanatory text of textureCoordinates in Sp3dMaterial.
 
 ## 4.0.0
 
