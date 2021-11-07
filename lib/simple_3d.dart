@@ -664,7 +664,7 @@ class Sp3dMaterial {
   /// * [strokeColor] : Stroke color.
   /// * [imageIndex] : Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
   /// * [textureCoordinates] : You can specify the part of the image that you want to cut out and use. Use by specifying the coordinate information for the image.
-  /// Specify the coordinates counterclockwise with a triangle or rectangle.
+  /// Specify the coordinates counterclockwise with a triangle(3 vertices) or rectangle(There are two triangles. 6 vertices).
   /// * [option] : Optional attributes that may be added for each app.
   Sp3dMaterial(this.bg, this.isFill, this.strokeWidth, this.strokeColor,
       {this.imageIndex, this.textureCoordinates, this.option});
