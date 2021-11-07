@@ -21,7 +21,7 @@ Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に
 
 ### Create Data
 ```dart
-final sp3dobj = Sp3dObj(
+final sp3dObj = Sp3dObj(
     "1",
     "test",
     [Sp3dV3D(0, 0, 0)],
@@ -43,20 +43,20 @@ final sp3dobj = Sp3dObj(
 ### Operation example
 ```dart
 // Move
-sp3dobj.move(Sp3dV3D(1,0,0));
+sp3dObj.move(Sp3dV3D(1,0,0));
 // Rotate
-sp3dobj.rotate(Sp3dV3D(0,1,0),45*pi/180);
+sp3dObj.rotate(Sp3dV3D(0,1,0),45*pi/180);
 // Vertex manipulation
 // Sp3dV3Dの機能を使うと、他にも様々なことが出来ます。
-sp3dobj.vertices[0] += Sp3dV3D(1,0,0);
+sp3dObj.vertices[0] += Sp3dV3D(1,0,0);
 ```
 ### Convert
 ```dart
-final sp3dobj_d = sp3dobj.to_dict();
+final sp3dObjDict = sp3dObj.toDict();
 ```
 ### Load
 ```dart
-final restored = Sp3dObj.from_dict(sp3dobj_d);
+final restored = Sp3dObj.fromDict(sp3dObjDict);
 ```
 
 ## Support
@@ -109,7 +109,7 @@ model/x.sp3d
     - option: Map<String, dynamic>, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます.
     
 ## Parameter Note
-多数の原子の計算にSp3dObjを使用する場合は、is_particleフラグとr（半径）の使用を検討してください。  
+多数の原子の計算にSp3dObjを使用する場合は、isParticleフラグとr（半径）の使用を検討してください。  
 各原子は計算または保存時に1つの頂点を持ち、画面上に描画する場合にのみUtil_Sp3dGeometryなどを使用して球を描画することが出来ます。  
 （つまり、描画の時には新しいSp3dObjを作ります）。  
 

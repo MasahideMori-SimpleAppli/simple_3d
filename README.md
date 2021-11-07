@@ -110,7 +110,7 @@ Advanced graphics.
     - option: Map<String, dynamic>, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     
 ## Parameter Note
-If you use Sp3dObj to calculate a large number of atoms, consider using the is_particle flag and r(radius).  
+If you use Sp3dObj to calculate a large number of atoms, consider using the isParticle flag and r(radius).  
 Each atom has one vertex when calculated or saved, and you can draw a sphere using Util_Sp3dGeometry etc. only when drawing on the screen.  
 (That is, create a new Sp3dObj when drawing).
 
