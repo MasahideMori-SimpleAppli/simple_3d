@@ -87,26 +87,26 @@ model/x.sp3d
         - v: Sp3dV3D
     - fragments: List
         - fragment: Sp3dFragment
-            - is_particle: bool.
-            - faces: List, One vertex for particle type.
+            - isParticle: bool.
+            - faces: List, 面の定義です。三角メッシュまたは四角メッシュを表します。
                 - face: Sp3dFace
-                    - vertex_index_list: List, Vertices index. Counterclockwise rotation from the upper left.
+                    - vertexIndexList: List, 頂点のインデックスリストです. 左上から逆時計回りで定義します。
                         - index: int
-                    - material_index: int?
-                - r: double, Radius for particle type.
-                - option: Map<String, dynamic>, Optional attributes that may be added for each app.
+                    - materialIndex: int?
+                - r: double, particleの場合の半径です。
+                - option: Map<String, dynamic>, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - materials: List
         - material: Sp3dMaterial
             - bg: Color, argb.
-            - is_fill: bool, if false, stroke line only.
-            - stroke_width: double
-            - stroke_color: Color, argb
-            - image_index: int?, Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the Counterclockwise order as the vertices from the upper left.
-            - texture_coordinates: List, Cutout coordinates when you want to use a part of the image. 3 or 4 points. 
-            - option: Map<String, dynamic>, Optional attributes that may be added for each app.
+            - isFill: bool, falseの場合線だけを表示します。
+            - strokeWidth: double
+            - strokeColor: Color, argb
+            - imageIndex: int?, nullでは無い時、指定された画像でfaceを塗りつぶします。
+            - textureCoordinates: List, ３点、又は６点（四角の場合、三角形２つで指定します）での、画像の切り出し位置の指定です。 
+            - option: Map<String, dynamic>, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - images: list
         - image: Uint8List, png data.
-    - option: Map<String, dynamic>, Optional attributes that may be added for each app.
+    - option: Map<String, dynamic>, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます.
     
 ## Parameter Note
 多数の原子の計算にSp3dObjを使用する場合は、is_particleフラグとr（半径）の使用を検討してください。  

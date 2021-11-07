@@ -2,6 +2,7 @@
 
 * Changed Class member name to lower camel case.
 * Separated the Japanese README file.
+* Fixed README.md(textureCoordinates length).
 
 ## 4.0.0
 

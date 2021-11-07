@@ -89,25 +89,25 @@ Advanced graphics.
     - fragments: List
         - fragment: Sp3dFragment
             - isParticle: bool.
-            - faces: List, One vertex for particle type.
+            - faces: List, The definition of the face. Represents a triangular or square mesh.
                 - face: Sp3dFace
                     - vertexIndexList: List, Vertices index. Counterclockwise rotation from the upper left.
                         - index: int
                     - materialIndex: int?
                 - r: double, Radius for particle type.
-                - option: Map<String, dynamic>, Optional attributes that may be added for each app.
+                - option: Map<String, dynamic>, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - materials: List
         - material: Sp3dMaterial
             - bg: Color, argb.
             - isFill: bool, if false, stroke line only.
             - strokeWidth: double
             - strokeColor: Color, argb
-            - imageIndex: int?, Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the Counterclockwise order as the vertices from the upper left.
-            - textureCoordinates: List, Cutout coordinates when you want to use a part of the image. 3 or 4 points. 
-            - option: Map<String, dynamic>, Optional attributes that may be added for each app.
+            - imageIndex: int?, Fills the face with the specified image, which is not null.
+            - textureCoordinates: List, Cutout coordinates when you want to use a part of the image. 3 or 6 points(In the case of a square, specify it with two triangles). 
+            - option: Map<String, dynamic>, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - images: list
         - image: Uint8List, png data.
-    - option: Map<String, dynamic>, Optional attributes that may be added for each app.
+    - option: Map<String, dynamic>, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     
 ## Parameter Note
 If you use Sp3dObj to calculate a large number of atoms, consider using the is_particle flag and r(radius).  
