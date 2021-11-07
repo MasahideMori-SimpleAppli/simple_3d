@@ -48,8 +48,7 @@ sp3dObj.move(Sp3dV3D(1,0,0));
 // Rotate
 sp3dObj.rotate(Sp3dV3D(0,1,0),45*pi/180);
 // Vertex manipulation
-// (en)You can do many other things with the Sp3dV3D feature.
-// (ja)Sp3dV3Dの機能を使うと、他にも様々なことが出来ます。
+// You can do many other things with the Sp3dV3D feature.
 sp3dObj.vertices[0] += Sp3dV3D(1,0,0);
 ```
 ### Convert
