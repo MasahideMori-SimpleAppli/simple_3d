@@ -1,7 +1,7 @@
 # simple_3d
 
-(en)Japanese ver is [here](https://github.com/MasahideMori-SimpleAppli/simple_3d/blob/main/README_JP.md).  
-(ja)この解説の日本語版は[ここ](https://github.com/MasahideMori-SimpleAppli/simple_3d/blob/main/README_JP.md)にあります。  
+(en)Japanese ver is [here](https://github.com/MasahideMori-SimpleAppli/simple_3d/blob/main/README_JA.md).  
+(ja)この解説の日本語版は[ここ](https://github.com/MasahideMori-SimpleAppli/simple_3d/blob/main/README_JA.md)にあります。  
 
 ## Overview
 This package is a working Flutter(Dart) implementation of Simple 3D Format.  
