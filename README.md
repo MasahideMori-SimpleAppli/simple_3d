@@ -74,7 +74,7 @@ Simple 3D Format
 model/x.sp3d
 
 ## Suitable
-Science, Simple Games, etc.
+Science(For example, physical calculation), Simple Games, etc.
 
 ## Not Suitable
 Advanced graphics.  
