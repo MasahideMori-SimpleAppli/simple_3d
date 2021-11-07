@@ -53,7 +53,7 @@ sp3dObj.vertices[0] += Sp3dV3D(1,0,0);
 ```
 ### Convert
 ```dart
-final sp3dObjDict = sp3dobj.toDict();
+final sp3dObjDict = sp3dObj.toDict();
 ```
 ### Load
 ```dart
