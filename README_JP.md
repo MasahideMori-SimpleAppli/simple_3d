@@ -2,7 +2,7 @@
 
 日本語版の解説です。
 
-## Overview
+## 概要
 このパッケージはSimple 3D Formatの実用的なFlutter(Dart)実装です。  
 Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に扱えるようにするためのファイル・フォーマットです。  
 このフォーマットで出力されたファイルは拡張子.sp3dを持ち、内部クラスがJSONに変換されます。１つのオブジェクトに関する全てのデータが１つのファイル内に含まれています。
@@ -10,8 +10,8 @@ Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に
 科学の為に作られたので、他のジャンルで使いにくい可能性があります。  
 科学の発展のため、利権や争いなどに影響されずに利用できることを目指しています。
 
-## Usage
-### Quick Start
+## 利用豊富
+### クイックスタート
 (ja)Sp3dObjのレンダリングのためのパッケージを用意しています。  
 下記のパッケージを利用すると、より簡単にご利用になれます。  
 利用方法はsimple_3d_rendererパッケージをご覧ください。  
@@ -19,7 +19,7 @@ Simple 3D Formatは、3次元オブジェクトを専門家以外でも手軽に
 [simple_3d_renderer](https://pub.dev/packages/simple_3d_renderer)  
 [util_simple_3d](https://pub.dev/packages/util_simple_3d)
 
-### Create Data
+### データ作成
 ```dart
 final sp3dObj = Sp3dObj(
     "1",
@@ -40,46 +40,46 @@ final sp3dObj = Sp3dObj(
     [],
     null);
 ```
-### Operation example
+### オブジェクトの操作例
 ```dart
-// Move
+// 移動
 sp3dObj.move(Sp3dV3D(1,0,0));
-// Rotate
+// 回転
 sp3dObj.rotate(Sp3dV3D(0,1,0),45*pi/180);
-// Vertex manipulation
+// 頂点の操作
 // Sp3dV3Dの機能を使うと、他にも様々なことが出来ます。
 sp3dObj.vertices[0] += Sp3dV3D(1,0,0);
 ```
-### Convert
+### 保存用の変換
 ```dart
 final sp3dObjDict = sp3dObj.toDict();
 ```
-### Load
+### 復元
 ```dart
 final restored = Sp3dObj.fromDict(sp3dObjDict);
 ```
 
-## Support
+## サポート
 もし何らかの理由で有償のサポートが必要な場合は私の会社に問い合わせてください。  
 このパッケージは私が個人で開発していますが、会社経由でサポートできる場合があります。  
 [合同会社シンプルアプリ](https://simpleappli.com/index.html)  
 
-## Format Name
+## フォーマット名
 Simple 3D Format
 
-## Filename Extension
+## 拡張子
 .sp3d
 
-## MIME Type ( Temporary )
+## MIME Type ( 仮 )
 model/x.sp3d
 
-## Suitable
+## このオブジェクトが有用なもの
 科学や簡単なゲームなどに向いています。
 
-## Not Suitable
+## このオブジェクトが有用でないもの
 高度なグラフィックを必要とするものには向いていません。
 
-## Structure ( Decoded object )
+## 内部構造 ( デコードされた状態 )
 - Sp3dObj
     - id: String?
     - name: String?
@@ -108,12 +108,12 @@ model/x.sp3d
         - image: Uint8List, png data.
     - option: Map<String, dynamic>, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます.
     
-## Parameter Note
+## パラメータのメモ
 多数の原子の計算にSp3dObjを使用する場合は、isParticleフラグとr（半径）の使用を検討してください。  
 各原子は計算または保存時に1つの頂点を持ち、画面上に描画する場合にのみUtil_Sp3dGeometryなどを使用して球を描画することが出来ます。  
 （つまり、描画の時には新しいSp3dObjを作ります）。  
 
-## About version control
+## バージョン管理について
 バージョン3.1.0以降において以下のようになっています。  
 それぞれ、Cの部分が変更されます。
 - 変数の追加など、以前のファイルの読み込み時に問題が起こったり、ファイルの構造が変わるような変更 
@@ -123,9 +123,9 @@ model/x.sp3d
 - 軽微な変更やバグ修正 
   - X.X.C
     
-## License
+## ライセンス
 このソフトウェアはMITライセンスの元配布されます。LICENSEファイルの内容をご覧ください。
 
-## Copyright notice
+## 著作権表示
 The “Dart” name and “Flutter” name are trademarks of Google LLC.  
 *The developer of this package is not Google LLC.
