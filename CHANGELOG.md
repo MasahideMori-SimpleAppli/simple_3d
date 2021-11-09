@@ -1,3 +1,8 @@
+## 5.0.2
+
+* Bug Fix of Image Load in Sp3dObj.
+* Fixed an issue where Sp3dFace vertex reference type judgement might fail under certain conditions.
+
 ## 5.0.1
 
 * Fixed README.md.

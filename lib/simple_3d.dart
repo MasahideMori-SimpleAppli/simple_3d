@@ -19,7 +19,7 @@ import 'dart:math';
 ///
 class Sp3dObj {
   final String className = 'Sp3dObj';
-  final String version = '5';
+  final String version = '6';
   String? id;
   String? name;
   List<Sp3dV3D> vertices;
@@ -143,8 +143,12 @@ class Sp3dObj {
       mtrs.add(Sp3dMaterial.fromDict(i));
     }
     List<Uint8List> imgs = [];
-    for (List<int> i in src['images']) {
-      imgs.add(Uint8List.fromList([...i]));
+    for (List<dynamic> i in src['images']) {
+      List<int> iL = [];
+      for (dynamic j in i) {
+        iL.add(j as int);
+      }
+      imgs.add(Uint8List.fromList(iL));
     }
     return Sp3dObj(src['id'], src['name'], v, frgs, mtrs, imgs, src['option']);
   }
@@ -229,7 +233,7 @@ class Sp3dFragment {
 ///
 class Sp3dFace {
   final String className = 'Sp3dFace';
-  final String version = '6';
+  final String version = '7';
   List<int> vertexIndexList;
   int? materialIndex;
 
@@ -256,7 +260,11 @@ class Sp3dFace {
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dFace fromDict(Map<String, dynamic> src) {
-    return Sp3dFace(src['vertex_index_list'], src['material_index']);
+    List<int> mVi = [];
+    for (dynamic i in src['vertex_index_list']) {
+      mVi.add(i as int);
+    }
+    return Sp3dFace(mVi, src['material_index']);
   }
 
   /// (en)Gets the vertices of this face.
@@ -648,7 +656,7 @@ class Sp3dV3D {
 ///
 class Sp3dMaterial {
   final String className = 'Sp3dMaterial';
-  final String version = '3';
+  final String version = '4';
   Color bg;
   bool isFill;
   double strokeWidth;
@@ -725,13 +733,15 @@ class Sp3dMaterial {
         src['stroke_color'][2], src['stroke_color'][3]);
     List<Offset>? tCoord;
     if (src.containsKey('texture_coordinates')) {
-      tCoord = [];
-      List<double> cBuff = [];
-      for (double d in src['texture_coordinates']) {
-        cBuff.add(d);
-        if (cBuff.length == 2) {
-          tCoord.add(Offset(cBuff[0], cBuff[1]));
-          cBuff.clear();
+      if (src['texture_coordinates'] != null) {
+        tCoord = [];
+        List<double> cBuff = [];
+        for (double d in src['texture_coordinates']) {
+          cBuff.add(d);
+          if (cBuff.length == 2) {
+            tCoord.add(Offset(cBuff[0], cBuff[1]));
+            cBuff.clear();
+          }
         }
       }
     }
