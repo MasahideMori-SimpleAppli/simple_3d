@@ -1,3 +1,13 @@
+## 6.0.0
+* Updated README.md
+* Added Sp3dPhysics class.
+* Added Sp3dPhysics variable to Sp3dObj and Sp3dFragment.
+* Added move and rotate method to Sp3dFace.
+* Added move, rotate, getCenter method to Sp3dFragment.
+* Added merge and getCenter method to Sp3dObj.
+* Added author variable to Sp3dObj.
+* Changed infrequently used constructor arguments to Optional parameters.
+
 ## 5.0.2
 
 * Bug Fix of Image Load in Sp3dObj.
@@ -16,7 +26,7 @@
 
 ## 4.0.0
 
-* Update README.md.
+* Updated README.md.
 * Texture support has been added to Sp3dMaterial.
 
 ## 3.3.1

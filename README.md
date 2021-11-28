@@ -23,23 +23,24 @@ See the simple_3d_renderer package for how to use it.
 ### Create Data
 ```dart
 final sp3dObj = Sp3dObj(
-    "1",
-    "test",
     [Sp3dV3D(0, 0, 0)],
     [
       Sp3dFragment(
-          true,
           [
             Sp3dFace([0], 0)
           ],
-          1,
-          null)
+          isParticle: true,
+          r: 1)
     ],
     [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1, Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(
+        Color.fromARGB(255, 0, 255, 0),
+        true,
+        1,
+        Color.fromARGB(255, 0, 255, 0),
+      )
     ],
-    [],
-    null);
+    []);
 ```
 ### Operation example
 ```dart
@@ -61,7 +62,7 @@ final restored = Sp3dObj.fromDict(sp3dObjDict);
 ```
 
 ## Support
-If for any reason you need paid support, please contact my company.  
+If you need paid support, please contact my company.  
 [SimpleAppli Inc.](https://simpleappli.com/en/index_en.html)
 
 ## Format Name
@@ -81,20 +82,19 @@ Advanced graphics.
 
 ## Structure ( Decoded object )
 - Sp3dObj
-    - id: String?
-    - name: String?
     - vertices: List
         - v: Sp3dV3D
     - fragments: List
         - fragment: Sp3dFragment
-            - isParticle: bool.
             - faces: List, The definition of the face. Represents a triangular or square mesh.
                 - face: Sp3dFace
                     - vertexIndexList: List, Vertices index. Counterclockwise rotation from the upper left.
                         - index: int
                     - materialIndex: int?
-                - r: double, Radius for particle type.
-                - option: Map<String, dynamic>, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
+            - isParticle: bool.
+            - r: double, Radius for particle type.
+            - physics: Sp3dPhysics?
+            - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - materials: List
         - material: Sp3dMaterial
             - bg: Color, argb.
@@ -102,15 +102,27 @@ Advanced graphics.
             - strokeWidth: double
             - strokeColor: Color, argb
             - imageIndex: int?, Fills the face with the specified image, which is not null.
-            - textureCoordinates: List, Cutout coordinates when you want to use a part of the image. 3 or 6 points(In the case of a square, specify it with two triangles). 
-            - option: Map<String, dynamic>, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
+            - textureCoordinates: List?, Cutout coordinates when you want to use a part of the image. 3 or 6 points(In the case of a square, specify it with two triangles). 
+            - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - images: list
         - image: Uint8List, png data.
-    - option: Map<String, dynamic>, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
+    - id: String?
+    - name: String?
+    - author: String?
+    - physics: Sp3dPhysics?
+        - mass: double?, (kg). However, the unit should be changed for the calculation of atoms etc.
+        - speed: double?, (m/s). However, the unit should be changed for the calculation of atoms etc.
+        - direction: Sp3dV3D?, Unit vector.
+        - velocity: Sp3dV3D?, Use for move.
+        - rotateAxis: Sp3dV3D?
+        - angularVelocity: double?, (rad/s).
+        - angle: double?, rad.
+        - others: Map<String, dynamic>?, If you want to use other parameters, add here To do.
+    - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     
 ## Parameter Note
 If you use Sp3dObj to calculate a large number of atoms, consider using the isParticle flag and r(radius).  
-Each atom has one vertex when calculated or saved, and you can draw a sphere using Util_Sp3dGeometry etc. only when drawing on the screen.  
+Each atom has one vertex when calculated or saved, and you can draw a sphere using UtilSp3dGeometry etc. only when drawing on the screen.  
 (That is, create a new Sp3dObj when drawing).
 
 ## About version control

@@ -19,25 +19,29 @@ import 'dart:math';
 ///
 class Sp3dObj {
   final String className = 'Sp3dObj';
-  final String version = '6';
-  String? id;
-  String? name;
+  final String version = '7';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
   List<Uint8List> images;
+  String? id;
+  String? name;
+  String? author;
+  Sp3dPhysics? physics;
   Map<String, dynamic>? option;
 
   /// Constructor
-  /// * [id] : Object ID.
-  /// * [name] : Object Name.
   /// * [vertices] : vertex list.
   /// * [fragments] : This includes information such as the vertex information of the object.
   /// * [materials] : This includes information such as colors.
   /// * [images] : Image data.
+  /// * [id] : Object ID.
+  /// * [name] : Object name.
+  /// * [author] : Object author name. It is mainly for distribution, and null is better during calculation.
+  /// * [physics] : Parameters for physics calculations.
   /// * [option] : Optional attributes that may be added for each app.
-  Sp3dObj(this.id, this.name, this.vertices, this.fragments, this.materials,
-      this.images, this.option);
+  Sp3dObj(this.vertices, this.fragments, this.materials, this.images,
+      {this.id, this.name, this.author, this.physics, this.option});
 
   /// Deep copy the object.
   Sp3dObj deepCopy() {
@@ -61,35 +65,12 @@ class Sp3dObj {
       }
       imgs.add(Uint8List.fromList(il));
     }
-    if (this.option != null) {
-      return Sp3dObj(
-          this.id, this.name, v, frgs, mtrs, imgs, {...this.option!});
-    } else {
-      return Sp3dObj(this.id, this.name, v, frgs, mtrs, imgs, null);
-    }
-  }
-
-  /// (en)Adds the specified vector to all vectors of this object.
-  ///
-  /// (ja)このオブジェクトの全てのベクトルに指定したベクトルを加算します。
-  Sp3dObj move(Sp3dV3D v) {
-    for (Sp3dV3D i in this.vertices) {
-      i.add(v);
-    }
-    return this;
-  }
-
-  /// (en)Rotates all vectors of this object based on the specified axis.
-  ///
-  /// (ja)このオブジェクトの全てのベクトルを指定した軸をベースに回転させます。
-  ///
-  /// * [norAxis] : normalized rotate axis vector.
-  /// * [radian] : radian = degree * pi / 180.
-  Sp3dObj rotate(Sp3dV3D norAxis, double radian) {
-    for (Sp3dV3D i in this.vertices) {
-      i.rotate(norAxis, radian);
-    }
-    return this;
+    return Sp3dObj(v, frgs, mtrs, imgs,
+        id: this.id,
+        name: this.name,
+        author: this.author,
+        physics: this.physics != null ? this.physics!.deepCopy() : null,
+        option: this.option != null ? {...this.option!} : null);
   }
 
   /// Convert the object to a dictionary.
@@ -97,8 +78,6 @@ class Sp3dObj {
     Map<String, dynamic> d = {};
     d['class_name'] = this.className;
     d['version'] = this.version;
-    d['id'] = this.id;
-    d['name'] = this.name;
     List<Map<String, dynamic>> v = [];
     for (var i in this.vertices) {
       v.add(i.toDict());
@@ -123,6 +102,10 @@ class Sp3dObj {
       imgs.add(il);
     }
     d['images'] = imgs;
+    d['id'] = this.id;
+    d['name'] = this.name;
+    d['author'] = this.author;
+    d['physics'] = this.physics != null ? this.physics!.toDict() : null;
     d['option'] = this.option;
     return d;
   }
@@ -150,7 +133,92 @@ class Sp3dObj {
       }
       imgs.add(Uint8List.fromList(iL));
     }
-    return Sp3dObj(src['id'], src['name'], v, frgs, mtrs, imgs, src['option']);
+    return Sp3dObj(v, frgs, mtrs, imgs,
+        id: src['id'],
+        name: src['name'],
+        author: src.containsKey('author') ? src['author'] : null,
+        physics: src.containsKey('physics')
+            ? src['physics'] != null
+                ? Sp3dPhysics.fromDict(src['physics'])
+                : null
+            : null,
+        option: src['option']);
+  }
+
+  /// (en)Adds the specified vector to all vectors of this object.
+  ///
+  /// (ja)このオブジェクトの全てのベクトルに指定したベクトルを加算します。
+  ///
+  /// * [v] : vector.
+  Sp3dObj move(Sp3dV3D v) {
+    for (Sp3dV3D i in this.vertices) {
+      i.add(v);
+    }
+    return this;
+  }
+
+  /// (en)Rotates all vectors of this object based on the specified axis.
+  ///
+  /// (ja)このオブジェクトの全てのベクトルを指定した軸をベースに回転させます。
+  ///
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dObj rotate(Sp3dV3D norAxis, double radian) {
+    for (Sp3dV3D i in this.vertices) {
+      i.rotate(norAxis, radian);
+    }
+    return this;
+  }
+
+  /// (en)Merge another object into this object. This operation is high cost.
+  /// id, name and option values do not change.
+  ///
+  /// (ja)このオブジェクトに別のオブジェクトをマージします。この操作は高コストです。
+  /// このオブジェクト固有のパラメータ（id,name）とオプション値は変更されません。
+  ///
+  /// * [other] : other obj.
+  Sp3dObj merge(Sp3dObj other) {
+    Sp3dObj copyOther = other.deepCopy();
+    // 追加する各要素のインデックスを変更。
+    final int myVerticesLen = this.vertices.length;
+    final int myMaterialLen = this.materials.length;
+    final int myImageLen = this.images.length;
+    for (Sp3dMaterial i in copyOther.materials) {
+      if (i.imageIndex != null) {
+        i.imageIndex = i.imageIndex! + myImageLen;
+      }
+    }
+    for (Sp3dFragment i in copyOther.fragments) {
+      for (Sp3dFace j in i.faces) {
+        if (j.materialIndex != null) {
+          j.materialIndex = j.materialIndex! + myMaterialLen;
+        }
+        for (int k = 0; k < j.vertexIndexList.length; k++) {
+          j.vertexIndexList[k] += myVerticesLen;
+        }
+      }
+    }
+    // 追加
+    for (Uint8List i in copyOther.images) {
+      this.images.add(i);
+    }
+    for (Sp3dMaterial i in copyOther.materials) {
+      this.materials.add(i);
+    }
+    for (Sp3dV3D i in copyOther.vertices) {
+      this.vertices.add(i);
+    }
+    for (Sp3dFragment i in copyOther.fragments) {
+      this.fragments.add(i);
+    }
+    return this;
+  }
+
+  /// (en)Gets the average coordinates of this object.
+  ///
+  /// (ja)このオブジェクトの平均座標を取得します。
+  Sp3dV3D getCenter() {
+    return Sp3dV3D.ave(this.vertices);
   }
 }
 
@@ -167,18 +235,21 @@ class Sp3dObj {
 ///
 class Sp3dFragment {
   final String className = 'Sp3dFragment';
-  final String version = '2';
-  bool isParticle;
+  final String version = '3';
   List<Sp3dFace> faces;
+  bool isParticle;
   double r;
+  Sp3dPhysics? physics;
   Map<String, dynamic>? option;
 
   /// Constructor
-  /// * [isParticle] : If true, this is particle.
   /// * [faces] : Face Object list. This includes vertex information.
+  /// * [isParticle] : If true, this is particle.
   /// * [r] : Particle radius.
+  /// * [physics] : Parameters for physics calculations. This defines the behavior of the fragment, not the entire object.
   /// * [option] : Optional attributes that may be added for each app.
-  Sp3dFragment(this.isParticle, this.faces, this.r, this.option);
+  Sp3dFragment(this.faces,
+      {this.isParticle = false, this.r = 0, this.physics, this.option});
 
   /// Deep copy the object.
   Sp3dFragment deepCopy() {
@@ -186,11 +257,11 @@ class Sp3dFragment {
     for (var i in this.faces) {
       f.add(i.deepCopy());
     }
-    if (this.option != null) {
-      return Sp3dFragment(this.isParticle, f, this.r, {...this.option!});
-    } else {
-      return Sp3dFragment(this.isParticle, f, this.r, null);
-    }
+    return Sp3dFragment(f,
+        isParticle: this.isParticle,
+        r: this.r,
+        physics: this.physics != null ? this.physics!.deepCopy() : null,
+        option: this.option != null ? {...this.option!} : null);
   }
 
   /// Convert the object to a dictionary.
@@ -198,13 +269,14 @@ class Sp3dFragment {
     Map<String, dynamic> d = {};
     d['class_name'] = this.className;
     d['version'] = this.version;
-    d['is_particle'] = this.isParticle;
     List<Map<String, dynamic>> f = [];
     for (var i in this.faces) {
       f.add(i.toDict());
     }
     d['faces'] = f;
+    d['is_particle'] = this.isParticle;
     d['r'] = this.r;
+    d['physics'] = this.physics != null ? this.physics!.toDict() : null;
     d['option'] = this.option;
     return d;
   }
@@ -216,7 +288,55 @@ class Sp3dFragment {
     for (var i in src['faces']) {
       f.add(Sp3dFace.fromDict(i));
     }
-    return Sp3dFragment(src['is_particle'], f, src['r'], src['option']);
+    return Sp3dFragment(f,
+        isParticle: src['is_particle'],
+        r: src['r'],
+        physics: src.containsKey('physics')
+            ? src['physics'] != null
+                ? Sp3dPhysics.fromDict(src['physics'])
+                : null
+            : null,
+        option: src['option']);
+  }
+
+  /// (en)Adds the specified vector to all vectors of this Fragment.
+  ///
+  /// (ja)このフラグメントの全てのベクトルに指定したベクトルを加算します。
+  ///
+  /// * [parent] : parent obj.
+  /// * [v] : vector.
+  Sp3dFragment move(Sp3dObj parent, Sp3dV3D v) {
+    for (Sp3dFace i in this.faces) {
+      i.move(parent, v);
+    }
+    return this;
+  }
+
+  /// (en)Rotates all vectors of this fragment based on the specified axis.
+  ///
+  /// (ja)このフラグメントの全てのベクトルを指定した軸をベースに回転させます。
+  ///
+  /// * [parent] : parent obj.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dFragment rotate(Sp3dObj parent, Sp3dV3D norAxis, double radian) {
+    for (Sp3dFace i in this.faces) {
+      i.rotate(parent, norAxis, radian);
+    }
+    return this;
+  }
+
+  /// (en)Gets the average coordinates of this fragment.
+  ///
+  /// (ja)このフラグメントの平均座標を取得します。
+  ///
+  /// * [parent] : parent obj.
+  Sp3dV3D getCenter(Sp3dObj parent) {
+    List<Sp3dV3D> allV = [];
+    for (Sp3dFace i in this.faces) {
+      allV.addAll(i.getVertices(parent));
+    }
+    return Sp3dV3D.ave(allV);
   }
 }
 
@@ -233,7 +353,7 @@ class Sp3dFragment {
 ///
 class Sp3dFace {
   final String className = 'Sp3dFace';
-  final String version = '7';
+  final String version = '8';
   List<int> vertexIndexList;
   int? materialIndex;
 
@@ -322,6 +442,33 @@ class Sp3dFace {
     Sp3dFace r = this.deepCopy();
     r.reverseFt();
     return r;
+  }
+
+  /// (en)Adds the specified vector to all vectors of this Face.
+  ///
+  /// (ja)この面の全てのベクトルに指定したベクトルを加算します。
+  ///
+  /// * [parent] : parent obj.
+  /// * [v] : vector.
+  Sp3dFace move(Sp3dObj parent, Sp3dV3D v) {
+    for (int i in this.vertexIndexList) {
+      parent.vertices[i].add(v);
+    }
+    return this;
+  }
+
+  /// (en)Rotates all vectors of this face based on the specified axis.
+  ///
+  /// (ja)この面の全てのベクトルを指定した軸をベースに回転させます。
+  ///
+  /// * [parent] : parent obj.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dFace rotate(Sp3dObj parent, Sp3dV3D norAxis, double radian) {
+    for (int i in this.vertexIndexList) {
+      parent.vertices[i].rotate(norAxis, radian);
+    }
+    return this;
   }
 }
 
@@ -749,5 +896,95 @@ class Sp3dMaterial {
         imageIndex: src['image_index'],
         textureCoordinates: tCoord,
         option: src['option']);
+  }
+}
+
+///
+/// (en)A class for managing parameters for physics operations.
+/// (ja)物理演算のためのパラメータを管理するためのクラスです。
+///
+/// Author Masahide Mori
+///
+/// First edition creation date 2021-11-27 17:17:38
+///
+class Sp3dPhysics {
+  final String className = 'Sp3dPhysics';
+  final String version = '1';
+  bool isLocked;
+  double? mass;
+  double? speed;
+  Sp3dV3D? direction;
+  Sp3dV3D? velocity;
+  Sp3dV3D? rotateAxis;
+  double? angularVelocity;
+  double? angle;
+  Map<String, dynamic>? others;
+
+  /// Constructor
+  /// * [isLocked] : If true, Treat it as a fixed object.
+  /// * [mass] : The mass(kg) of the object.
+  /// * [speed] : The speed(m/s) of the object. Retained primarily for calculations.
+  /// * [direction] : The direction(Unit vector) of the object. Retained primarily for calculations.
+  /// * [velocity] : The velocity of the object. Used for moving objects.
+  /// * [rotateAxis] : The rotate axis of the object.
+  /// * [angularVelocity] : The angular velocity of the object.
+  /// * [angle] : The rotated angle of the object.
+  /// * [others] : Optional attributes that may be added for each app.
+  Sp3dPhysics(
+      {this.isLocked = false,
+      this.mass,
+      this.speed,
+      this.direction,
+      this.velocity,
+      this.rotateAxis,
+      this.angularVelocity,
+      this.angle,
+      this.others});
+
+  Sp3dPhysics deepCopy() {
+    return Sp3dPhysics(
+        isLocked: this.isLocked,
+        mass: this.mass,
+        speed: this.speed,
+        direction: this.direction?.deepCopy(),
+        velocity: this.velocity?.deepCopy(),
+        rotateAxis: this.rotateAxis?.deepCopy(),
+        angularVelocity: this.angularVelocity,
+        angle: this.angle,
+        others: this.others != null ? {...this.others!} : null);
+  }
+
+  Map<String, dynamic> toDict() {
+    Map<String, dynamic> d = {};
+    d['class_name'] = this.className;
+    d['version'] = this.version;
+    d['isLocked'] = this.isLocked;
+    d['mass'] = this.mass;
+    d['speed'] = this.speed;
+    d['direction'] = this.direction?.toDict();
+    d['velocity'] = this.velocity?.toDict();
+    d['rotateAxis'] = this.rotateAxis?.toDict();
+    d['angularVelocity'] = this.angularVelocity;
+    d['angle'] = this.angle;
+    d['others'] = this.others;
+    return d;
+  }
+
+  static Sp3dPhysics fromDict(Map<String, dynamic> src) {
+    return Sp3dPhysics(
+        isLocked: src['isLocked'],
+        mass: src['mass'],
+        speed: src['speed'],
+        direction: src['direction'] != null
+            ? Sp3dV3D.fromDict(src['direction'])
+            : null,
+        velocity:
+            src['velocity'] != null ? Sp3dV3D.fromDict(src['velocity']) : null,
+        rotateAxis: src['rotateAxis'] != null
+            ? Sp3dV3D.fromDict(src['rotateAxis'])
+            : null,
+        angularVelocity: src['angularVelocity'],
+        angle: src['angle'],
+        others: src['others']);
   }
 }

@@ -22,23 +22,24 @@ Sp3dObjのレンダリングのためのパッケージを用意しています�
 ### データ作成
 ```dart
 final sp3dObj = Sp3dObj(
-    "1",
-    "test",
     [Sp3dV3D(0, 0, 0)],
     [
       Sp3dFragment(
-          true,
           [
             Sp3dFace([0], 0)
           ],
-          1,
-          null)
+          isParticle: true,
+          r: 1)
     ],
     [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1, Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(
+        Color.fromARGB(255, 0, 255, 0),
+        true,
+        1,
+        Color.fromARGB(255, 0, 255, 0),
+      )
     ],
-    [],
-    null);
+    []);
 ```
 ### オブジェクトの操作例
 ```dart
@@ -81,20 +82,19 @@ model/x.sp3d
 
 ## 内部構造 ( デコードされた状態 )
 - Sp3dObj
-    - id: String?
-    - name: String?
     - vertices: List
         - v: Sp3dV3D
     - fragments: List
         - fragment: Sp3dFragment
-            - isParticle: bool.
             - faces: List, 面の定義です。三角メッシュまたは四角メッシュを表します。
                 - face: Sp3dFace
                     - vertexIndexList: List, 頂点のインデックスリストです. 左上から逆時計回りで定義します。
                         - index: int
                     - materialIndex: int?
-                - r: double, particleの場合の半径です。
-                - option: Map<String, dynamic>, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
+            - isParticle: bool.
+            - r: double, particleの場合の半径です。
+            - physics: Sp3dPhysics?, 物理演算用の変数です。
+            - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - materials: List
         - material: Sp3dMaterial
             - bg: Color, argb.
@@ -102,11 +102,23 @@ model/x.sp3d
             - strokeWidth: double
             - strokeColor: Color, argb
             - imageIndex: int?, nullでは無い時、指定された画像でfaceを塗りつぶします。
-            - textureCoordinates: List, ３点、又は６点（四角の場合、三角形２つで指定します）での、画像の切り出し位置の指定です。 
-            - option: Map<String, dynamic>, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
+            - textureCoordinates: List?, ３点、又は６点（四角の場合、三角形２つで指定します）での、画像の切り出し位置の指定です。 
+            - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - images: list
         - image: Uint8List, png data.
-    - option: Map<String, dynamic>, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます.
+    - id: String?
+    - name: String?
+    - author: String?
+    - physics: Sp3dPhysics?, 物理演算用の変数です。
+        - mass: double?, 質量(kg)。ただし、原子の計算などの場合は適切な単位に変更すべきです。
+        - speed: double?, 速さ(m/s)。計算時の簡単のためにあります。ただし、原子の計算などの場合は適切な単位に変更すべきです。
+        - direction: Sp3dV3D?, 進行方向の向きベクトル（単位ベクトル）。計算時の簡単のためにあります。
+        - velocity: Sp3dV3D?, 速度。速さと向きの両方を含みます。moveする時に使います。
+        - rotateAxis: Sp3dV3D?, 回転軸。
+        - angularVelocity: double?, 角速度(rad/s)。回転と移動は分離して考えます。単位はラジアン毎秒です。
+        - angle: double?, ラジアン(rad)。
+        - others: Map<String, dynamic>?
+    - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     
 ## パラメータのメモ
 多数の原子の計算にSp3dObjを使用する場合は、isParticleフラグとr（半径）の使用を検討してください。  
