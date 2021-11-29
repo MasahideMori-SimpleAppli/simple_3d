@@ -1,3 +1,7 @@
+## 6.0.1
+* Bug fix of toDict and fromDict of Sp3dPhysics. 
+  If you have a file saved in 6.0.0, it will be fixed by modifying the camel case in saved JSON key to snake case.
+
 ## 6.0.0
 * Updated README.md
 * Added Sp3dPhysics class.
@@ -10,7 +14,7 @@
 
 ## 5.0.2
 
-* Bug Fix of Image Load in Sp3dObj.
+* Bug fix of Image Load in Sp3dObj.
 * Fixed an issue where Sp3dFace vertex reference type judgement might fail under certain conditions.
 
 ## 5.0.1

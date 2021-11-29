@@ -909,7 +909,7 @@ class Sp3dMaterial {
 ///
 class Sp3dPhysics {
   final String className = 'Sp3dPhysics';
-  final String version = '1';
+  final String version = '2';
   bool isLocked;
   double? mass;
   double? speed;
@@ -958,13 +958,13 @@ class Sp3dPhysics {
     Map<String, dynamic> d = {};
     d['class_name'] = this.className;
     d['version'] = this.version;
-    d['isLocked'] = this.isLocked;
+    d['is_locked'] = this.isLocked;
     d['mass'] = this.mass;
     d['speed'] = this.speed;
     d['direction'] = this.direction?.toDict();
     d['velocity'] = this.velocity?.toDict();
-    d['rotateAxis'] = this.rotateAxis?.toDict();
-    d['angularVelocity'] = this.angularVelocity;
+    d['rotate_axis'] = this.rotateAxis?.toDict();
+    d['angular_velocity'] = this.angularVelocity;
     d['angle'] = this.angle;
     d['others'] = this.others;
     return d;
@@ -972,7 +972,7 @@ class Sp3dPhysics {
 
   static Sp3dPhysics fromDict(Map<String, dynamic> src) {
     return Sp3dPhysics(
-        isLocked: src['isLocked'],
+        isLocked: src['is_locked'],
         mass: src['mass'],
         speed: src['speed'],
         direction: src['direction'] != null
@@ -980,10 +980,10 @@ class Sp3dPhysics {
             : null,
         velocity:
             src['velocity'] != null ? Sp3dV3D.fromDict(src['velocity']) : null,
-        rotateAxis: src['rotateAxis'] != null
-            ? Sp3dV3D.fromDict(src['rotateAxis'])
+        rotateAxis: src['rotate_axis'] != null
+            ? Sp3dV3D.fromDict(src['rotate_axis'])
             : null,
-        angularVelocity: src['angularVelocity'],
+        angularVelocity: src['angular_velocity'],
         angle: src['angle'],
         others: src['others']);
   }
