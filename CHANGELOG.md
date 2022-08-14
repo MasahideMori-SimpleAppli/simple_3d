@@ -1,3 +1,6 @@
+# 7.0.0
+* Refactored the structure for future development.
+
 ## 6.0.1
 * Bug fix of toDict and fromDict of Sp3dPhysics.  
   If you have a file saved in 6.0.0, it will be fixed by modifying the camel case in saved JSON key to snake case.  
