@@ -62,7 +62,8 @@ final restored = Sp3dObj.fromDict(sp3dObjDict);
 ```
 
 ## Support
-If you need paid support, please contact my company.  
+If you need paid support for any reason, please contact my company.  
+This package is developed by me personally, but may be supported via the company.  
 [SimpleAppli Inc.](https://simpleappli.com/en/index_en.html)
 
 ## Format Name
