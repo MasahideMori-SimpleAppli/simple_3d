@@ -1,4 +1,7 @@
-# 7.0.0
+## 7.0.1
+* Fix changelog.
+
+## 7.0.0
 * Refactored the structure for future development.
 
 ## 6.0.1
