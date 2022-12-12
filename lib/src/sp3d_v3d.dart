@@ -11,20 +11,28 @@ import 'dart:math';
 ///
 class Sp3dV3D {
   final String className = 'Sp3dV3D';
-  final String version = '13';
+  final String version = '14';
   double x;
   double y;
   double z;
 
   /// Constructor
   /// * [x] : The x coordinate of the 3D vertex.
-  /// * [y] : The x coordinate of the 3D vertex.
-  /// * [z] : The x coordinate of the 3D vertex.
+  /// * [y] : The y coordinate of the 3D vertex.
+  /// * [z] : The z coordinate of the 3D vertex.
   Sp3dV3D(this.x, this.y, this.z);
 
   /// Deep copy the object.
   Sp3dV3D deepCopy() {
     return Sp3dV3D(x, y, z);
+  }
+
+  /// Creates a copy with only the specified values rewritten.
+  /// * [x] : The x coordinate of the 3D vertex.
+  /// * [y] : The y coordinate of the 3D vertex.
+  /// * [z] : The z coordinate of the 3D vertex.
+  Sp3dV3D copyWith({double? x, double? y, double? z}) {
+    return Sp3dV3D(x ?? this.x, y ?? this.y, z ?? this.z);
   }
 
   /// Convert the object to a dictionary.

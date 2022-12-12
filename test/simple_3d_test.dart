@@ -191,7 +191,6 @@ void main() {
     expect((v1 * 2.7).equals(v2, 0.6), false);
   });
 
-  // null parameter test.
   test('null test2 of create, to_dict, from_dict', () {
     final sp3dObj = Sp3dObj([
       Sp3dV3D(0, 0, 0)
@@ -244,7 +243,6 @@ void main() {
     expect((v1 * 2.7).equals(v2, 0.6), false);
   });
 
-  // marge test.
   test('rotate, marge, and fragment move test', () {
     final sp3dObj = Sp3dObj([
       Sp3dV3D(0, 0, 0),
@@ -275,7 +273,6 @@ void main() {
     expect(sp3dObj.vertices[2] == Sp3dV3D(2, 0, 0), true);
   });
 
-  // getCenter test.
   test('getCenter test', () {
     final sp3dObj = Sp3dObj([
       Sp3dV3D(3, 0, 0),
@@ -305,5 +302,20 @@ void main() {
     expect(aveObj == Sp3dV3D(2, 2, 2), true);
     expect(aveFragment1 == Sp3dV3D(1, 1, 1), true);
     expect(aveFragment2 == Sp3dV3D(3, 3, 3), true);
+  });
+
+  test('copyWith test', () {
+    Sp3dV3D v = Sp3dV3D(0, 0, 0);
+    List<Sp3dV3D> arr = [
+      v,
+      v.copyWith(x: 1),
+      v.copyWith(y: 1),
+      v.copyWith(z: 1)
+    ];
+    print("copyWith");
+    expect(arr[0] == Sp3dV3D(0, 0, 0), true);
+    expect(arr[1] == Sp3dV3D(1, 0, 0), true);
+    expect(arr[2] == Sp3dV3D(0, 1, 0), true);
+    expect(arr[3] == Sp3dV3D(0, 0, 1), true);
   });
 }

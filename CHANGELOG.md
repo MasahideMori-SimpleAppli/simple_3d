@@ -1,3 +1,7 @@
+## 7.1.0
+* Added copyWith method to Sp3dV3D.
+* Fixed the constructor description of Sp3dV3D.
+
 ## 7.0.1
 * Fix changelog.
 
