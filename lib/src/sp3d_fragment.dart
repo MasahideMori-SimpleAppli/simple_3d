@@ -16,7 +16,7 @@ import 'sp3d_v3d.dart';
 ///
 class Sp3dFragment {
   final String className = 'Sp3dFragment';
-  final String version = '3';
+  final String version = '4';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;
@@ -118,5 +118,23 @@ class Sp3dFragment {
       allV.addAll(i.getVertices(parent));
     }
     return Sp3dV3D.ave(allV);
+  }
+
+  /// (en)Flips the orientation of all faces.
+  ///
+  /// (ja)保持している全ての面の向きを反転します。
+  void reverse() {
+    for (Sp3dFace i in faces) {
+      i.reverse();
+    }
+  }
+
+  /// (en)Creates and returns a new fragment with all faces flipped.
+  ///
+  /// (ja)全ての面の向きを反転した新しいフラグメントを作成して返します。
+  Sp3dFragment reversed() {
+    Sp3dFragment r = deepCopy();
+    r.reverse();
+    return r;
   }
 }

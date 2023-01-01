@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:simple_3d/simple_3d.dart';
 
@@ -317,5 +317,77 @@ void main() {
     expect(arr[1] == Sp3dV3D(1, 0, 0), true);
     expect(arr[2] == Sp3dV3D(0, 1, 0), true);
     expect(arr[3] == Sp3dV3D(0, 0, 1), true);
+  });
+
+  test('copyWith of Sp3dMaterial test', () {
+    Sp3dMaterial v1 = Sp3dMaterial(Colors.black, true, 1, Colors.black,
+        imageIndex: 1, textureCoordinates: [Offset(0, 0)], option: {"test": 1});
+    Sp3dMaterial v2 = v1.copyWith(
+        bg: Colors.red,
+        isFill: false,
+        strokeWidth: 2,
+        strokeColor: Colors.red,
+        imageIndex: 2,
+        textureCoordinates: [Offset(1, 1)],
+        option: {"test": 2});
+    print("copyWith of Sp3dMaterial");
+    expect(v1.bg != v2.bg, true);
+    expect(v1.isFill != v2.isFill, true);
+    expect(v1.strokeWidth != v2.strokeWidth, true);
+    expect(v1.strokeColor != v2.strokeColor, true);
+    expect(v1.imageIndex != v2.imageIndex, true);
+    expect(v1.textureCoordinates![0].dx != v2.textureCoordinates![0].dx, true);
+    expect(v1.option!["test"] != v2.option!["test"], true);
+  });
+
+  test('reverse test', () {
+    final sp3dObj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(0, 1, 0),
+      Sp3dV3D(0, 0, 2),
+    ], [
+      Sp3dFragment(
+        [
+          Sp3dFace([0, 1, 2], 0),
+          Sp3dFace([0, 1, 2], 0)
+        ],
+        physics: Sp3dPhysics(),
+      ),
+      Sp3dFragment(
+        [
+          Sp3dFace([0, 1, 2], 0),
+          Sp3dFace([0, 1, 2], 0)
+        ],
+        physics: Sp3dPhysics(),
+      )
+    ], [
+      Sp3dMaterial(
+        Color.fromARGB(255, 0, 255, 0),
+        true,
+        1,
+        Color.fromARGB(255, 0, 255, 0),
+        imageIndex: null,
+        textureCoordinates: [
+          Offset(0, 0),
+          Offset(0, 1),
+          Offset(1, 1),
+          Offset(1, 0),
+        ],
+      )
+    ], [], physics: Sp3dPhysics());
+    print("reverse");
+    sp3dObj.reverse();
+    expect(sp3dObj.fragments[0].faces[0].vertexIndexList[0] == 2, true);
+    expect(sp3dObj.fragments[0].faces[0].vertexIndexList[1] == 1, true);
+    expect(sp3dObj.fragments[0].faces[0].vertexIndexList[2] == 0, true);
+    expect(sp3dObj.fragments[0].faces[1].vertexIndexList[0] == 2, true);
+    expect(sp3dObj.fragments[0].faces[1].vertexIndexList[1] == 1, true);
+    expect(sp3dObj.fragments[0].faces[1].vertexIndexList[2] == 0, true);
+    expect(sp3dObj.fragments[1].faces[0].vertexIndexList[0] == 2, true);
+    expect(sp3dObj.fragments[1].faces[0].vertexIndexList[1] == 1, true);
+    expect(sp3dObj.fragments[1].faces[0].vertexIndexList[2] == 0, true);
+    expect(sp3dObj.fragments[1].faces[1].vertexIndexList[0] == 2, true);
+    expect(sp3dObj.fragments[1].faces[1].vertexIndexList[1] == 1, true);
+    expect(sp3dObj.fragments[1].faces[1].vertexIndexList[2] == 0, true);
   });
 }

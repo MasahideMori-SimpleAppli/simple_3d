@@ -1,3 +1,8 @@
+## 7.2.0
+* Added reverse and reversed method to Sp3dFragment.
+* Added reverse and reversed method to Sp3dObj.
+* copyWith method to Sp3dMaterial.
+
 ## 7.1.0
 * Added copyWith method to Sp3dV3D.
 * Fixed the constructor description of Sp3dV3D.

@@ -21,7 +21,7 @@ import 'sp3d_v3d.dart';
 ///
 class Sp3dObj {
   final String className = 'Sp3dObj';
-  final String version = '7';
+  final String version = '8';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -221,5 +221,23 @@ class Sp3dObj {
   /// (ja)このオブジェクトの平均座標を取得します。
   Sp3dV3D getCenter() {
     return Sp3dV3D.ave(vertices);
+  }
+
+  /// (en)Flips the orientation of all faces.
+  ///
+  /// (ja)保持している全ての面の向きを反転します。
+  void reverse() {
+    for (Sp3dFragment i in fragments) {
+      i.reverse();
+    }
+  }
+
+  /// (en)Creates and returns a new object with all faces flipped.
+  ///
+  /// (ja)全ての面の向きを反転した新しいオブジェクトを作成して返します。
+  Sp3dObj reversed() {
+    Sp3dObj r = deepCopy();
+    r.reverse();
+    return r;
   }
 }

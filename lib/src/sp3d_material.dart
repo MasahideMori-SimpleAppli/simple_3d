@@ -13,7 +13,7 @@ import 'dart:ui';
 ///
 class Sp3dMaterial {
   final String className = 'Sp3dMaterial';
-  final String version = '4';
+  final String version = '5';
   Color bg;
   bool isFill;
   double strokeWidth;
@@ -50,6 +50,46 @@ class Sp3dMaterial {
         imageIndex: imageIndex,
         textureCoordinates: tCoord,
         option: option != null ? {...option!} : null);
+  }
+
+  /// Creates a copy with only the specified values rewritten.
+  /// * [bg] : Background color
+  /// * [isFill] : If true, fill by bg color.
+  /// * [strokeWidth] : Stroke width.
+  /// * [strokeColor] : Stroke color.
+  /// * [imageIndex] : Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
+  /// * [textureCoordinates] : You can specify the part of the image that you want to cut out and use. Use by specifying the coordinate information for the image.
+  /// Specify the coordinates counterclockwise with a triangle(3 vertices) or rectangle(There are two triangles. 6 vertices).
+  /// * [option] : Optional attributes that may be added for each app.
+  Sp3dMaterial copyWith(
+      {Color? bg,
+      bool? isFill,
+      double? strokeWidth,
+      Color? strokeColor,
+      int? imageIndex,
+      List<Offset>? textureCoordinates,
+      Map<String, dynamic>? option}) {
+    List<Offset>? tCoord;
+    if (textureCoordinates == null) {
+      if (this.textureCoordinates != null) {
+        tCoord = [];
+        for (Offset o in this.textureCoordinates!) {
+          tCoord.add(Offset(o.dx, o.dy));
+        }
+      }
+    }
+    return Sp3dMaterial(
+        bg ??
+            Color.fromARGB(
+                this.bg.alpha, this.bg.red, this.bg.green, this.bg.blue),
+        isFill ?? this.isFill,
+        strokeWidth ?? this.strokeWidth,
+        strokeColor ??
+            Color.fromARGB(this.strokeColor.alpha, this.strokeColor.red,
+                this.strokeColor.green, this.strokeColor.blue),
+        imageIndex: imageIndex ?? this.imageIndex,
+        textureCoordinates: textureCoordinates ?? tCoord,
+        option: option ?? (option != null ? {...option} : null));
   }
 
   /// Convert the object to a dictionary.
