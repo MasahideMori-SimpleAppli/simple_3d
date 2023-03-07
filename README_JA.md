@@ -119,7 +119,8 @@ model/x.sp3d
         - angle: double?, ラジアン(rad)。
         - others: Map<String, dynamic>?
     - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
-    
+    - layerNum: int, レンダリングソフトに対して有効になる、奥行方向の描画優先度。レイヤー番号が小さい方から先に描画されます。  
+
 ## パラメータのメモ
 多数の原子の計算にSp3dObjを使用する場合は、isParticleフラグとr（半径）の使用を検討してください。  
 各原子は計算または保存時に1つの頂点を持ち、画面上に描画する場合にのみUtilSp3dGeometryなどを使用して球を描画することが出来ます。（つまり、描画の時には新しいSp3dObjを作ります）。  

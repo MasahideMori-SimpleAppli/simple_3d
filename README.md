@@ -120,7 +120,8 @@ Advanced graphics.
         - angle: double?, rad.
         - others: Map<String, dynamic>?, If you want to use other parameters, add here To do.
     - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
-    
+    - layerNum: int, Drawing priority in the depth direction that is enabled for rendering software. Layers with smaller numbers are drawn first.  
+
 ## Parameter Note
 If you use Sp3dObj to calculate a large number of atoms, consider using the isParticle flag and r(radius).  
 Each atom has one vertex when calculated or saved, and you can draw a sphere using UtilSp3dGeometry etc. only when drawing on the screen.  

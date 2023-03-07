@@ -1,3 +1,7 @@
+## 8.0.0
+* Added layerNum parameter to Sp3dObj.
+* Changed to convert image files to base64 format when call toDict in Sp3dObj. Compatibility with previous files is maintained.
+
 ## 7.2.0
 * Added reverse and reversed method to Sp3dFragment.
 * Added reverse and reversed method to Sp3dObj.

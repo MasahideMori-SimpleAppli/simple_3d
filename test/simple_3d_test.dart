@@ -390,4 +390,45 @@ void main() {
     expect(sp3dObj.fragments[1].faces[1].vertexIndexList[1] == 1, true);
     expect(sp3dObj.fragments[1].faces[1].vertexIndexList[2] == 0, true);
   });
+
+  test('layerNum test', () {
+    final sp3dObj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(0, 1, 0),
+      Sp3dV3D(0, 0, 2),
+    ], [
+      Sp3dFragment(
+        [
+          Sp3dFace([0, 1, 2], 0),
+          Sp3dFace([0, 1, 2], 0)
+        ],
+        physics: Sp3dPhysics(),
+      ),
+      Sp3dFragment(
+        [
+          Sp3dFace([0, 1, 2], 0),
+          Sp3dFace([0, 1, 2], 0)
+        ],
+        physics: Sp3dPhysics(),
+      )
+    ], [
+      Sp3dMaterial(
+        Color.fromARGB(255, 0, 255, 0),
+        true,
+        1,
+        Color.fromARGB(255, 0, 255, 0),
+        imageIndex: null,
+        textureCoordinates: [
+          Offset(0, 0),
+          Offset(0, 1),
+          Offset(1, 1),
+          Offset(1, 0),
+        ],
+      )
+    ], [], physics: Sp3dPhysics(), layerNum: 1);
+    print("layerNum");
+    expect(sp3dObj.layerNum == 1, true);
+    final restoreObj = Sp3dObj.fromDict(sp3dObj.toDict());
+    expect(restoreObj.layerNum == 1, true);
+  });
 }

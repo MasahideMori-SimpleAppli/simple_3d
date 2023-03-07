@@ -1,10 +1,7 @@
 import 'dart:typed_data';
+import 'dart:convert';
 
-import 'sp3d_face.dart';
-import 'sp3d_fragment.dart';
-import 'sp3d_material.dart';
-import 'sp3d_physics.dart';
-import 'sp3d_v3d.dart';
+import '../simple_3d.dart';
 
 ///
 /// (en) Flutter implementation of Sp3dObj.
@@ -20,8 +17,9 @@ import 'sp3d_v3d.dart';
 /// First edition creation date 2021-06-30 22:54:22
 ///
 class Sp3dObj {
-  final String className = 'Sp3dObj';
-  final String version = '8';
+  String get className => 'Sp3dObj';
+
+  String get version => '9';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -31,6 +29,7 @@ class Sp3dObj {
   String? author;
   Sp3dPhysics? physics;
   Map<String, dynamic>? option;
+  int layerNum;
 
   /// Constructor
   /// * [vertices] : vertex list.
@@ -42,8 +41,15 @@ class Sp3dObj {
   /// * [author] : Object author name. It is mainly for distribution, and null is better during calculation.
   /// * [physics] : Parameters for physics calculations.
   /// * [option] : Optional attributes that may be added for each app.
+  /// * [layerNum] : If the renderer has layerNum enabled,
+  /// it forces the drawing order to be in ascending order of this value.
   Sp3dObj(this.vertices, this.fragments, this.materials, this.images,
-      {this.id, this.name, this.author, this.physics, this.option});
+      {this.id,
+      this.name,
+      this.author,
+      this.physics,
+      this.option,
+      this.layerNum = 0});
 
   /// Deep copy the object.
   Sp3dObj deepCopy() {
@@ -61,18 +67,15 @@ class Sp3dObj {
     }
     List<Uint8List> imgs = [];
     for (Uint8List i in images) {
-      List<int> il = [];
-      for (var j in i) {
-        il.add(j);
-      }
-      imgs.add(Uint8List.fromList(il));
+      imgs.add(Uint8List.fromList(List<int>.from(i)));
     }
     return Sp3dObj(v, frgs, mtrs, imgs,
         id: id,
         name: name,
         author: author,
         physics: physics != null ? physics!.deepCopy() : null,
-        option: option != null ? {...option!} : null);
+        option: option != null ? {...option!} : null,
+        layerNum: layerNum);
   }
 
   /// Convert the object to a dictionary.
@@ -95,20 +98,25 @@ class Sp3dObj {
       mtrs.add(i.toDict());
     }
     d['materials'] = mtrs;
-    List<List<int>> imgs = [];
-    for (Uint8List i in images) {
-      List<int> il = [];
-      for (var j in i) {
-        il.add(j);
+    if ((double.tryParse(version) ?? 0) >= 9) {
+      List<String> imgs = [];
+      for (Uint8List i in images) {
+        imgs.add(base64.encode(List<int>.from(i)));
       }
-      imgs.add(il);
+      d['images'] = imgs;
+    } else {
+      List<List<int>> imgs = [];
+      for (Uint8List i in images) {
+        imgs.add(List<int>.from(i));
+      }
+      d['images'] = imgs;
     }
-    d['images'] = imgs;
     d['id'] = id;
     d['name'] = name;
     d['author'] = author;
     d['physics'] = physics != null ? physics!.toDict() : null;
     d['option'] = option;
+    d['layer_num'] = layerNum;
     return d;
   }
 
@@ -128,12 +136,18 @@ class Sp3dObj {
       mtrs.add(Sp3dMaterial.fromDict(i));
     }
     List<Uint8List> imgs = [];
-    for (List<dynamic> i in src['images']) {
-      List<int> iL = [];
-      for (dynamic j in i) {
-        iL.add(j as int);
+    if ((double.tryParse(src['version']) ?? 0) >= 9) {
+      for (String i in src['images']) {
+        imgs.add(Uint8List.fromList(base64.decode(i)));
       }
-      imgs.add(Uint8List.fromList(iL));
+    } else {
+      for (List<dynamic> i in src['images']) {
+        List<int> iL = [];
+        for (dynamic j in i) {
+          iL.add(j as int);
+        }
+        imgs.add(Uint8List.fromList(iL));
+      }
     }
     return Sp3dObj(v, frgs, mtrs, imgs,
         id: src['id'],
@@ -144,7 +158,8 @@ class Sp3dObj {
                 ? Sp3dPhysics.fromDict(src['physics'])
                 : null
             : null,
-        option: src['option']);
+        option: src['option'],
+        layerNum: src.containsKey('layer_num') ? src['layer_num'] : 0);
   }
 
   /// (en)Adds the specified vector to all vectors of this object.
@@ -173,10 +188,11 @@ class Sp3dObj {
   }
 
   /// (en)Merge another object into this object. This operation is high cost.
-  /// id, name, author, physics and option values do not change.
+  /// id, name, author, physics, option, layerNum and tmpData values do not change.
   ///
   /// (ja)このオブジェクトに別のオブジェクトをマージします。この操作は高コストです。
-  /// このオブジェクト固有のパラメータ（id,name,author,physics）とオプション値は変更されません。
+  /// このオブジェクト固有のパラメータ（id,name,author,physics）とオプション値、
+  /// layerNum、tmpDataは変更されません。
   ///
   /// * [other] : other obj.
   Sp3dObj merge(Sp3dObj other) {

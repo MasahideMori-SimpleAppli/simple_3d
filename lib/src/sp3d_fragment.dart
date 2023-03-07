@@ -1,7 +1,4 @@
-import 'sp3d_face.dart';
-import 'sp3d_obj.dart';
-import 'sp3d_physics.dart';
-import 'sp3d_v3d.dart';
+import '../simple_3d.dart';
 
 ///
 /// (en) A flutter implementation of Sp3dFragment.
