@@ -188,11 +188,11 @@ class Sp3dObj {
   }
 
   /// (en)Merge another object into this object. This operation is high cost.
-  /// id, name, author, physics, option, layerNum and tmpData values do not change.
+  /// id, name, author, physics, option and layerNum values do not change.
   ///
   /// (ja)このオブジェクトに別のオブジェクトをマージします。この操作は高コストです。
   /// このオブジェクト固有のパラメータ（id,name,author,physics）とオプション値、
-  /// layerNum、tmpDataは変更されません。
+  /// layerNumは変更されません。
   ///
   /// * [other] : other obj.
   Sp3dObj merge(Sp3dObj other) {
