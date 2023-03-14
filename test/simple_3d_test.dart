@@ -432,7 +432,7 @@ void main() {
     expect(restoreObj.layerNum == 1, true);
   });
 
-  test('drawingMode test', () {
+  test('drawMode test', () {
     final sp3dObj = Sp3dObj([
       Sp3dV3D(0, 0, 0),
       Sp3dV3D(0, 1, 0),
@@ -467,12 +467,10 @@ void main() {
         ],
       )
     ], [],
-        physics: Sp3dPhysics(),
-        layerNum: 1,
-        drawingMode: EnumSp3dDrawingMode.rect);
-    print("drawingMode");
-    expect(sp3dObj.drawingMode == EnumSp3dDrawingMode.rect, true);
+        physics: Sp3dPhysics(), layerNum: 1, drawMode: EnumSp3dDrawMode.rect);
+    print("drawMode");
+    expect(sp3dObj.drawMode == EnumSp3dDrawMode.rect, true);
     final restoreObj = Sp3dObj.fromDict(sp3dObj.toDict());
-    expect(restoreObj.drawingMode == EnumSp3dDrawingMode.rect, true);
+    expect(restoreObj.drawMode == EnumSp3dDrawMode.rect, true);
   });
 }

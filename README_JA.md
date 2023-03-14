@@ -120,7 +120,7 @@ model/x.sp3d
         - others: Map<String, dynamic>?
     - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - layerNum: int, レンダリングソフトに対して有効になる、奥行方向の描画優先度。レイヤー番号が小さい方から先に描画されます。
-    - drawingMode: enum, Sp3dObjがレンダラーで描画される時の、モード指定のための値です。 
+    - drawMode: enum, Sp3dObjがレンダラーで描画される時の、モード指定のための値です。 
 
 ## パラメータのメモ
 多数の原子の計算にSp3dObjを使用する場合は、isParticleフラグとr（半径）の使用を検討してください。  

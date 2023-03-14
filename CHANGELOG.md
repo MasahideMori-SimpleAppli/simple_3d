@@ -1,6 +1,6 @@
 ## 9.0.0
 
-* Added drawingMode parameter to Sp3dObj.
+* Added drawMode parameter to Sp3dObj.
 
 ## 8.0.0
 
