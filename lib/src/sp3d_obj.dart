@@ -19,7 +19,7 @@ import '../simple_3d.dart';
 class Sp3dObj {
   String get className => 'Sp3dObj';
 
-  String get version => '9';
+  String get version => '10';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -30,6 +30,7 @@ class Sp3dObj {
   Sp3dPhysics? physics;
   Map<String, dynamic>? option;
   int layerNum;
+  EnumSp3dDrawingMode drawingMode;
 
   /// Constructor
   /// * [vertices] : vertex list.
@@ -43,13 +44,17 @@ class Sp3dObj {
   /// * [option] : Optional attributes that may be added for each app.
   /// * [layerNum] : If the renderer has layerNum enabled,
   /// it forces the drawing order to be in ascending order of this value.
+  /// * [drawingMode] : Specifies the drawing mode when rendering.
+  /// Specify rect when speed is required but 3D structure is not required,
+  /// such as scatter plots.
   Sp3dObj(this.vertices, this.fragments, this.materials, this.images,
       {this.id,
       this.name,
       this.author,
       this.physics,
       this.option,
-      this.layerNum = 0});
+      this.layerNum = 0,
+      this.drawingMode = EnumSp3dDrawingMode.normal});
 
   /// Deep copy the object.
   Sp3dObj deepCopy() {
@@ -75,7 +80,8 @@ class Sp3dObj {
         author: author,
         physics: physics != null ? physics!.deepCopy() : null,
         option: option != null ? {...option!} : null,
-        layerNum: layerNum);
+        layerNum: layerNum,
+        drawingMode: drawingMode);
   }
 
   /// Convert the object to a dictionary.
@@ -117,6 +123,7 @@ class Sp3dObj {
     d['physics'] = physics != null ? physics!.toDict() : null;
     d['option'] = option;
     d['layer_num'] = layerNum;
+    d['drawing_mode'] = drawingMode.index;
     return d;
   }
 
@@ -159,7 +166,10 @@ class Sp3dObj {
                 : null
             : null,
         option: src['option'],
-        layerNum: src.containsKey('layer_num') ? src['layer_num'] : 0);
+        layerNum: src.containsKey('layer_num') ? src['layer_num'] : 0,
+        drawingMode: src.containsKey('drawing_mode')
+            ? EnumSp3dDrawingMode.values[src['drawing_mode']]
+            : EnumSp3dDrawingMode.normal);
   }
 
   /// (en)Adds the specified vector to all vectors of this object.
@@ -188,11 +198,11 @@ class Sp3dObj {
   }
 
   /// (en)Merge another object into this object. This operation is high cost.
-  /// id, name, author, physics, option and layerNum values do not change.
+  /// id, name, author, physics, option, layerNum and drawingMode values do not change.
   ///
   /// (ja)このオブジェクトに別のオブジェクトをマージします。この操作は高コストです。
   /// このオブジェクト固有のパラメータ（id,name,author,physics）とオプション値、
-  /// layerNumは変更されません。
+  /// layerNum、drawingModeは変更されません。
   ///
   /// * [other] : other obj.
   Sp3dObj merge(Sp3dObj other) {

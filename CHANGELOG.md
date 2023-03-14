@@ -1,28 +1,41 @@
+## 9.0.0
+
+* Added drawingMode parameter to Sp3dObj.
+
 ## 8.0.0
+
 * Added layerNum parameter to Sp3dObj.
-* Changed to convert image files to base64 format when call toDict in Sp3dObj. Compatibility with previous files is maintained.
+* Changed to convert image files to base64 format when call toDict in Sp3dObj. Compatibility with
+  previous files is maintained.
 
 ## 7.2.0
+
 * Added reverse and reversed method to Sp3dFragment.
 * Added reverse and reversed method to Sp3dObj.
 * copyWith method to Sp3dMaterial.
 
 ## 7.1.0
+
 * Added copyWith method to Sp3dV3D.
 * Fixed the constructor description of Sp3dV3D.
 
 ## 7.0.1
+
 * Fix changelog.
 
 ## 7.0.0
+
 * Refactored the structure for future development.
 
 ## 6.0.1
+
 * Bug fix of toDict and fromDict of Sp3dPhysics.  
-  If you have a file saved in 6.0.0, it will be fixed by modifying the camel case in saved JSON key to snake case.  
-  This can be ignored if you are not using the Sp3dPhysics.  
+  If you have a file saved in 6.0.0, it will be fixed by modifying the camel case in saved JSON key
+  to snake case.  
+  This can be ignored if you are not using the Sp3dPhysics.
 
 ## 6.0.0
+
 * Updated README.md
 * Added Sp3dPhysics class.
 * Added Sp3dPhysics variable to Sp3dObj and Sp3dFragment.
@@ -72,14 +85,17 @@
 
 ## 3.0.0
 
-* Fixed the reverse function of Sp3dFace. Along with this, the behavior of the reversed function also changes.
+* Fixed the reverse function of Sp3dFace. Along with this, the behavior of the reversed function
+  also changes.
   The previous reverse and reversed have been changed to reverse_ft and reversed_ft.
-* Fixed the rotate function of Sp3dV3D. The previous rotate function have been changed to the rotated function.
+* Fixed the rotate function of Sp3dV3D. The previous rotate function have been changed to the
+  rotated function.
 * Added rotate method to Sp3dObj.
 
 ## 2.0.0
 
-* The coordinate system on the specifications has been changed to the right-hand coordinate system(pre-version is left-hand).
+* The coordinate system on the specifications has been changed to the right-hand coordinate system(
+  pre-version is left-hand).
   Regarding this change, only the description of the specification of README.md has been changed.
 * Added equals method to Sp3dV3D. Added reverse, and reversed method to Sp3dFace.
 

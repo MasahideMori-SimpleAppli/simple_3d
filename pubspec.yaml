@@ -1,6 +1,6 @@
 name: simple_3d
 description: This package was created for the convenience of 3D non-experts, including scientists.
-version: 8.0.0
+version: 9.0.0
 repository: https://github.com/MasahideMori-SimpleAppli/simple_3d
 
 environment:

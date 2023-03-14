@@ -431,4 +431,48 @@ void main() {
     final restoreObj = Sp3dObj.fromDict(sp3dObj.toDict());
     expect(restoreObj.layerNum == 1, true);
   });
+
+  test('drawingMode test', () {
+    final sp3dObj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(0, 1, 0),
+      Sp3dV3D(0, 0, 2),
+    ], [
+      Sp3dFragment(
+        [
+          Sp3dFace([0, 1, 2], 0),
+          Sp3dFace([0, 1, 2], 0)
+        ],
+        physics: Sp3dPhysics(),
+      ),
+      Sp3dFragment(
+        [
+          Sp3dFace([0, 1, 2], 0),
+          Sp3dFace([0, 1, 2], 0)
+        ],
+        physics: Sp3dPhysics(),
+      )
+    ], [
+      Sp3dMaterial(
+        Color.fromARGB(255, 0, 255, 0),
+        true,
+        1,
+        Color.fromARGB(255, 0, 255, 0),
+        imageIndex: null,
+        textureCoordinates: [
+          Offset(0, 0),
+          Offset(0, 1),
+          Offset(1, 1),
+          Offset(1, 0),
+        ],
+      )
+    ], [],
+        physics: Sp3dPhysics(),
+        layerNum: 1,
+        drawingMode: EnumSp3dDrawingMode.rect);
+    print("drawingMode");
+    expect(sp3dObj.drawingMode == EnumSp3dDrawingMode.rect, true);
+    final restoreObj = Sp3dObj.fromDict(sp3dObj.toDict());
+    expect(restoreObj.drawingMode == EnumSp3dDrawingMode.rect, true);
+  });
 }
