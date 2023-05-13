@@ -19,7 +19,7 @@ import '../simple_3d.dart';
 class Sp3dObj {
   String get className => 'Sp3dObj';
 
-  String get version => '10';
+  String get version => '11';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -123,7 +123,7 @@ class Sp3dObj {
     d['physics'] = physics != null ? physics!.toDict() : null;
     d['option'] = option;
     d['layer_num'] = layerNum;
-    d['draw_mode'] = drawMode.index;
+    d['draw_mode'] = drawMode.name;
     return d;
   }
 
@@ -156,6 +156,14 @@ class Sp3dObj {
         imgs.add(Uint8List.fromList(iL));
       }
     }
+    EnumSp3dDrawMode? drawMode;
+    if (src.containsKey('draw_mode')) {
+      if (src['version'] == "10") {
+        drawMode = EnumSp3dDrawMode.values[src['draw_mode']];
+      } else {
+        drawMode = EnumSp3dDrawMode.values.byName(src['draw_mode']);
+      }
+    }
     return Sp3dObj(v, frgs, mtrs, imgs,
         id: src['id'],
         name: src['name'],
@@ -167,9 +175,7 @@ class Sp3dObj {
             : null,
         option: src['option'],
         layerNum: src.containsKey('layer_num') ? src['layer_num'] : 0,
-        drawMode: src.containsKey('draw_mode')
-            ? EnumSp3dDrawMode.values[src['draw_mode']]
-            : EnumSp3dDrawMode.normal);
+        drawMode: drawMode ?? EnumSp3dDrawMode.normal);
   }
 
   /// (en)Adds the specified vector to all vectors of this object.

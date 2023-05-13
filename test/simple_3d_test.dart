@@ -472,5 +472,14 @@ void main() {
     expect(sp3dObj.drawMode == EnumSp3dDrawMode.rect, true);
     final restoreObj = Sp3dObj.fromDict(sp3dObj.toDict());
     expect(restoreObj.drawMode == EnumSp3dDrawMode.rect, true);
+    // pre version test
+    Map<String, dynamic> preVersion10 = sp3dObj.toDict();
+    preVersion10['version'] = "10";
+    preVersion10['draw_mode'] = 0;
+    final restorePreVerObj1 = Sp3dObj.fromDict(preVersion10);
+    expect(restorePreVerObj1.drawMode == EnumSp3dDrawMode.normal, true);
+    preVersion10['draw_mode'] = 1;
+    final restorePreVerObj2 = Sp3dObj.fromDict(preVersion10);
+    expect(restorePreVerObj2.drawMode == EnumSp3dDrawMode.rect, true);
   });
 }

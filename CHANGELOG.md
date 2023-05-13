@@ -1,3 +1,7 @@
+## 10.0.0
+* Supported Dart 3.
+* Changed the minimum Dart version and changed how Enum values are handled.
+
 ## 9.0.0
 
 * Added drawMode parameter to Sp3dObj.
