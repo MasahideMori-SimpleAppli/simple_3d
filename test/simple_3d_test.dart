@@ -498,7 +498,7 @@ void main() {
       ], isTouchable: false),
       Sp3dFragment([
         Sp3dFace([3, 4, 5], 0)
-      ]),
+      ], isTouchable: false),
     ], [
       Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
           Color.fromARGB(255, 0, 255, 0))
@@ -508,6 +508,7 @@ void main() {
     // フラグが存在しない場合、互換モードによってtrueに変化して復元される。
     final resumed = Sp3dObj.fromDict(d);
     expect(resumed.fragments[0].isTouchable == true, true);
+    expect(resumed.fragments[1].isTouchable == false, true);
     resumed.setIsTouchableFlags(false);
     expect(resumed.fragments[0].isTouchable == false, true);
   });
