@@ -94,6 +94,7 @@ model/x.sp3d
             - isParticle: bool.
             - r: double, particleの場合の半径です。
             - physics: Sp3dPhysics?, 物理演算用の変数です。
+            - isTouchable: bool, Falseの場合はレンダリングされたこのフラグメントがタッチ計算の対象外になります。
             - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - materials: List
         - material: Sp3dMaterial

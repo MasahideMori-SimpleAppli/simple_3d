@@ -95,6 +95,7 @@ Advanced graphics.
             - isParticle: bool.
             - r: double, Radius for particle type.
             - physics: Sp3dPhysics?
+            - isTouchable: bool, If false, rendered this fragment will be excluded from touche calculation.
             - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - materials: List
         - material: Sp3dMaterial

@@ -1,3 +1,7 @@
+## 11.0.0
+* Added isTouchable flag to Sp3dFragment.
+* Added setIsTouchableFlags method to Sp3dObj.
+
 ## 10.0.0
 * Supported Dart 3.
 * Changed the minimum Dart version and changed how Enum values are handled.

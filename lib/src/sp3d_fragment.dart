@@ -13,11 +13,12 @@ import '../simple_3d.dart';
 ///
 class Sp3dFragment {
   final String className = 'Sp3dFragment';
-  final String version = '4';
+  final String version = '5';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;
   Sp3dPhysics? physics;
+  bool isTouchable;
   Map<String, dynamic>? option;
 
   /// Constructor
@@ -25,9 +26,14 @@ class Sp3dFragment {
   /// * [isParticle] : If true, this is particle.
   /// * [r] : Particle radius.
   /// * [physics] : Parameters for physics calculations. This defines the behavior of the fragment, not the entire object.
+  /// * [isTouchable] : If false, rendered this fragment will be excluded from touche calculation. Default value is true.
   /// * [option] : Optional attributes that may be added for each app.
   Sp3dFragment(this.faces,
-      {this.isParticle = false, this.r = 0, this.physics, this.option});
+      {this.isParticle = false,
+      this.r = 0,
+      this.physics,
+      this.isTouchable = true,
+      this.option});
 
   /// Deep copy the object.
   Sp3dFragment deepCopy() {
@@ -39,6 +45,7 @@ class Sp3dFragment {
         isParticle: isParticle,
         r: r,
         physics: physics != null ? physics!.deepCopy() : null,
+        isTouchable: isTouchable,
         option: option != null ? {...option!} : null);
   }
 
@@ -55,6 +62,7 @@ class Sp3dFragment {
     d['is_particle'] = isParticle;
     d['r'] = r;
     d['physics'] = physics != null ? physics!.toDict() : null;
+    d['is_touchable'] = isTouchable;
     d['option'] = option;
     return d;
   }
@@ -66,6 +74,11 @@ class Sp3dFragment {
     for (var i in src['faces']) {
       f.add(Sp3dFace.fromDict(i));
     }
+    // after version 5.
+    bool mIsTouchable = true;
+    if (src.containsKey('is_touchable')) {
+      mIsTouchable = src['is_touchable'];
+    }
     return Sp3dFragment(f,
         isParticle: src['is_particle'],
         r: src['r'],
@@ -74,6 +87,7 @@ class Sp3dFragment {
                 ? Sp3dPhysics.fromDict(src['physics'])
                 : null
             : null,
+        isTouchable: mIsTouchable,
         option: src['option']);
   }
 

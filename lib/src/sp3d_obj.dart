@@ -19,7 +19,7 @@ import '../simple_3d.dart';
 class Sp3dObj {
   String get className => 'Sp3dObj';
 
-  String get version => '11';
+  String get version => '13';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -159,7 +159,9 @@ class Sp3dObj {
     EnumSp3dDrawMode? drawMode;
     if (src.containsKey('draw_mode')) {
       if (src['version'] == "10") {
-        drawMode = EnumSp3dDrawMode.values[src['draw_mode']];
+        drawMode = src['draw_mode'] == 0
+            ? EnumSp3dDrawMode.normal
+            : EnumSp3dDrawMode.rect;
       } else {
         drawMode = EnumSp3dDrawMode.values.byName(src['draw_mode']);
       }
@@ -271,5 +273,19 @@ class Sp3dObj {
     Sp3dObj r = deepCopy();
     r.reverse();
     return r;
+  }
+
+  /// (en)Change the isTouchable flag of all fragments of this object.
+  ///
+  /// (ja)このオブジェクトの全てのフラグメントのタッチ可能フラグを一括で変更します。
+  ///
+  /// * [isTouchable] : If false, rendered this object will be excluded from touche calculation.
+  ///
+  /// Returns: This object.
+  Sp3dObj setIsTouchableFlags(bool isTouchable) {
+    for (Sp3dFragment i in fragments) {
+      i.isTouchable = isTouchable;
+    }
+    return this;
   }
 }

@@ -482,4 +482,33 @@ void main() {
     final restorePreVerObj2 = Sp3dObj.fromDict(preVersion10);
     expect(restorePreVerObj2.drawMode == EnumSp3dDrawMode.rect, true);
   });
+
+  test('isTouchable flag test', () {
+    print("isTouchable flag test");
+    final obj = Sp3dObj([
+      Sp3dV3D(3, 0, 0),
+      Sp3dV3D(0, 3, 0),
+      Sp3dV3D(0, 0, 3),
+      Sp3dV3D(9, 0, 0),
+      Sp3dV3D(0, 9, 0),
+      Sp3dV3D(0, 0, 9),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2], 0)
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([3, 4, 5], 0)
+      ]),
+    ], [
+      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+          Color.fromARGB(255, 0, 255, 0))
+    ], []);
+    Map<String, dynamic> d = obj.toDict();
+    d['fragments'][0].remove('is_touchable');
+    // フラグが存在しない場合、互換モードによってtrueに変化して復元される。
+    final resumed = Sp3dObj.fromDict(d);
+    expect(resumed.fragments[0].isTouchable == true, true);
+    resumed.setIsTouchableFlags(false);
+    expect(resumed.fragments[0].isTouchable == false, true);
+  });
 }
