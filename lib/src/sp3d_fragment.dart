@@ -13,7 +13,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dFragment {
   final String className = 'Sp3dFragment';
-  final String version = '5';
+  final String version = '6';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;
@@ -116,6 +116,41 @@ class Sp3dFragment {
       i.rotate(parent, norAxis, radian);
     }
     return this;
+  }
+
+  /// (en)Rotates all vectors of this fragment based on the specified axis.
+  /// Unlike rotate, rotateInPlace will perform the rotation with this fragment's mean coordinate as the origin.
+  ///
+  /// (ja)このフラグメントの全てのベクトルを指定した軸をベースに回転させます。
+  /// rotateとは異なり、rotateInPlace はこのフラグメントの平均座標を原点として回転が実行されます。
+  ///
+  /// * [parent] : parent obj.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dFragment rotateInPlace(Sp3dObj parent, Sp3dV3D norAxis, double radian) {
+    final List<Sp3dV3D> fragmentVertices = [];
+    for (Sp3dFace i in faces) {
+      fragmentVertices.addAll(i.getVertices(parent));
+    }
+    final Sp3dV3D center = Sp3dV3D.ave(fragmentVertices);
+    final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
+    _moveForRotateInPlace(fragmentVertices, diff);
+    _rotateForRotateInPlace(fragmentVertices, norAxis, radian);
+    _moveForRotateInPlace(fragmentVertices, diff * -1);
+    return this;
+  }
+
+  void _moveForRotateInPlace(List<Sp3dV3D> targets, Sp3dV3D v) {
+    for (Sp3dV3D i in targets) {
+      i.add(v);
+    }
+  }
+
+  void _rotateForRotateInPlace(
+      List<Sp3dV3D> targets, Sp3dV3D norAxis, double radian) {
+    for (Sp3dV3D i in targets) {
+      i.rotate(norAxis, radian);
+    }
   }
 
   /// (en)Gets the average coordinates of this fragment.

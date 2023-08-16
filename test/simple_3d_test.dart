@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -511,5 +512,79 @@ void main() {
     expect(resumed.fragments[1].isTouchable == false, true);
     resumed.setIsTouchableFlags(false);
     expect(resumed.fragments[0].isTouchable == false, true);
+  });
+
+  test('rotateInPlace test', () {
+    print("rotateInPlace test");
+    final obj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(1, 0, 0),
+      Sp3dV3D(1, 1, 0),
+      Sp3dV3D(0, 1, 0),
+      Sp3dV3D(0, 0, -1),
+      Sp3dV3D(1, 0, -1),
+      Sp3dV3D(1, 1, -1),
+      Sp3dV3D(0, 1, -1),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2, 3], 0),
+        Sp3dFace([4, 5, 6, 7], 0),
+      ], isTouchable: false),
+    ], [
+      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+          Color.fromARGB(255, 0, 255, 0))
+    ], []);
+    // faceの回転
+    obj.fragments[0].faces[0]
+        .rotateInPlace(obj, Sp3dV3D(0, 1, 0).nor(), 90 * pi / 180);
+    expect(obj.vertices[0].equals(Sp3dV3D(0.5, 0, 0.5), 0.001), true);
+    expect(obj.vertices[1].equals(Sp3dV3D(0.5, 0, -0.5), 0.001), true);
+    expect(obj.vertices[2].equals(Sp3dV3D(0.5, 1, -0.5), 0.001), true);
+    expect(obj.vertices[3].equals(Sp3dV3D(0.5, 1, 0.5), 0.001), true);
+    // 確実に元に戻す
+    obj.vertices[0] = Sp3dV3D(0, 0, 0);
+    obj.vertices[1] = Sp3dV3D(1, 0, 0);
+    obj.vertices[2] = Sp3dV3D(1, 1, 0);
+    obj.vertices[3] = Sp3dV3D(0, 1, 0);
+    // fragmentの回転
+    obj.fragments[0].rotateInPlace(obj, Sp3dV3D(0, 1, 0).nor(), 90 * pi / 180);
+    expect(obj.vertices[0].equals(Sp3dV3D(1, 0, 0), 0.001), true);
+    expect(obj.vertices[1].equals(Sp3dV3D(1, 0, -1), 0.001), true);
+    expect(obj.vertices[2].equals(Sp3dV3D(1, 1, -1), 0.001), true);
+    expect(obj.vertices[3].equals(Sp3dV3D(1, 1, 0), 0.001), true);
+    expect(obj.vertices[4].equals(Sp3dV3D(0, 0, 0), 0.001), true);
+    expect(obj.vertices[5].equals(Sp3dV3D(0, 0, -1), 0.001), true);
+    expect(obj.vertices[6].equals(Sp3dV3D(0, 1, -1), 0.001), true);
+    expect(obj.vertices[7].equals(Sp3dV3D(0, 1, 0), 0.001), true);
+    // objの回転
+    final obj2 = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(1, 0, 0),
+      Sp3dV3D(1, 1, 0),
+      Sp3dV3D(0, 1, 0),
+      Sp3dV3D(0, 0, -1),
+      Sp3dV3D(1, 0, -1),
+      Sp3dV3D(1, 1, -1),
+      Sp3dV3D(0, 1, -1),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2, 3], 0),
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([4, 5, 6, 7], 0),
+      ], isTouchable: false),
+    ], [
+      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+          Color.fromARGB(255, 0, 255, 0))
+    ], []);
+    obj2.rotateInPlace(Sp3dV3D(0, 1, 0).nor(), 90 * pi / 180);
+    expect(obj2.vertices[0].equals(Sp3dV3D(1, 0, 0), 0.001), true);
+    expect(obj2.vertices[1].equals(Sp3dV3D(1, 0, -1), 0.001), true);
+    expect(obj2.vertices[2].equals(Sp3dV3D(1, 1, -1), 0.001), true);
+    expect(obj2.vertices[3].equals(Sp3dV3D(1, 1, 0), 0.001), true);
+    expect(obj2.vertices[4].equals(Sp3dV3D(0, 0, 0), 0.001), true);
+    expect(obj2.vertices[5].equals(Sp3dV3D(0, 0, -1), 0.001), true);
+    expect(obj2.vertices[6].equals(Sp3dV3D(0, 1, -1), 0.001), true);
+    expect(obj2.vertices[7].equals(Sp3dV3D(0, 1, 0), 0.001), true);
   });
 }

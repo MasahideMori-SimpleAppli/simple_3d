@@ -19,7 +19,7 @@ import '../simple_3d.dart';
 class Sp3dObj {
   String get className => 'Sp3dObj';
 
-  String get version => '13';
+  String get version => '14';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -202,6 +202,23 @@ class Sp3dObj {
     for (Sp3dV3D i in vertices) {
       i.rotate(norAxis, radian);
     }
+    return this;
+  }
+
+  /// (en)Rotates all vectors of this object based on the specified axis.
+  /// Unlike rotate, rotateInPlace performs the rotation around the mean coordinates of this object.
+  ///
+  /// (ja)このオブジェクトの全てのベクトルを指定した軸をベースに回転させます。
+  /// rotateとは異なり、rotateInPlace はこのオブジェクトの平均座標を原点として回転が実行されます。
+  ///
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dObj rotateInPlace(Sp3dV3D norAxis, double radian) {
+    final Sp3dV3D center = getCenter();
+    final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
+    move(diff);
+    rotate(norAxis, radian);
+    move(diff * -1);
     return this;
   }
 

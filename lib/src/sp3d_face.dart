@@ -14,7 +14,7 @@ import 'sp3d_v3d.dart';
 ///
 class Sp3dFace {
   final String className = 'Sp3dFace';
-  final String version = '8';
+  final String version = '9';
   List<int> vertexIndexList;
   int? materialIndex;
 
@@ -130,5 +130,32 @@ class Sp3dFace {
       parent.vertices[i].rotate(norAxis, radian);
     }
     return this;
+  }
+
+  /// (en)Rotates all vectors of this face based on the specified axis.
+  /// Unlike rotate, rotateInPlace rotates around the mean coordinates of this face as the origin.
+  ///
+  /// (ja)この面の全てのベクトルを指定した軸をベースに回転させます。
+  /// rotateとは異なり、rotateInPlace はこの面の平均座標を原点として回転します。
+  ///
+  /// * [parent] : parent obj.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dFace rotateInPlace(Sp3dObj parent, Sp3dV3D norAxis, double radian) {
+    final Sp3dV3D center = getCenter(parent);
+    final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
+    move(parent, diff);
+    rotate(parent, norAxis, radian);
+    move(parent, diff * -1);
+    return this;
+  }
+
+  /// (en)Gets the average coordinates of this face.
+  ///
+  /// (ja)この面の平均座標を取得します。
+  ///
+  /// * [parent] : parent obj.
+  Sp3dV3D getCenter(Sp3dObj parent) {
+    return Sp3dV3D.ave(getVertices(parent));
   }
 }
