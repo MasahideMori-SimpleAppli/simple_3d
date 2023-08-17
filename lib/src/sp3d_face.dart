@@ -14,7 +14,7 @@ import 'sp3d_v3d.dart';
 ///
 class Sp3dFace {
   final String className = 'Sp3dFace';
-  final String version = '9';
+  final String version = '10';
   List<int> vertexIndexList;
   int? materialIndex;
 
@@ -143,6 +143,25 @@ class Sp3dFace {
   /// * [radian] : radian = degree * pi / 180.
   Sp3dFace rotateInPlace(Sp3dObj parent, Sp3dV3D norAxis, double radian) {
     final Sp3dV3D center = getCenter(parent);
+    final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
+    move(parent, diff);
+    rotate(parent, norAxis, radian);
+    move(parent, diff * -1);
+    return this;
+  }
+
+  /// (en)Rotates all vectors of this face based on the specified axis.
+  /// This method allows you to rotate this face around any point.
+  ///
+  /// (ja)この面の全てのベクトルを指定した軸をベースに回転させます。
+  /// このメソッドを用いると、任意の点を中心としてこの面を回転できます。
+  ///
+  /// * [center] : center of rotation.
+  /// * [parent] : parent obj.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dFace rotateBy(
+      Sp3dV3D center, Sp3dObj parent, Sp3dV3D norAxis, double radian) {
     final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
     move(parent, diff);
     rotate(parent, norAxis, radian);

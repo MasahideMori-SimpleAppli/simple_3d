@@ -1,12 +1,19 @@
+## 11.2.0
+
+* Added rotateBy method to Sp3dObj, Sp3dFragment and Sp3dFace.
+
 ## 11.1.0
+
 * Added rotateInPlace method to Sp3dObj, Sp3dFragment and Sp3dFace.
 * Added getCenter method to Sp3dFace.
 
 ## 11.0.0
+
 * Added isTouchable flag to Sp3dFragment.
 * Added setIsTouchableFlags method to Sp3dObj.
 
 ## 10.0.0
+
 * Supported Dart 3.
 * Changed the minimum Dart version and changed how Enum values are handled.
 

@@ -13,7 +13,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dFragment {
   final String className = 'Sp3dFragment';
-  final String version = '6';
+  final String version = '7';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;
@@ -25,8 +25,10 @@ class Sp3dFragment {
   /// * [faces] : Face Object list. This includes vertex information.
   /// * [isParticle] : If true, this is particle.
   /// * [r] : Particle radius.
-  /// * [physics] : Parameters for physics calculations. This defines the behavior of the fragment, not the entire object.
-  /// * [isTouchable] : If false, rendered this fragment will be excluded from touche calculation. Default value is true.
+  /// * [physics] : Parameters for physics calculations.
+  /// This defines the behavior of the fragment, not the entire object.
+  /// * [isTouchable] : If false, rendered this fragment will be excluded　from
+  /// touche calculation. Default value is true.
   /// * [option] : Optional attributes that may be added for each app.
   Sp3dFragment(this.faces,
       {this.isParticle = false,
@@ -119,10 +121,12 @@ class Sp3dFragment {
   }
 
   /// (en)Rotates all vectors of this fragment based on the specified axis.
-  /// Unlike rotate, rotateInPlace will perform the rotation with this fragment's mean coordinate as the origin.
+  /// Unlike rotate, rotateInPlace will perform the rotation with
+  /// this fragment's mean coordinate as the origin.
   ///
   /// (ja)このフラグメントの全てのベクトルを指定した軸をベースに回転させます。
-  /// rotateとは異なり、rotateInPlace はこのフラグメントの平均座標を原点として回転が実行されます。
+  /// rotateとは異なり、rotateInPlace はこのフラグメントの平均座標を原点として
+  /// 回転が実行されます。
   ///
   /// * [parent] : parent obj.
   /// * [norAxis] : normalized rotate axis vector.
@@ -133,6 +137,29 @@ class Sp3dFragment {
       fragmentVertices.addAll(i.getVertices(parent));
     }
     final Sp3dV3D center = Sp3dV3D.ave(fragmentVertices);
+    final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
+    _moveForRotateInPlace(fragmentVertices, diff);
+    _rotateForRotateInPlace(fragmentVertices, norAxis, radian);
+    _moveForRotateInPlace(fragmentVertices, diff * -1);
+    return this;
+  }
+
+  /// (en)Rotates all vectors of this fragment based on the specified axis.
+  /// This method allows you to rotate this fragment around any point.
+  ///
+  /// (ja)このフラグメントの全てのベクトルを指定した軸をベースに回転させます。
+  /// このメソッドを用いると、任意の点を中心としてこのフラグメントを回転できます。
+  ///
+  /// * [center] : center of rotation.
+  /// * [parent] : parent obj.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dFragment rotateBy(
+      Sp3dV3D center, Sp3dObj parent, Sp3dV3D norAxis, double radian) {
+    final List<Sp3dV3D> fragmentVertices = [];
+    for (Sp3dFace i in faces) {
+      fragmentVertices.addAll(i.getVertices(parent));
+    }
     final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
     _moveForRotateInPlace(fragmentVertices, diff);
     _rotateForRotateInPlace(fragmentVertices, norAxis, radian);

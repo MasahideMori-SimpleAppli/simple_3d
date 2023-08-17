@@ -19,7 +19,7 @@ import '../simple_3d.dart';
 class Sp3dObj {
   String get className => 'Sp3dObj';
 
-  String get version => '14';
+  String get version => '15';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -215,6 +215,23 @@ class Sp3dObj {
   /// * [radian] : radian = degree * pi / 180.
   Sp3dObj rotateInPlace(Sp3dV3D norAxis, double radian) {
     final Sp3dV3D center = getCenter();
+    final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
+    move(diff);
+    rotate(norAxis, radian);
+    move(diff * -1);
+    return this;
+  }
+
+  /// (en)Rotates all vectors of this object based on the specified axis.
+  /// This method allows you to rotate this object around any point.
+  ///
+  /// (ja)このオブジェクトの全てのベクトルを指定した軸をベースに回転させます。
+  /// このメソッドを用いると、任意の点を中心としてこのオブジェクトを回転できます。
+  ///
+  /// * [center] : center of rotation.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dObj rotateBy(Sp3dV3D center, Sp3dV3D norAxis, double radian) {
     final Sp3dV3D diff = Sp3dV3D(0, 0, 0) - center;
     move(diff);
     rotate(norAxis, radian);
