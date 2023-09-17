@@ -13,8 +13,8 @@ import 'sp3d_v3d.dart';
 /// First edition creation date 2021-06-30 23:39:49
 ///
 class Sp3dFace {
-  final String className = 'Sp3dFace';
-  final String version = '10';
+  static const String className = 'Sp3dFace';
+  static const String version = '11';
   List<int> vertexIndexList;
   int? materialIndex;
 

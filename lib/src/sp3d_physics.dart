@@ -9,8 +9,8 @@ import 'sp3d_v3d.dart';
 /// First edition creation date 2021-11-27 17:17:38
 ///
 class Sp3dPhysics {
-  final String className = 'Sp3dPhysics';
-  final String version = '2';
+  static const String className = 'Sp3dPhysics';
+  static const String version = '3';
   bool isLocked;
   double? mass;
   double? speed;

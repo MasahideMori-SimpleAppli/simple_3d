@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 
 ///
 /// (en) Flutter implementation of Sp3dMaterial.
@@ -12,8 +13,8 @@ import 'dart:ui';
 /// First edition creation date 2021-06-30 23:30:52
 ///
 class Sp3dMaterial {
-  final String className = 'Sp3dMaterial';
-  final String version = '5';
+  static const String className = 'Sp3dMaterial';
+  static const String version = '6';
   Color bg;
   bool isFill;
   double strokeWidth;
@@ -145,5 +146,74 @@ class Sp3dMaterial {
         imageIndex: src['image_index'],
         textureCoordinates: tCoord,
         option: src['option']);
+  }
+
+  /// Identity check function of textureCoordinates.
+  bool _checkTextureCoordinates(Sp3dMaterial other) {
+    if (textureCoordinates == null && other.textureCoordinates == null) {
+      return true;
+    }
+    if (textureCoordinates != null && other.textureCoordinates != null) {
+      final int myTCLen = textureCoordinates!.length;
+      final int otherTCLen = other.textureCoordinates!.length;
+      if (myTCLen != otherTCLen) {
+        return false;
+      } else {
+        for (int i = 0; i < myTCLen; i++) {
+          if (textureCoordinates![i] != other.textureCoordinates![i]) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Sp3dMaterial) {
+      return bg == other.bg &&
+          isFill == other.isFill &&
+          strokeWidth == other.strokeWidth &&
+          strokeColor == other.strokeColor &&
+          imageIndex == other.imageIndex &&
+          _checkTextureCoordinates(other) &&
+          mapEquals(option, other.option);
+    } else {
+      return false;
+    }
+  }
+
+  /// calculate hash code for map.
+  int _calculateMapHashCode(Map<String, dynamic> m) {
+    int r = 0;
+    m.forEach((String key, dynamic value) {
+      r = r ^ key.hashCode ^ (value?.hashCode ?? 0);
+    });
+    return r;
+  }
+
+  @override
+  int get hashCode {
+    List<Object> objects = [];
+    objects.add(bg);
+    objects.add(isFill);
+    objects.add(strokeWidth);
+    objects.add(strokeColor);
+    if (imageIndex != null) {
+      objects.add(imageIndex!);
+    }
+    if (textureCoordinates != null) {
+      objects.addAll(textureCoordinates!);
+    } else {
+      objects.add(0);
+    }
+    if (option != null) {
+      objects.add(_calculateMapHashCode(option!));
+    } else {
+      objects.add(0);
+    }
+    return Object.hashAll(objects);
   }
 }

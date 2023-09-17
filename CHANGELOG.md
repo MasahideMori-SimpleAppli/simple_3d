@@ -1,3 +1,11 @@
+## 12.0.0
+
+* Added equals operator override to Sp3dMaterial.
+* Added addVertices method to Sp3dObj. This method returns the list of indexes of added vertices.
+* Added addMaterials method to Sp3dObj.
+* Added addMaterialIfNeeded method to Sp3dObj.
+* Some variables changed to static const from final.
+
 ## 11.2.0
 
 * Added rotateBy method to Sp3dObj, Sp3dFragment and Sp3dFace.

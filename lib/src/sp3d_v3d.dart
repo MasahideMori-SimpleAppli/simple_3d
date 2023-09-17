@@ -10,8 +10,8 @@ import 'dart:math';
 /// First edition creation date 2021-05-23 18:38:57
 ///
 class Sp3dV3D {
-  final String className = 'Sp3dV3D';
-  final String version = '14';
+  static const String className = 'Sp3dV3D';
+  static const String version = '15';
   double x;
   double y;
   double z;

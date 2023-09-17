@@ -17,9 +17,8 @@ import '../simple_3d.dart';
 /// First edition creation date 2021-06-30 22:54:22
 ///
 class Sp3dObj {
-  String get className => 'Sp3dObj';
-
-  String get version => '15';
+  static const className = 'Sp3dObj';
+  static const version = '16';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -321,5 +320,66 @@ class Sp3dObj {
       i.isTouchable = isTouchable;
     }
     return this;
+  }
+
+  /// (en) Add vertices to this object and returns the corresponding index.
+  ///
+  /// (ja) このオブジェクトに頂点を追加し、対応するインデックスを返します。
+  ///
+  /// * [v] : The vertices you want to add to this object.
+  ///
+  List<int> addVertices(List<Sp3dV3D> v) {
+    final int nowLen = vertices.length;
+    List<int> r = [];
+    for (int i = 0; i < v.length; i++) {
+      vertices.add(v[i]);
+      r.add(nowLen + i);
+    }
+    return r;
+  }
+
+  /// (en) Add Sp3dMaterials to this object and returns the corresponding index.
+  /// This method will add the material as is even if it already exists.
+  ///
+  /// (ja) このオブジェクトにSp3dMaterialを追加し、対応するインデックスを返します。
+  /// このメソッドは既に存在するマテリアルの場合でもそのまま追加します。
+  ///
+  /// * [m] : The Sp3dMaterials you want to add to this object.
+  ///
+  List<int> addMaterials(List<Sp3dMaterial> m) {
+    final int nowLen = materials.length;
+    List<int> r = [];
+    for (int i = 0; i < m.length; i++) {
+      materials.add(m[i]);
+      r.add(nowLen + i);
+    }
+    return r;
+  }
+
+  /// (en) Add Sp3dMaterial to this object and returns the corresponding index.
+  /// This method returns the index of the specified material
+  /// if it already exists and does not add a new material.
+  /// Adds the specified material if it does not already exist
+  /// and returns its index.
+  /// Please note that materials are compared on the basis of
+  /// content equivalence.
+  ///
+  /// (ja) このオブジェクトにSp3dMaterialを追加し、対応するインデックスを返します。
+  /// このメソッドは、指定されたマテリアルが既に存在する場合はそのインデックスを返し、
+  /// 新しいマテリアルは追加しません。
+  /// 指定されたマテリアルがまだ存在しない場合は追加し、そのインデックスを返します。
+  /// マテリアルの比較は内容の等価性を基準に行われることに注意してください。
+  ///
+  /// * [m] : The Sp3dMaterial you want to add to this object.
+  ///
+  int addMaterialIfNeeded(Sp3dMaterial m) {
+    final int r = materials.indexOf(m);
+    if (r < 0) {
+      final int nowLen = materials.length;
+      materials.add(m);
+      return nowLen;
+    } else {
+      return r;
+    }
   }
 }

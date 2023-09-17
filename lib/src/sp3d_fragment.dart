@@ -12,8 +12,8 @@ import '../simple_3d.dart';
 /// First edition creation date 2021-06-30 23:21:09
 ///
 class Sp3dFragment {
-  final String className = 'Sp3dFragment';
-  final String version = '7';
+  static const String className = 'Sp3dFragment';
+  static const String version = '8';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;

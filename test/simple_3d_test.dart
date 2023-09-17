@@ -662,4 +662,76 @@ void main() {
     expect(obj.vertices[6].equals(Sp3dV3D(0, 1, 0), 0.001), true);
     expect(obj.vertices[7].equals(Sp3dV3D(0, 1, 1), 0.001), true);
   });
+
+  test('addVertices and addMaterials test', () {
+    print("addVertices and addMaterials test");
+    final obj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(1, 0, 0),
+      Sp3dV3D(1, 1, 0),
+      Sp3dV3D(0, 1, 0),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2, 3], 0),
+      ], isTouchable: false),
+    ], [
+      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+          Color.fromARGB(255, 0, 255, 0))
+    ], []);
+    final newVertices = [
+      Sp3dV3D(0, 0, -1),
+      Sp3dV3D(1, 0, -1),
+      Sp3dV3D(1, 1, -1),
+      Sp3dV3D(0, 1, -1)
+    ];
+    final verticesIndexList = obj.addVertices(newVertices);
+    final materialIndexList = obj.addMaterials([
+      Sp3dMaterial(Color.fromARGB(255, 255, 0, 0), true, 1,
+          Color.fromARGB(255, 255, 0, 0))
+    ]);
+    obj.fragments.add(
+        Sp3dFragment([Sp3dFace(verticesIndexList, materialIndexList.first)]));
+    expect(obj.vertices.length == 8, true);
+    expect(obj.vertices[4].equals(Sp3dV3D(0, 0, -1), 0.001), true);
+    expect(obj.vertices[5].equals(Sp3dV3D(1, 0, -1), 0.001), true);
+    expect(obj.vertices[6].equals(Sp3dV3D(1, 1, -1), 0.001), true);
+    expect(obj.vertices[7].equals(Sp3dV3D(0, 1, -1), 0.001), true);
+    expect(obj.fragments[1].faces.first.vertexIndexList[0] == 4, true);
+    expect(obj.fragments[1].faces.first.vertexIndexList[1] == 5, true);
+    expect(obj.fragments[1].faces.first.vertexIndexList[2] == 6, true);
+    expect(obj.fragments[1].faces.first.vertexIndexList[3] == 7, true);
+    expect(obj.materials.length == 2, true);
+    expect(obj.materials[1].bg == Color.fromARGB(255, 255, 0, 0), true);
+    expect(obj.fragments[1].faces.first.materialIndex == 1, true);
+  });
+
+  test('addMaterialIfNeeded test', () {
+    print("addMaterialIfNeeded test");
+    final obj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(1, 0, 0),
+      Sp3dV3D(1, 1, 0),
+      Sp3dV3D(0, 1, 0),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2, 3], 0),
+      ], isTouchable: false),
+    ], [
+      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+          Color.fromARGB(255, 0, 255, 0))
+    ], []);
+    final int index1 = obj.addMaterialIfNeeded(Sp3dMaterial(
+        Color.fromARGB(255, 0, 255, 0),
+        true,
+        1,
+        Color.fromARGB(255, 0, 255, 0)));
+    final int index2 = obj.addMaterialIfNeeded(Sp3dMaterial(
+        Color.fromARGB(255, 255, 0, 0),
+        true,
+        1,
+        Color.fromARGB(255, 255, 0, 0)));
+    expect(index1 == 0, true);
+    expect(index2 == 1, true);
+    expect(obj.materials.length == 2, true);
+  });
 }
