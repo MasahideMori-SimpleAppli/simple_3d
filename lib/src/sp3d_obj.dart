@@ -18,7 +18,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dObj {
   static const className = 'Sp3dObj';
-  static const version = '16';
+  static const version = '17';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -381,5 +381,23 @@ class Sp3dObj {
     } else {
       return r;
     }
+  }
+
+  /// (en) Appends image data to this object and returns the corresponding index.
+  /// This method adds image data as is even if it already exists.
+  ///
+  /// (ja) このオブジェクトに画像データを追加し、対応するインデックスを返します。
+  /// このメソッドは既に存在する画像データの場合でもそのまま追加します。
+  ///
+  /// * [images] : The images you want to add to this object.
+  ///
+  List<int> addImages(List<Uint8List> images) {
+    final int nowLen = images.length;
+    List<int> r = [];
+    for (int i = 0; i < images.length; i++) {
+      images.add(images[i]);
+      r.add(nowLen + i);
+    }
+    return r;
   }
 }

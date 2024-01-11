@@ -11,7 +11,7 @@ import 'dart:math';
 ///
 class Sp3dV3D {
   static const String className = 'Sp3dV3D';
-  static const String version = '15';
+  static const String version = '16';
   double x;
   double y;
   double z;
@@ -113,12 +113,26 @@ class Sp3dV3D {
     return a.x * b.x + a.y * b.y + a.z * b.z;
   }
 
+  /// (en)Return dot product.
+  ///
+  /// (ja)ドット積を返します。
+  double dotTo(Sp3dV3D other) {
+    return dot(this, other);
+  }
+
   /// (en)Return cross product.
   ///
   /// (ja)クロス積を返します。
   static Sp3dV3D cross(Sp3dV3D a, Sp3dV3D b) {
     return Sp3dV3D((a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z),
         (a.x * b.y) - (a.y * b.x));
+  }
+
+  /// (en)Return cross product.
+  ///
+  /// (ja)クロス積を返します。
+  Sp3dV3D crossTo(Sp3dV3D other) {
+    return cross(this, other);
   }
 
   /// (en)Return the radian between vector A and vector B.
@@ -128,6 +142,15 @@ class Sp3dV3D {
   /// 度に変換する場合は degrees = radian*180/pi です。
   static double angle(Sp3dV3D a, Sp3dV3D b) {
     return acos(Sp3dV3D.dot(a, b) / (a.len() * b.len()));
+  }
+
+  /// (en)Return the radian between vector A and vector B.
+  /// When converting to degrees, degrees = radian*180/pi.
+  ///
+  /// (ja)２つのベクトルの成す角（ラジアン）を返します。
+  /// 度に変換する場合は degrees = radian*180/pi です。
+  double angleTo(Sp3dV3D other) {
+    return angle(this, other);
   }
 
   /// (en)Calculates and returns the surface normal.
@@ -174,6 +197,13 @@ class Sp3dV3D {
   /// (ja)ユークリッド距離を返します。
   static double dist(Sp3dV3D a, Sp3dV3D b) {
     return (a - b).len();
+  }
+
+  /// (en)Return euclidean distance.
+  ///
+  /// (ja)ユークリッド距離を返します。
+  double distTo(Sp3dV3D other) {
+    return dist(this, other);
   }
 
   /// (en)Return rotated this vector.

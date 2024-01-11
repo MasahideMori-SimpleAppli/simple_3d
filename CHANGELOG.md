@@ -1,3 +1,8 @@
+## 12.1.0
+
+* Some static methods of Sp3dV3D are now available as regular methods (format of xxxTo(Sp3dV3D other)).
+* Added addImages method to Sp3dObj.
+
 ## 12.0.0
 
 * Added equals operator override to Sp3dMaterial.
