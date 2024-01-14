@@ -96,6 +96,7 @@ Advanced graphics.
             - r: double, Radius for particle type.
             - physics: Sp3dPhysics?
             - isTouchable: bool, If false, rendered this fragment will be excluded from touche calculation.
+            - name: String?, The fragment name.
             - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - materials: List
         - material: Sp3dMaterial
@@ -105,6 +106,7 @@ Advanced graphics.
             - strokeColor: Color, argb
             - imageIndex: int?, Fills the face with the specified image, which is not null.
             - textureCoordinates: List?, Cutout coordinates when you want to use a part of the image. 3 or 6 points(In the case of a square, specify it with two triangles). 
+            - name: String?, The material name.
             - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - images: list
         - image: Uint8List, png data.
@@ -119,6 +121,7 @@ Advanced graphics.
         - rotateAxis: Sp3dV3D?
         - angularVelocity: double?, (rad/s).
         - angle: double?, rad.
+        - name: String?, Name of the action.
         - others: Map<String, dynamic>?, If you want to use other parameters, add here To do.
     - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - layerNum: int, Drawing priority in the depth direction that is enabled for rendering software. Layers with smaller numbers are drawn first.

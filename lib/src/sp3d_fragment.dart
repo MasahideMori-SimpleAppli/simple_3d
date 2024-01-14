@@ -13,12 +13,13 @@ import '../simple_3d.dart';
 ///
 class Sp3dFragment {
   static const String className = 'Sp3dFragment';
-  static const String version = '8';
+  static const String version = '9';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;
   Sp3dPhysics? physics;
   bool isTouchable;
+  String? name;
   Map<String, dynamic>? option;
 
   /// Constructor
@@ -29,12 +30,14 @@ class Sp3dFragment {
   /// This defines the behavior of the fragment, not the entire object.
   /// * [isTouchable] : If false, rendered this fragment will be excluded　from
   /// touche calculation. Default value is true.
+  /// * [name] : The fragment name.
   /// * [option] : Optional attributes that may be added for each app.
   Sp3dFragment(this.faces,
       {this.isParticle = false,
       this.r = 0,
       this.physics,
       this.isTouchable = true,
+      this.name,
       this.option});
 
   /// Deep copy the object.
@@ -48,6 +51,7 @@ class Sp3dFragment {
         r: r,
         physics: physics != null ? physics!.deepCopy() : null,
         isTouchable: isTouchable,
+        name: name,
         option: option != null ? {...option!} : null);
   }
 
@@ -65,6 +69,7 @@ class Sp3dFragment {
     d['r'] = r;
     d['physics'] = physics != null ? physics!.toDict() : null;
     d['is_touchable'] = isTouchable;
+    d['name'] = name;
     d['option'] = option;
     return d;
   }
@@ -81,6 +86,11 @@ class Sp3dFragment {
     if (src.containsKey('is_touchable')) {
       mIsTouchable = src['is_touchable'];
     }
+    // after version 9.
+    String? mName;
+    if (src.containsKey('name')) {
+      mName = src['name'];
+    }
     return Sp3dFragment(f,
         isParticle: src['is_particle'],
         r: src['r'],
@@ -90,6 +100,7 @@ class Sp3dFragment {
                 : null
             : null,
         isTouchable: mIsTouchable,
+        name: mName,
         option: src['option']);
   }
 

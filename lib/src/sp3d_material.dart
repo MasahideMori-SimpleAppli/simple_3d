@@ -14,13 +14,14 @@ import 'package:flutter/foundation.dart';
 ///
 class Sp3dMaterial {
   static const String className = 'Sp3dMaterial';
-  static const String version = '6';
+  static const String version = '7';
   Color bg;
   bool isFill;
   double strokeWidth;
   Color strokeColor;
   int? imageIndex;
   List<Offset>? textureCoordinates;
+  String? name;
   Map<String, dynamic>? option;
 
   /// Constructor
@@ -31,11 +32,12 @@ class Sp3dMaterial {
   /// * [imageIndex] : Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
   /// * [textureCoordinates] : You can specify the part of the image that you want to cut out and use. Use by specifying the coordinate information for the image.
   /// Specify the coordinates counterclockwise with a triangle(3 vertices) or rectangle(There are two triangles. 6 vertices).
+  /// * [name] : The material name.
   /// * [option] : Optional attributes that may be added for each app.
   Sp3dMaterial(this.bg, this.isFill, this.strokeWidth, this.strokeColor,
-      {this.imageIndex, this.textureCoordinates, this.option});
+      {this.imageIndex, this.textureCoordinates, this.name, this.option});
 
-  /// Convert the object to a dictionary.
+  /// Deep copy the object.
   Sp3dMaterial deepCopy() {
     var mbg = Color.fromARGB(bg.alpha, bg.red, bg.green, bg.blue);
     var msc = Color.fromARGB(strokeColor.alpha, strokeColor.red,
@@ -50,6 +52,7 @@ class Sp3dMaterial {
     return Sp3dMaterial(mbg, isFill, strokeWidth, msc,
         imageIndex: imageIndex,
         textureCoordinates: tCoord,
+        name: name,
         option: option != null ? {...option!} : null);
   }
 
@@ -61,6 +64,7 @@ class Sp3dMaterial {
   /// * [imageIndex] : Invalid if null. When fill is enabled and there are 4 vertex, fill with image with the clockwise order as the vertices from the upper left.
   /// * [textureCoordinates] : You can specify the part of the image that you want to cut out and use. Use by specifying the coordinate information for the image.
   /// Specify the coordinates counterclockwise with a triangle(3 vertices) or rectangle(There are two triangles. 6 vertices).
+  /// * [name] : The material name.
   /// * [option] : Optional attributes that may be added for each app.
   Sp3dMaterial copyWith(
       {Color? bg,
@@ -69,6 +73,7 @@ class Sp3dMaterial {
       Color? strokeColor,
       int? imageIndex,
       List<Offset>? textureCoordinates,
+      String? name,
       Map<String, dynamic>? option}) {
     List<Offset>? tCoord;
     if (textureCoordinates == null) {
@@ -90,6 +95,7 @@ class Sp3dMaterial {
                 this.strokeColor.green, this.strokeColor.blue),
         imageIndex: imageIndex ?? this.imageIndex,
         textureCoordinates: textureCoordinates ?? tCoord,
+        name: name ?? this.name,
         option: option ?? (option != null ? {...option} : null));
   }
 
@@ -117,6 +123,7 @@ class Sp3dMaterial {
     ];
     d['image_index'] = imageIndex;
     d['texture_coordinates'] = tCoord;
+    d['name'] = name;
     d['option'] = option;
     return d;
   }
@@ -142,9 +149,15 @@ class Sp3dMaterial {
         }
       }
     }
+    // After version 7.
+    String? mName;
+    if (src.containsKey('name')) {
+      mName = src['name'];
+    }
     return Sp3dMaterial(mbg, src['is_fill'], src['stroke_width'], msc,
         imageIndex: src['image_index'],
         textureCoordinates: tCoord,
+        name: mName,
         option: src['option']);
   }
 
@@ -179,6 +192,7 @@ class Sp3dMaterial {
           strokeColor == other.strokeColor &&
           imageIndex == other.imageIndex &&
           _checkTextureCoordinates(other) &&
+          name == other.name &&
           mapEquals(option, other.option);
     } else {
       return false;
@@ -201,14 +215,13 @@ class Sp3dMaterial {
     objects.add(isFill);
     objects.add(strokeWidth);
     objects.add(strokeColor);
-    if (imageIndex != null) {
-      objects.add(imageIndex!);
-    }
+    objects.add(imageIndex != null ? imageIndex! : 0);
     if (textureCoordinates != null) {
       objects.addAll(textureCoordinates!);
     } else {
       objects.add(0);
     }
+    objects.add(name != null ? name! : 0);
     if (option != null) {
       objects.add(_calculateMapHashCode(option!));
     } else {

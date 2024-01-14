@@ -95,6 +95,7 @@ model/x.sp3d
             - r: double, particleの場合の半径です。
             - physics: Sp3dPhysics?, 物理演算用の変数です。
             - isTouchable: bool, Falseの場合はレンダリングされたこのフラグメントがタッチ計算の対象外になります。
+            - name: String?, フラグメント名。
             - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - materials: List
         - material: Sp3dMaterial
@@ -104,6 +105,7 @@ model/x.sp3d
             - strokeColor: Color, argb
             - imageIndex: int?, nullでは無い時、指定された画像でfaceを塗りつぶします。
             - textureCoordinates: List?, ３点、又は６点（四角の場合、三角形２つで指定します）での、画像の切り出し位置の指定です。 
+            - name: String?, 素材名。
             - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - images: list
         - image: Uint8List, png data.
@@ -118,6 +120,7 @@ model/x.sp3d
         - rotateAxis: Sp3dV3D?, 回転軸。
         - angularVelocity: double?, 角速度(rad/s)。回転と移動は分離して考えます。単位はラジアン毎秒です。
         - angle: double?, ラジアン(rad)。
+        - name: String?, 動作の名前。
         - others: Map<String, dynamic>?
     - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - layerNum: int, レンダリングソフトに対して有効になる、奥行方向の描画優先度。レイヤー番号が小さい方から先に描画されます。

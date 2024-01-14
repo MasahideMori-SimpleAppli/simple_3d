@@ -1,6 +1,16 @@
+## 13.0.0
+
+* Added name parameter to Sp3dFragment.
+* Added name parameter to Sp3dMaterial.
+* Added name parameter to Sp3dPhysics.
+* Fixed some method descriptions. This is a fix for a string copy-paste mistake and is not about any
+  significant behavior change.
+* Fine tuning of Sp3dMaterial's hash calculation.
+
 ## 12.1.0
 
-* Some static methods of Sp3dV3D are now available as regular methods (format of xxxTo(Sp3dV3D other)).
+* Some static methods of Sp3dV3D are now available as regular methods (format of xxxTo(Sp3dV3D
+  other)).
 * Added addImages method to Sp3dObj.
 
 ## 12.0.0

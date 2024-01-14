@@ -10,7 +10,7 @@ import 'sp3d_v3d.dart';
 ///
 class Sp3dPhysics {
   static const String className = 'Sp3dPhysics';
-  static const String version = '3';
+  static const String version = '4';
   bool isLocked;
   double? mass;
   double? speed;
@@ -19,6 +19,7 @@ class Sp3dPhysics {
   Sp3dV3D? rotateAxis;
   double? angularVelocity;
   double? angle;
+  String? name;
   Map<String, dynamic>? others;
 
   /// Constructor
@@ -30,6 +31,7 @@ class Sp3dPhysics {
   /// * [rotateAxis] : The rotate axis of the object.
   /// * [angularVelocity] : The angular velocity of the object.
   /// * [angle] : The rotated angle of the object.
+  /// * [name] : Name of the action.
   /// * [others] : Optional attributes that may be added for each app.
   Sp3dPhysics(
       {this.isLocked = false,
@@ -40,8 +42,10 @@ class Sp3dPhysics {
       this.rotateAxis,
       this.angularVelocity,
       this.angle,
+      this.name,
       this.others});
 
+  /// Deep copy the object.
   Sp3dPhysics deepCopy() {
     return Sp3dPhysics(
         isLocked: isLocked,
@@ -52,9 +56,11 @@ class Sp3dPhysics {
         rotateAxis: rotateAxis?.deepCopy(),
         angularVelocity: angularVelocity,
         angle: angle,
+        name: name,
         others: others != null ? {...others!} : null);
   }
 
+  /// Convert the object to a dictionary.
   Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
     d['class_name'] = className;
@@ -67,11 +73,19 @@ class Sp3dPhysics {
     d['rotate_axis'] = rotateAxis?.toDict();
     d['angular_velocity'] = angularVelocity;
     d['angle'] = angle;
+    d['name'] = name;
     d['others'] = others;
     return d;
   }
 
+  /// Restore this object from the dictionary.
+  /// * [src] : A dictionary made with toDict of this class.
   static Sp3dPhysics fromDict(Map<String, dynamic> src) {
+    // after version 4
+    String? mName;
+    if (src.containsKey('name')) {
+      mName = src['name'];
+    }
     return Sp3dPhysics(
         isLocked: src['is_locked'],
         mass: src['mass'],
@@ -86,6 +100,7 @@ class Sp3dPhysics {
             : null,
         angularVelocity: src['angular_velocity'],
         angle: src['angle'],
+        name: mName,
         others: src['others']);
   }
 }
