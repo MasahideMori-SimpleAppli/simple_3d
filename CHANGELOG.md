@@ -1,3 +1,7 @@
+## 13.1.1
+
+* Readme has been updated.
+
 ## 13.1.0
 
 * Added resize method to Sp3dObj.

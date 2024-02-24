@@ -18,7 +18,11 @@ You can use it more easily by using the following packages.
 See the simple_3d_renderer package for how to use it.
 
 [simple_3d_renderer](https://pub.dev/packages/simple_3d_renderer)  
-[util_simple_3d](https://pub.dev/packages/util_simple_3d)
+[util_simple_3d](https://pub.dev/packages/util_simple_3d)  
+
+Although this is a very experimental project, there are also packages for converting from other 3D formats.  
+However, this package is intended for scientific use and only minimal compatibility is supported due to differences in functionality with other 3D formats.  
+[convert_simple_3d](https://pub.dev/packages/convert_simple_3d)
 
 ### Create Data
 ```dart
