@@ -772,4 +772,81 @@ void main() {
     expect(m.containsKey('name'), false);
     expect(Sp3dPhysics.fromDict(m).name == null, true);
   });
+
+  test('Sp3dObj cleaning test', () {
+    final obj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(1, 0, 0),
+      Sp3dV3D(1, 1, 0),
+      Sp3dV3D(0, 1, 0),
+      Sp3dV3D(0, 1, 1),
+      Sp3dV3D(1, 1, 1),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2, 3], 0),
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2, 3], 0),
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([1, 2, 3, 5], 2),
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([1, 2, 3, 4], 1),
+      ], isTouchable: false),
+    ], [
+      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+          Color.fromARGB(255, 0, 255, 0)),
+      Sp3dMaterial(Color.fromARGB(255, 255, 0, 0), true, 1,
+          Color.fromARGB(255, 255, 0, 0),
+          imageIndex: 0),
+      Sp3dMaterial(Color.fromARGB(255, 0, 0, 255), true, 1,
+          Color.fromARGB(255, 0, 0, 255))
+    ], [
+      Uint8List(8)
+    ]);
+    // 全てが維持される
+    obj.cleaning();
+    expect(obj.vertices.length == 6, true);
+    expect(obj.fragments.length == 4, true);
+    expect(obj.materials.length == 3, true);
+    expect(obj.images.length == 1, true);
+    // フラグメント数が変わるが、全てが維持される
+    obj.fragments.removeAt(1);
+    obj.cleaning();
+    expect(obj.vertices.length == 6, true);
+    expect(obj.fragments.length == 3, true);
+    expect(obj.materials.length == 3, true);
+    expect(obj.images.length == 1, true);
+    // 画像と5番の頂点、2番目のマテリアルが消える。
+    obj.fragments.removeAt(2);
+    obj.cleaning();
+    expect(obj.vertices.length == 5, true);
+    expect(obj.vertices.last.equals(Sp3dV3D(1, 1, 1), 0.001), true);
+    expect(obj.fragments.length == 2, true);
+    expect(obj.fragments.first.faces.first.materialIndex == 0, true);
+    expect(obj.fragments.last.faces.first.materialIndex == 1, true);
+    expect(obj.fragments.last.faces.first.vertexIndexList.last == 4, true);
+    expect(obj.materials.length == 2, true);
+    expect(
+        obj.materials.last ==
+            Sp3dMaterial(Color.fromARGB(255, 0, 0, 255), true, 1,
+                Color.fromARGB(255, 0, 0, 255)),
+        true);
+    expect(obj.images.length == 0, true);
+    // 元々6番目の頂点と元々3番目のマテリアルが消える。
+    obj.fragments.removeAt(1);
+    obj.cleaning();
+    expect(obj.vertices.length == 4, true);
+    expect(obj.vertices.last.equals(Sp3dV3D(0, 1, 0), 0.001), true);
+    expect(obj.fragments.length == 1, true);
+    expect(obj.fragments.last.faces.first.materialIndex == 0, true);
+    expect(obj.materials.length == 1, true);
+    expect(
+        obj.materials.last ==
+            Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
+                Color.fromARGB(255, 0, 255, 0)),
+        true);
+    expect(obj.images.length == 0, true);
+  });
 }

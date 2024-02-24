@@ -1,3 +1,8 @@
+## 13.1.0
+
+* Added resize method to Sp3dObj.
+* Added cleaning method to Sp3dObj.
+
 ## 13.0.0
 
 * Added name parameter to Sp3dFragment.

@@ -18,7 +18,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dObj {
   static const className = 'Sp3dObj';
-  static const version = '17';
+  static const version = '18';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -399,5 +399,113 @@ class Sp3dObj {
       r.add(nowLen + i);
     }
     return r;
+  }
+
+  /// (en) Resizes the object to the specified magnification based on
+  /// the center of the object.
+  ///
+  /// (ja) オブジェクトの中心を基準に、指定した倍率にリサイズします。
+  ///
+  /// * [mag] : Magnification when enlarging.
+  ///
+  /// Returns : This object.
+  Sp3dObj resize(double mag) {
+    final Sp3dV3D c = getCenter();
+    for (Sp3dV3D i in vertices) {
+      i.set(c + (i - c) * mag);
+    }
+    return this;
+  }
+
+  /// (en) Remove unused vertices, materials, and images and adjust internal indexes.
+  /// Please note that this method is processing intensive.
+  /// Also, please note that the vertices and material index in Sp3dFace,
+  /// and the image index of Sp3dMaterial will be changed.
+  ///
+  /// (ja) 使用していない頂点、マテリアル、画像を破棄し、内部のインデックスを調整します。
+  /// このメソッドは処理が重いため注意してください。
+  /// また、Sp3dFace内の頂点及びSp3dMaterialのインデックス、
+  /// Sp3dMaterial内の画像インデックスが変更されるため注意してください。
+  ///
+  /// Returns : This object.
+  Sp3dObj cleaning() {
+    // 処理を簡単にするため、全てのインデックスは後ろから調査する。
+    // まず、全ての面を取得する。
+    List<Sp3dFace> allFaces = [];
+    for (Sp3dFragment i in fragments) {
+      allFaces.addAll(i.faces);
+    }
+    // 使用していない画像を調査し、存在した場合は削除。
+    List<bool> imageUses = [];
+    for (int i = 0; i < images.length; i++) {
+      imageUses.add(false);
+    }
+    // 高速化のための、修正が必要な可能性のあるFaceのバッファ。
+    List<Sp3dFace> imageIndexTargets = [];
+    List<Sp3dFace> materialIndexTargets = [];
+    for (Sp3dFace i in allFaces) {
+      if (i.materialIndex != null) {
+        materialIndexTargets.add(i);
+        if (materials[i.materialIndex!].imageIndex != null) {
+          imageUses[materials[i.materialIndex!].imageIndex!] = true;
+          imageIndexTargets.add(i);
+        }
+      }
+    }
+    // 未使用のものを削除しつつ、インデックスを修正する。
+    for (int i = imageUses.length - 1; i >= 0; i--) {
+      if (!imageUses[i]) {
+        images.removeAt(i);
+        for (Sp3dFace j in imageIndexTargets) {
+          if (materials[j.materialIndex!].imageIndex! > i) {
+            materials[j.materialIndex!].imageIndex =
+                materials[j.materialIndex!].imageIndex! - 1;
+          }
+        }
+      }
+    }
+    // 使用していないマテリアルを調査し、存在した場合は削除。
+    List<bool> materialUses = [];
+    for (int i = 0; i < materials.length; i++) {
+      materialUses.add(false);
+    }
+    for (Sp3dFace i in materialIndexTargets) {
+      materialUses[i.materialIndex!] = true;
+    }
+    // 未使用のものを削除しつつ、インデックスを修正する。
+    for (int i = materialUses.length - 1; i >= 0; i--) {
+      if (!materialUses[i]) {
+        materials.removeAt(i);
+        for (Sp3dFace j in materialIndexTargets) {
+          if (j.materialIndex! > i) {
+            j.materialIndex = j.materialIndex! - 1;
+          }
+        }
+      }
+    }
+    // 使用していない頂点を調査し、存在した場合は削除。
+    List<bool> verticesUses = [];
+    for (int i = 0; i < vertices.length; i++) {
+      verticesUses.add(false);
+    }
+    for (Sp3dFace i in allFaces) {
+      for (int index in i.vertexIndexList) {
+        verticesUses[index] = true;
+      }
+    }
+    // 未使用のものを削除しつつ、インデックスを修正する。
+    for (int i = verticesUses.length - 1; i >= 0; i--) {
+      if (!verticesUses[i]) {
+        vertices.removeAt(i);
+        for (Sp3dFace j in allFaces) {
+          for (int k = 0; k < j.vertexIndexList.length; k++) {
+            if (j.vertexIndexList[k] > i) {
+              j.vertexIndexList[k] = j.vertexIndexList[k] - 1;
+            }
+          }
+        }
+      }
+    }
+    return this;
   }
 }
