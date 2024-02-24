@@ -19,8 +19,8 @@ Sp3dObjのレンダリングのためのパッケージを用意しています�
 [simple_3d_renderer](https://pub.dev/packages/simple_3d_renderer)  
 [util_simple_3d](https://pub.dev/packages/util_simple_3d)
 
-これは非常に実験的なプロジェクトですが、他の3D形式から変換するためのパッケージもあります。
-ただし、このパッケージはあくまでも科学用であり、機能に大きな差があるため最低限の互換性のみがサポートされます。
+これは非常に実験的なプロジェクトですが、他の3D形式から変換するためのパッケージもあります。  
+ただし、このパッケージはあくまでも科学用であり、機能に大きな差があるため最低限の互換性のみがサポートされます。  
 [convert_simple_3d](https://pub.dev/packages/convert_simple_3d)
 
 ### データ作成
