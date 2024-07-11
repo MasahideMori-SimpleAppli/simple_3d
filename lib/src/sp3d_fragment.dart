@@ -49,7 +49,7 @@ class Sp3dFragment {
     return Sp3dFragment(f,
         isParticle: isParticle,
         r: r,
-        physics: physics != null ? physics!.deepCopy() : null,
+        physics: physics?.deepCopy(),
         isTouchable: isTouchable,
         name: name,
         option: option != null ? {...option!} : null);
@@ -67,7 +67,7 @@ class Sp3dFragment {
     d['faces'] = f;
     d['is_particle'] = isParticle;
     d['r'] = r;
-    d['physics'] = physics != null ? physics!.toDict() : null;
+    d['physics'] = physics?.toDict();
     d['is_touchable'] = isTouchable;
     d['name'] = name;
     d['option'] = option;
@@ -189,6 +189,27 @@ class Sp3dFragment {
     for (Sp3dV3D i in targets) {
       i.rotate(norAxis, radian);
     }
+  }
+
+  /// (en)Moves all vectors of this fragment by the specified scale factor
+  /// relative to the specified point.
+  /// This method allows you to scale this fragment relative to any point.
+  ///
+  /// (ja)このフラグメントの全てのベクトルを、指定した点を基準にして指定倍率で移動します。
+  /// このメソッドを用いると、任意の点を基準としてこのフラグメントを拡大・縮小できます。
+  ///
+  /// * [bp] : base point.
+  /// * [parent] : parent obj.
+  /// * [mag] : Magnification when enlarging.
+  Sp3dFragment scale(Sp3dV3D bp, Sp3dObj parent, double mag) {
+    final List<Sp3dV3D> fragmentVertices = [];
+    for (Sp3dFace i in faces) {
+      fragmentVertices.addAll(i.getVertices(parent));
+    }
+    for (Sp3dV3D i in fragmentVertices) {
+      i.set(bp + (i - bp) * mag);
+    }
+    return this;
   }
 
   /// (en)Gets the average coordinates of this fragment.

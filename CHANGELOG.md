@@ -1,3 +1,7 @@
+## 13.2.0
+
+* Added scale method to Sp3dFragment.
+
 ## 13.1.1
 
 * Readme has been updated.

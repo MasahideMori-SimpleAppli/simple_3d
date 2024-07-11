@@ -77,7 +77,7 @@ class Sp3dObj {
         id: id,
         name: name,
         author: author,
-        physics: physics != null ? physics!.deepCopy() : null,
+        physics: physics?.deepCopy(),
         option: option != null ? {...option!} : null,
         layerNum: layerNum,
         drawMode: drawMode);
@@ -119,7 +119,7 @@ class Sp3dObj {
     d['id'] = id;
     d['name'] = name;
     d['author'] = author;
-    d['physics'] = physics != null ? physics!.toDict() : null;
+    d['physics'] = physics?.toDict();
     d['option'] = option;
     d['layer_num'] = layerNum;
     d['draw_mode'] = drawMode.name;

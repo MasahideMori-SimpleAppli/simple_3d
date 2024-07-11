@@ -15,10 +15,10 @@ void main() {
       ], isParticle: true, r: 1)
     ], [
       Sp3dMaterial(
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         true,
         1,
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
       )
     ], []);
     // Move
@@ -54,16 +54,16 @@ void main() {
         ],
         [
           Sp3dMaterial(
-            Color.fromARGB(255, 0, 255, 0),
+            const Color.fromARGB(255, 0, 255, 0),
             true,
             1,
-            Color.fromARGB(255, 0, 255, 0),
+            const Color.fromARGB(255, 0, 255, 0),
             imageIndex: null,
             textureCoordinates: [
-              Offset(0, 0),
-              Offset(0, 1),
-              Offset(1, 1),
-              Offset(1, 0),
+              const Offset(0, 0),
+              const Offset(0, 1),
+              const Offset(1, 1),
+              const Offset(1, 0),
             ],
           )
         ],
@@ -100,7 +100,7 @@ void main() {
     final v1 = Sp3dV3D(1, 1, 1);
     final v2 = Sp3dV3D(2, 2, 2);
     final v3 = Sp3dV3D(3, 3, 3);
-    final double scalar = 3;
+    const double scalar = 3;
     expect(v1 + v2, v3);
     expect(v2 - v1, v1);
     expect(v1 * scalar, v3);
@@ -138,16 +138,16 @@ void main() {
       )
     ], [
       Sp3dMaterial(
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         true,
         1,
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         imageIndex: null,
         textureCoordinates: [
-          Offset(0, 0),
-          Offset(0, 1),
-          Offset(1, 1),
-          Offset(1, 0),
+          const Offset(0, 0),
+          const Offset(0, 1),
+          const Offset(1, 1),
+          const Offset(1, 0),
         ],
       )
     ], [], physics: Sp3dPhysics());
@@ -167,7 +167,7 @@ void main() {
     final v1 = Sp3dV3D(1, 1, 1);
     final v2 = Sp3dV3D(2, 2, 2);
     final v3 = Sp3dV3D(3, 3, 3);
-    final double scalar = 3;
+    const double scalar = 3;
     expect(v1 + v2, v3);
     expect(v2 - v1, v1);
     expect(v1 * scalar, v3);
@@ -200,8 +200,8 @@ void main() {
         Sp3dFace([0], 0)
       ])
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     final sp3dObjDict = sp3dObj.toDict();
     print("to_dict");
@@ -219,7 +219,7 @@ void main() {
     final v1 = Sp3dV3D(1, 1, 1);
     final v2 = Sp3dV3D(2, 2, 2);
     final v3 = Sp3dV3D(3, 3, 3);
-    final double scalar = 3;
+    const double scalar = 3;
     expect(v1 + v2, v3);
     expect(v2 - v1, v1);
     expect(v1 * scalar, v3);
@@ -252,8 +252,8 @@ void main() {
         Sp3dFace([0], 0)
       ])
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     final other = sp3dObj.deepCopy();
     other.vertices.add(Sp3dV3D(1, 0, 0));
@@ -290,8 +290,8 @@ void main() {
         Sp3dFace([3, 4, 5], 0)
       ]),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     final aveObj = sp3dObj.getCenter();
     final aveFragment1 = sp3dObj.fragments.first.getCenter(sp3dObj);
@@ -322,14 +322,16 @@ void main() {
 
   test('copyWith of Sp3dMaterial test', () {
     Sp3dMaterial v1 = Sp3dMaterial(Colors.black, true, 1, Colors.black,
-        imageIndex: 1, textureCoordinates: [Offset(0, 0)], option: {"test": 1});
+        imageIndex: 1,
+        textureCoordinates: [const Offset(0, 0)],
+        option: {"test": 1});
     Sp3dMaterial v2 = v1.copyWith(
         bg: Colors.red,
         isFill: false,
         strokeWidth: 2,
         strokeColor: Colors.red,
         imageIndex: 2,
-        textureCoordinates: [Offset(1, 1)],
+        textureCoordinates: [const Offset(1, 1)],
         option: {"test": 2});
     print("copyWith of Sp3dMaterial");
     expect(v1.bg != v2.bg, true);
@@ -363,16 +365,16 @@ void main() {
       )
     ], [
       Sp3dMaterial(
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         true,
         1,
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         imageIndex: null,
         textureCoordinates: [
-          Offset(0, 0),
-          Offset(0, 1),
-          Offset(1, 1),
-          Offset(1, 0),
+          const Offset(0, 0),
+          const Offset(0, 1),
+          const Offset(1, 1),
+          const Offset(1, 0),
         ],
       )
     ], [], physics: Sp3dPhysics());
@@ -414,16 +416,16 @@ void main() {
       )
     ], [
       Sp3dMaterial(
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         true,
         1,
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         imageIndex: null,
         textureCoordinates: [
-          Offset(0, 0),
-          Offset(0, 1),
-          Offset(1, 1),
-          Offset(1, 0),
+          const Offset(0, 0),
+          const Offset(0, 1),
+          const Offset(1, 1),
+          const Offset(1, 0),
         ],
       )
     ], [], physics: Sp3dPhysics(), layerNum: 1);
@@ -455,16 +457,16 @@ void main() {
       )
     ], [
       Sp3dMaterial(
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         true,
         1,
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         imageIndex: null,
         textureCoordinates: [
-          Offset(0, 0),
-          Offset(0, 1),
-          Offset(1, 1),
-          Offset(1, 0),
+          const Offset(0, 0),
+          const Offset(0, 1),
+          const Offset(1, 1),
+          const Offset(1, 0),
         ],
       )
     ], [],
@@ -501,8 +503,8 @@ void main() {
         Sp3dFace([3, 4, 5], 0)
       ], isTouchable: false),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     Map<String, dynamic> d = obj.toDict();
     d['fragments'][0].remove('is_touchable');
@@ -531,8 +533,8 @@ void main() {
         Sp3dFace([4, 5, 6, 7], 0),
       ], isTouchable: false),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     // faceの回転
     obj.fragments[0].faces[0]
@@ -574,8 +576,8 @@ void main() {
         Sp3dFace([4, 5, 6, 7], 0),
       ], isTouchable: false),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     obj2.rotateInPlace(Sp3dV3D(0, 1, 0).nor(), 90 * pi / 180);
     expect(obj2.vertices[0].equals(Sp3dV3D(1, 0, 0), 0.001), true);
@@ -605,8 +607,8 @@ void main() {
         Sp3dFace([4, 5, 6, 7], 0),
       ], isTouchable: false),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     // faceの回転
     obj.fragments[0].faces[0]
@@ -649,8 +651,8 @@ void main() {
         Sp3dFace([4, 5, 6, 7], 0),
       ], isTouchable: false),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     obj2.rotateBy(Sp3dV3D(1, 0, 0), Sp3dV3D(0, 1, 0).nor(), 90 * pi / 180);
     expect(obj.vertices[0].equals(Sp3dV3D(1, 0, 1), 0.001), true);
@@ -675,8 +677,8 @@ void main() {
         Sp3dFace([0, 1, 2, 3], 0),
       ], isTouchable: false),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     final newVertices = [
       Sp3dV3D(0, 0, -1),
@@ -686,8 +688,8 @@ void main() {
     ];
     final verticesIndexList = obj.addVertices(newVertices);
     final materialIndexList = obj.addMaterials([
-      Sp3dMaterial(Color.fromARGB(255, 255, 0, 0), true, 1,
-          Color.fromARGB(255, 255, 0, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 255, 0, 0), true, 1,
+          const Color.fromARGB(255, 255, 0, 0))
     ]);
     obj.fragments.add(
         Sp3dFragment([Sp3dFace(verticesIndexList, materialIndexList.first)]));
@@ -701,7 +703,7 @@ void main() {
     expect(obj.fragments[1].faces.first.vertexIndexList[2] == 6, true);
     expect(obj.fragments[1].faces.first.vertexIndexList[3] == 7, true);
     expect(obj.materials.length == 2, true);
-    expect(obj.materials[1].bg == Color.fromARGB(255, 255, 0, 0), true);
+    expect(obj.materials[1].bg == const Color.fromARGB(255, 255, 0, 0), true);
     expect(obj.fragments[1].faces.first.materialIndex == 1, true);
   });
 
@@ -717,19 +719,19 @@ void main() {
         Sp3dFace([0, 1, 2, 3], 0),
       ], isTouchable: false),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0))
     ], []);
     final int index1 = obj.addMaterialIfNeeded(Sp3dMaterial(
-        Color.fromARGB(255, 0, 255, 0),
+        const Color.fromARGB(255, 0, 255, 0),
         true,
         1,
-        Color.fromARGB(255, 0, 255, 0)));
+        const Color.fromARGB(255, 0, 255, 0)));
     final int index2 = obj.addMaterialIfNeeded(Sp3dMaterial(
-        Color.fromARGB(255, 255, 0, 0),
+        const Color.fromARGB(255, 255, 0, 0),
         true,
         1,
-        Color.fromARGB(255, 255, 0, 0)));
+        const Color.fromARGB(255, 255, 0, 0)));
     expect(index1 == 0, true);
     expect(index2 == 1, true);
     expect(obj.materials.length == 2, true);
@@ -795,13 +797,13 @@ void main() {
         Sp3dFace([1, 2, 3, 4], 1),
       ], isTouchable: false),
     ], [
-      Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-          Color.fromARGB(255, 0, 255, 0)),
-      Sp3dMaterial(Color.fromARGB(255, 255, 0, 0), true, 1,
-          Color.fromARGB(255, 255, 0, 0),
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0)),
+      Sp3dMaterial(const Color.fromARGB(255, 255, 0, 0), true, 1,
+          const Color.fromARGB(255, 255, 0, 0),
           imageIndex: 0),
-      Sp3dMaterial(Color.fromARGB(255, 0, 0, 255), true, 1,
-          Color.fromARGB(255, 0, 0, 255))
+      Sp3dMaterial(const Color.fromARGB(255, 0, 0, 255), true, 1,
+          const Color.fromARGB(255, 0, 0, 255))
     ], [
       Uint8List(8)
     ]);
@@ -830,10 +832,10 @@ void main() {
     expect(obj.materials.length == 2, true);
     expect(
         obj.materials.last ==
-            Sp3dMaterial(Color.fromARGB(255, 0, 0, 255), true, 1,
-                Color.fromARGB(255, 0, 0, 255)),
+            Sp3dMaterial(const Color.fromARGB(255, 0, 0, 255), true, 1,
+                const Color.fromARGB(255, 0, 0, 255)),
         true);
-    expect(obj.images.length == 0, true);
+    expect(obj.images.isEmpty, true);
     // 元々6番目の頂点と元々3番目のマテリアルが消える。
     obj.fragments.removeAt(1);
     obj.cleaning();
@@ -844,9 +846,31 @@ void main() {
     expect(obj.materials.length == 1, true);
     expect(
         obj.materials.last ==
-            Sp3dMaterial(Color.fromARGB(255, 0, 255, 0), true, 1,
-                Color.fromARGB(255, 0, 255, 0)),
+            Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+                const Color.fromARGB(255, 0, 255, 0)),
         true);
-    expect(obj.images.length == 0, true);
+    expect(obj.images.isEmpty, true);
+  });
+
+  test('Sp3dFragment scale test', () {
+    final obj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(1, 0, 0),
+      Sp3dV3D(1, 1, 0),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2], 0),
+      ], isTouchable: false),
+    ], [
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0)),
+    ], [
+      Uint8List(8)
+    ]);
+    // 原点をベースに2倍に拡大。
+    obj.fragments.first.scale(Sp3dV3D(0, 0, 0), obj, 2.0);
+    expect(obj.vertices[0].equals(Sp3dV3D(0, 0, 0), 0.001), true);
+    expect(obj.vertices[1].equals(Sp3dV3D(2, 0, 0), 0.001), true);
+    expect(obj.vertices[2].equals(Sp3dV3D(2, 2, 0), 0.001), true);
   });
 }
