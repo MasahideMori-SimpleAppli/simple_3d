@@ -13,7 +13,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dFragment {
   static const String className = 'Sp3dFragment';
-  static const String version = '9';
+  static const String version = '10';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;

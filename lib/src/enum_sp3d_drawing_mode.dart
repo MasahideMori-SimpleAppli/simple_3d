@@ -7,5 +7,4 @@
 ///
 /// First edition creation date 2023-03-13 22:46:54
 ///
-
 enum EnumSp3dDrawingMode { normal, rect }

@@ -1,3 +1,8 @@
+## 13.2.1
+
+* Fixed version code in Sp3dFragment.
+* Fixed unnecessary line breaks in EnumSp3dDrawingMode.
+
 ## 13.2.0
 
 * Added scale method to Sp3dFragment.
