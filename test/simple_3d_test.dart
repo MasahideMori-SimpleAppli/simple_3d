@@ -864,13 +864,49 @@ void main() {
     ], [
       Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
           const Color.fromARGB(255, 0, 255, 0)),
-    ], [
-      Uint8List(8)
-    ]);
+    ], []);
     // 原点をベースに2倍に拡大。
     obj.fragments.first.scale(Sp3dV3D(0, 0, 0), obj, 2.0);
     expect(obj.vertices[0].equals(Sp3dV3D(0, 0, 0), 0.001), true);
     expect(obj.vertices[1].equals(Sp3dV3D(2, 0, 0), 0.001), true);
     expect(obj.vertices[2].equals(Sp3dV3D(2, 2, 0), 0.001), true);
+  });
+
+  test('Sp3dObj clonePart test', () {
+    final obj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(1, 0, 0),
+      Sp3dV3D(1, 1, 0),
+      Sp3dV3D(0, 1, 1),
+      Sp3dV3D(0, 0, 1),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2], 0),
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([1, 2, 3], 1),
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([2, 3, 4], 1),
+      ], isTouchable: false),
+    ], [
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0),
+          imageIndex: 0),
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0),
+          imageIndex: 1),
+    ], [
+      Uint8List(8),
+      Uint8List(12)
+    ]);
+    final clonePart = obj.clonePart([obj.fragments[1], obj.fragments[2]]);
+    expect(clonePart.vertices[0].equals(obj.vertices[1], 0.001), true);
+    expect(clonePart.vertices[1].equals(obj.vertices[2], 0.001), true);
+    expect(clonePart.vertices[2].equals(obj.vertices[3], 0.001), true);
+    expect(clonePart.vertices[3].equals(obj.vertices[4], 0.001), true);
+    expect(clonePart.materials[0] == obj.materials[1], false);
+    expect(clonePart.materials[0].imageIndex == 0, true);
+    expect(clonePart.images[0].length == obj.images[1].length, true);
   });
 }

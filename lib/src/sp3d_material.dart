@@ -14,7 +14,7 @@ import 'package:flutter/foundation.dart';
 ///
 class Sp3dMaterial {
   static const String className = 'Sp3dMaterial';
-  static const String version = '7';
+  static const String version = '8';
   Color bg;
   bool isFill;
   double strokeWidth;
@@ -159,6 +159,20 @@ class Sp3dMaterial {
         textureCoordinates: tCoord,
         name: mName,
         option: src['option']);
+  }
+
+  /// (en) Updates the image indexes.
+  ///
+  /// (ja) 画像のインデックスを更新します。
+  ///
+  /// * [updateMap] : The key is the index before the update,
+  /// and the value is the index after the update.
+  void updateImageIndexes(Map<int, int> updateMap) {
+    if (imageIndex != null) {
+      if (updateMap.containsKey(imageIndex!)) {
+        imageIndex = updateMap[imageIndex!];
+      }
+    }
   }
 
   /// Identity check function of textureCoordinates.

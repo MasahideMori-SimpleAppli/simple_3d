@@ -13,7 +13,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dFragment {
   static const String className = 'Sp3dFragment';
-  static const String version = '10';
+  static const String version = '11';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;
@@ -241,5 +241,59 @@ class Sp3dFragment {
     Sp3dFragment r = deepCopy();
     r.reverse();
     return r;
+  }
+
+  /// (en) Gets a unique list of all indexes of materials used
+  /// by Sp3dV3D in this fragment.
+  ///
+  /// (ja) このフラグメント中のSp3dFaceが利用するSp3dV3Dの全てのインデックスを
+  /// 重複なしのリストで取得します。
+  List<int> getUniqueVerticesIndexes() {
+    Set<int> r = {};
+    for (Sp3dFace i in faces) {
+      if (i.vertexIndexList.isNotEmpty) {
+        r.addAll(i.vertexIndexList);
+      }
+    }
+    return r.toList();
+  }
+
+  /// (en) Gets a unique list of all indexes of materials used
+  /// by Sp3dFace in this fragment.
+  ///
+  /// (ja) このフラグメント中のSp3dFaceが利用するマテリアルの全てのインデックスを
+  /// 重複なしのリストで取得します。
+  List<int> getUniqueMaterialIndexes() {
+    Set<int> r = {};
+    for (Sp3dFace i in faces) {
+      if (i.materialIndex != null) {
+        r.add(i.materialIndex!);
+      }
+    }
+    return r.toList();
+  }
+
+  /// (en) Updates the vertex indexes.
+  ///
+  /// (ja) 頂点のインデックスを更新します。
+  ///
+  /// * [updateMap] : The key is the index before the update,
+  /// and the value is the index after the update.
+  void updateVerticesIndexes(Map<int, int> updateMap) {
+    for (Sp3dFace i in faces) {
+      i.updateVerticesIndexes(updateMap);
+    }
+  }
+
+  /// (en) Updates the material indexes.
+  ///
+  /// (ja) マテリアルのインデックスを更新します。
+  ///
+  /// * [updateMap] : The key is the index before the update,
+  /// and the value is the index after the update.
+  void updateMaterialIndexes(Map<int, int> updateMap) {
+    for (Sp3dFace i in faces) {
+      i.updateMaterialIndexes(updateMap);
+    }
   }
 }

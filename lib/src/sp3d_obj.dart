@@ -18,7 +18,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dObj {
   static const className = 'Sp3dObj';
-  static const version = '18';
+  static const version = '19';
   List<Sp3dV3D> vertices;
   List<Sp3dFragment> fragments;
   List<Sp3dMaterial> materials;
@@ -507,5 +507,55 @@ class Sp3dObj {
       }
     }
     return this;
+  }
+
+  /// (en) Creates and returns a new Sp3dObj
+  /// that consists of a copy of the specified fragment.
+  ///
+  /// (ja) 指定されたフラグメントのコピーから構成される、新しいSp3dObjを生成して返します。
+  ///
+  /// * [targets] : The copy target fragments.
+  Sp3dObj clonePart(List<Sp3dFragment> targets) {
+    // Key is pre index, Value is new index.
+    Map<int, int> verticesMap = {};
+    Map<int, int> materialMap = {};
+    Map<int, int> imageMap = {};
+    Sp3dObj r = Sp3dObj([], [], [], []);
+    // clone
+    for (Sp3dFragment i in targets) {
+      r.fragments.add(i.deepCopy());
+      for (int preIndex in i.getUniqueVerticesIndexes()) {
+        if (!verticesMap.containsKey(preIndex)) {
+          final newIndex = r.vertices.length;
+          r.vertices.add(vertices[preIndex].deepCopy());
+          verticesMap[preIndex] = newIndex;
+        }
+      }
+      for (int preIndex in i.getUniqueMaterialIndexes()) {
+        if (!materialMap.containsKey(preIndex)) {
+          final newIndex = r.materials.length;
+          r.materials.add(materials[preIndex].deepCopy());
+          materialMap[preIndex] = newIndex;
+        }
+        final int? preImageIndex = materials[preIndex].imageIndex;
+        if (preImageIndex != null) {
+          if (!imageMap.containsKey(preImageIndex)) {
+            final newIndex = r.images.length;
+            r.images
+                .add(Uint8List.fromList(List<int>.from(images[preImageIndex])));
+            imageMap[preImageIndex] = newIndex;
+          }
+        }
+      }
+    }
+    // update indexes
+    for (Sp3dFragment i in r.fragments) {
+      i.updateVerticesIndexes(verticesMap);
+      i.updateMaterialIndexes(materialMap);
+    }
+    for (Sp3dMaterial i in r.materials) {
+      i.updateImageIndexes(imageMap);
+    }
+    return r;
   }
 }

@@ -14,7 +14,7 @@ import 'sp3d_v3d.dart';
 ///
 class Sp3dFace {
   static const String className = 'Sp3dFace';
-  static const String version = '11';
+  static const String version = '12';
   List<int> vertexIndexList;
   int? materialIndex;
 
@@ -176,5 +176,37 @@ class Sp3dFace {
   /// * [parent] : parent obj.
   Sp3dV3D getCenter(Sp3dObj parent) {
     return Sp3dV3D.ave(getVertices(parent));
+  }
+
+  /// (en) Updates the vertex indexes.
+  ///
+  /// (ja) 頂点のインデックスを更新します。
+  ///
+  /// * [updateMap] : The key is the index before the update,
+  /// and the value is the index after the update.
+  void updateVerticesIndexes(Map<int, int> updateMap) {
+    List<int> updatedList = [];
+    for (int i in vertexIndexList) {
+      if (updateMap.containsKey(i)) {
+        updatedList.add(updateMap[i]!);
+      } else {
+        updatedList.add(i);
+      }
+    }
+    vertexIndexList = updatedList;
+  }
+
+  /// (en) Updates the material indexes.
+  ///
+  /// (ja) マテリアルのインデックスを更新します。
+  ///
+  /// * [updateMap] : The key is the index before the update,
+  /// and the value is the index after the update.
+  void updateMaterialIndexes(Map<int, int> updateMap) {
+    if (materialIndex != null) {
+      if (updateMap.containsKey(materialIndex!)) {
+        materialIndex = updateMap[materialIndex!];
+      }
+    }
   }
 }

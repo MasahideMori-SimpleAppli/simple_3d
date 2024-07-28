@@ -1,3 +1,12 @@
+## 13.3.0
+
+* Added clonePart method to Sp3dObj. 
+* Added getUniqueVerticesIndices method to Sp3dFragment.
+* Added getUniqueMaterialIndices method to Sp3dFragment.
+* Added updateVerticesIndexes method to Sp3dFace and Sp3dFragment.
+* Added updateMaterialIndexes method to Sp3dFace and Sp3dFragment. 
+* Added updateImageIndexes method to Sp3dMaterial.
+
 ## 13.2.1
 
 * Fixed version code in Sp3dFragment.
