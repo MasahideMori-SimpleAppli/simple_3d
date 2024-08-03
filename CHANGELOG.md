@@ -1,3 +1,6 @@
+## 14.0.0
+* Sp3dObj extended [CloneableFile](https://github.com/MasahideMori-SimpleAppli/file_state_manager/blob/main/lib/src/cloneable_file.dart). This makes it possible to undo and redo using the [file_state_manager](https://pub.dev/packages/file_state_manager) package.
+
 ## 13.3.0
 
 * Added clonePart method to Sp3dObj. 

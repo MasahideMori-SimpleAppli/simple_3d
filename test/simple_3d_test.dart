@@ -83,7 +83,9 @@ void main() {
             angularVelocity: 2,
             angle: 0.45,
             others: {"test": "test"}),
-        option: {"test": "test"});
+        option: {"test": "test"},
+        layerNum: 1,
+        drawMode: EnumSp3dDrawMode.rect);
     final sp3dObjDict = sp3dObj.toDict();
     print("to_dict");
     print(sp3dObjDict);
