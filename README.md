@@ -20,6 +20,10 @@ See the simple_3d_renderer package for how to use it.
 [simple_3d_renderer](https://pub.dev/packages/simple_3d_renderer)  
 [util_simple_3d](https://pub.dev/packages/util_simple_3d)  
 
+If you want to implement Undo/Redo functionality in an app that directly edits Sp3dObj,
+you can use the following package.
+[file_state_manager](https://pub.dev/packages/file_state_manager)
+
 Although this is a very experimental project, there are also packages for converting from other 3D formats.  
 However, this package is intended for scientific use and only minimal compatibility is supported due to differences in functionality with other 3D formats.  
 [convert_simple_3d](https://pub.dev/packages/convert_simple_3d)
