@@ -1,4 +1,9 @@
+## 14.0.1
+
+* Hashcodes for Sp3dMaterial option values are now less likely to collide.
+
 ## 14.0.0
+
 * Sp3dObj extended [CloneableFile](https://github.com/MasahideMori-SimpleAppli/file_state_manager/blob/main/lib/src/cloneable_file.dart). This makes it possible to undo and redo using the [file_state_manager](https://pub.dev/packages/file_state_manager) package.
 
 ## 13.3.0

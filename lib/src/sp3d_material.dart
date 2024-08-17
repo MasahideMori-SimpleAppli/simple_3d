@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:file_state_manager/file_state_manager.dart';
 import 'package:flutter/foundation.dart';
 
 ///
@@ -14,7 +15,7 @@ import 'package:flutter/foundation.dart';
 ///
 class Sp3dMaterial {
   static const String className = 'Sp3dMaterial';
-  static const String version = '8';
+  static const String version = '9';
   Color bg;
   bool isFill;
   double strokeWidth;
@@ -213,15 +214,6 @@ class Sp3dMaterial {
     }
   }
 
-  /// calculate hash code for map.
-  int _calculateMapHashCode(Map<String, dynamic> m) {
-    int r = 0;
-    m.forEach((String key, dynamic value) {
-      r = r ^ key.hashCode ^ (value?.hashCode ?? 0);
-    });
-    return r;
-  }
-
   @override
   int get hashCode {
     List<Object> objects = [];
@@ -237,7 +229,7 @@ class Sp3dMaterial {
     }
     objects.add(name != null ? name! : 0);
     if (option != null) {
-      objects.add(_calculateMapHashCode(option!));
+      objects.add(UtilObjectHash.calcMap(option!));
     } else {
       objects.add(0);
     }

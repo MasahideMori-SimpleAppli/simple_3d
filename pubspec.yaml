@@ -1,6 +1,6 @@
 name: simple_3d
 description: This package was created for the convenience of 3D non-experts, including scientists.
-version: 14.0.0
+version: 14.0.1
 repository: https://github.com/MasahideMori-SimpleAppli/simple_3d
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  file_state_manager: ^1.0.0
+  file_state_manager: ^1.2.0
 
 dev_dependencies:
   flutter_test:
