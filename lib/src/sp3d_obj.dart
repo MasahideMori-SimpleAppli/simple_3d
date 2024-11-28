@@ -2,6 +2,9 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 import 'package:file_state_manager/file_state_manager.dart';
+import 'package:simple_3d/src/sp3d_fragment_list.dart';
+import 'package:simple_3d/src/sp3d_material_list.dart';
+import 'package:simple_3d/src/sp3d_v3d_list.dart';
 
 import '../simple_3d.dart';
 
@@ -20,7 +23,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dObj extends CloneableFile {
   static const className = 'Sp3dObj';
-  static const version = '20';
+  static const version = '21';
   late List<Sp3dV3D> vertices;
   late List<Sp3dFragment> fragments;
   late List<Sp3dMaterial> materials;
@@ -57,62 +60,6 @@ class Sp3dObj extends CloneableFile {
       this.layerNum = 0,
       this.drawMode = EnumSp3dDrawMode.normal});
 
-  /// Restore this object from the dictionary.
-  /// * [src] : A dictionary made with toDict of this class.
-  Sp3dObj.fromDict(Map<String, dynamic> src) {
-    List<Sp3dV3D> v = [];
-    for (var i in src['vertices']) {
-      v.add(Sp3dV3D.fromDict(i));
-    }
-    vertices = v;
-    List<Sp3dFragment> frgs = [];
-    for (var i in src['fragments']) {
-      frgs.add(Sp3dFragment.fromDict(i));
-    }
-    fragments = frgs;
-    List<Sp3dMaterial> mtrs = [];
-    for (var i in src['materials']) {
-      mtrs.add(Sp3dMaterial.fromDict(i));
-    }
-    materials = mtrs;
-    List<Uint8List> imgs = [];
-    if ((double.tryParse(src['version']) ?? 0) >= 9) {
-      for (String i in src['images']) {
-        imgs.add(Uint8List.fromList(base64.decode(i)));
-      }
-    } else {
-      for (List<dynamic> i in src['images']) {
-        List<int> iL = [];
-        for (dynamic j in i) {
-          iL.add(j as int);
-        }
-        imgs.add(Uint8List.fromList(iL));
-      }
-    }
-    images = imgs;
-    id = src['id'];
-    name = src['name'];
-    author = src.containsKey('author') ? src['author'] : null;
-    physics = src.containsKey('physics')
-        ? src['physics'] != null
-            ? Sp3dPhysics.fromDict(src['physics'])
-            : null
-        : null;
-    option = src['option'];
-    layerNum = src.containsKey('layer_num') ? src['layer_num'] : 0;
-    EnumSp3dDrawMode? nDrawMode;
-    if (src.containsKey('draw_mode')) {
-      if (src['version'] == "10") {
-        nDrawMode = src['draw_mode'] == 0
-            ? EnumSp3dDrawMode.normal
-            : EnumSp3dDrawMode.rect;
-      } else {
-        nDrawMode = EnumSp3dDrawMode.values.byName(src['draw_mode']);
-      }
-    }
-    drawMode = nDrawMode ?? EnumSp3dDrawMode.normal;
-  }
-
   /// Deep copy the object.
   @override
   Sp3dObj clone() {
@@ -147,44 +94,121 @@ class Sp3dObj extends CloneableFile {
         drawMode: drawMode);
   }
 
+  /// Restore this object from the dictionary.
+  /// * [src] : A dictionary made with toDict of this class.
+  factory Sp3dObj.fromDict(Map<String, dynamic> src) {
+    if ((int.tryParse(src['version']) ?? 0) <= 20) {
+      return Sp3dObj.fromDictV14(src);
+    } else {
+      List<Uint8List> imgs = [];
+      for (String i in src['images']) {
+        imgs.add(Uint8List.fromList(base64.decode(i)));
+      }
+      return Sp3dObj(
+        Sp3dV3DList.fromDict(src).vertices,
+        Sp3dFragmentList.fromDict(src).fragments,
+        Sp3dMaterialList.fromDict(src).materials,
+        imgs,
+        id: src['id'],
+        name: src['name'],
+        author: src['author'],
+        physics: src['physics'] != null
+            ? Sp3dPhysics.fromDict(src['physics'])
+            : null,
+        option: src['option'],
+        layerNum: src['layerNum'],
+        drawMode: EnumSp3dDrawMode.values.byName(src['drawMode']),
+      );
+    }
+  }
+
   /// Convert the object to a dictionary.
   @override
   Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = className;
+    d['className'] = className;
     d['version'] = version;
-    List<Map<String, dynamic>> v = [];
-    for (var i in vertices) {
-      v.add(i.toDict());
+    d['vertices'] = Sp3dV3DList(vertices).toDict();
+    d['fragments'] = Sp3dFragmentList(fragments).toDict();
+    d['materials'] = Sp3dMaterialList(materials).toDict();
+    List<String> imgs = [];
+    for (Uint8List i in images) {
+      imgs.add(base64.encode(List<int>.from(i)));
     }
-    d['vertices'] = v;
-    List<Map<String, dynamic>> frgs = [];
-    for (var i in fragments) {
-      frgs.add(i.toDict());
-    }
-    d['fragments'] = frgs;
-    List<Map<String, dynamic>> mtrs = [];
-    for (var i in materials) {
-      mtrs.add(i.toDict());
-    }
-    d['materials'] = mtrs;
-    if ((double.tryParse(version) ?? 0) >= 9) {
-      List<String> imgs = [];
-      for (Uint8List i in images) {
-        imgs.add(base64.encode(List<int>.from(i)));
-      }
-      d['images'] = imgs;
-    } else {
-      List<List<int>> imgs = [];
-      for (Uint8List i in images) {
-        imgs.add(List<int>.from(i));
-      }
-      d['images'] = imgs;
-    }
+    d['images'] = imgs;
     d['id'] = id;
     d['name'] = name;
     d['author'] = author;
     d['physics'] = physics?.toDict();
+    d['option'] = option;
+    d['layerNum'] = layerNum;
+    d['drawMode'] = drawMode.name;
+    return d;
+  }
+
+  /// Restore this object from the dictionary.
+  /// This is a compatibility call for older versions.
+  /// * [src] : A dictionary made with toDict of this class.
+  Sp3dObj.fromDictV14(Map<String, dynamic> src) {
+    vertices = Sp3dV3DList.fromDictV14(src).vertices;
+    fragments = Sp3dFragmentList.fromDictV14(src).fragments;
+    materials = Sp3dMaterialList.fromDictV14(src).materials;
+    List<Uint8List> imgs = [];
+    if ((double.tryParse(src['version']) ?? 0) >= 9) {
+      for (String i in src['images']) {
+        imgs.add(Uint8List.fromList(base64.decode(i)));
+      }
+    } else {
+      for (List<dynamic> i in src['images']) {
+        List<int> iL = [];
+        for (dynamic j in i) {
+          iL.add(j as int);
+        }
+        imgs.add(Uint8List.fromList(iL));
+      }
+    }
+    images = imgs;
+    id = src['id'];
+    name = src['name'];
+    author = src.containsKey('author') ? src['author'] : null;
+    physics = src.containsKey('physics')
+        ? src['physics'] != null
+            ? Sp3dPhysics.fromDictV14(src['physics'])
+            : null
+        : null;
+    option = src['option'];
+    layerNum = src.containsKey('layer_num') ? src['layer_num'] : 0;
+    EnumSp3dDrawMode? nDrawMode;
+    if (src.containsKey('draw_mode')) {
+      if (src['version'] == "10") {
+        nDrawMode = src['draw_mode'] == 0
+            ? EnumSp3dDrawMode.normal
+            : EnumSp3dDrawMode.rect;
+      } else {
+        nDrawMode = EnumSp3dDrawMode.values.byName(src['draw_mode']);
+      }
+    }
+    drawMode = nDrawMode ?? EnumSp3dDrawMode.normal;
+  }
+
+  /// Convert the object to a dictionary.
+  /// This is a compatibility call for older versions.
+  Map<String, dynamic> toDictV14() {
+    Map<String, dynamic> d = {};
+    d['class_name'] = className;
+    d['version'] = "20";
+    d['vertices'] = Sp3dV3DList(vertices).toDictV14();
+    d['fragments'] = Sp3dFragmentList(fragments).toDictV14();
+    d['materials'] = Sp3dMaterialList(materials).toDictV14();
+    List<String> imgs = [];
+    for (Uint8List i in images) {
+      imgs.add(base64.encode(List<int>.from(i)));
+    }
+    d['images'] = imgs;
+    d['id'] = id;
+    d['name'] = name;
+    d['author'] = author;
+    d['physics'] = physics?.toDictV14();
     d['option'] = option;
     d['layer_num'] = layerNum;
     d['draw_mode'] = drawMode.name;

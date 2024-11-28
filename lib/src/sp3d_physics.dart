@@ -10,7 +10,7 @@ import 'sp3d_v3d.dart';
 ///
 class Sp3dPhysics {
   static const String className = 'Sp3dPhysics';
-  static const String version = '4';
+  static const String version = '5';
   bool isLocked;
   double? mass;
   double? speed;
@@ -63,15 +63,15 @@ class Sp3dPhysics {
   /// Convert the object to a dictionary.
   Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = className;
+    d['className'] = className;
     d['version'] = version;
-    d['is_locked'] = isLocked;
+    d['isLocked'] = isLocked;
     d['mass'] = mass;
     d['speed'] = speed;
     d['direction'] = direction?.toDict();
     d['velocity'] = velocity?.toDict();
-    d['rotate_axis'] = rotateAxis?.toDict();
-    d['angular_velocity'] = angularVelocity;
+    d['rotateAxis'] = rotateAxis?.toDict();
+    d['angularVelocity'] = angularVelocity;
     d['angle'] = angle;
     d['name'] = name;
     d['others'] = others;
@@ -81,6 +81,47 @@ class Sp3dPhysics {
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dPhysics fromDict(Map<String, dynamic> src) {
+    return Sp3dPhysics(
+        isLocked: src['isLocked'],
+        mass: src['mass'],
+        speed: src['speed'],
+        direction: src['direction'] != null
+            ? Sp3dV3D.fromDict(src['direction'])
+            : null,
+        velocity:
+            src['velocity'] != null ? Sp3dV3D.fromDict(src['velocity']) : null,
+        rotateAxis: src['rotateAxis'] != null
+            ? Sp3dV3D.fromDict(src['rotateAxis'])
+            : null,
+        angularVelocity: src['angularVelocity'],
+        angle: src['angle'],
+        name: src['name'],
+        others: src['others']);
+  }
+
+  /// Convert the object to a dictionary.
+  /// This is a compatibility call for older versions.
+  Map<String, dynamic> toDictV14() {
+    Map<String, dynamic> d = {};
+    d['class_name'] = className;
+    d['version'] = "4";
+    d['is_locked'] = isLocked;
+    d['mass'] = mass;
+    d['speed'] = speed;
+    d['direction'] = direction?.toDictV14();
+    d['velocity'] = velocity?.toDictV14();
+    d['rotate_axis'] = rotateAxis?.toDictV14();
+    d['angular_velocity'] = angularVelocity;
+    d['angle'] = angle;
+    d['name'] = name;
+    d['others'] = others;
+    return d;
+  }
+
+  /// Restore this object from the dictionary.
+  /// This is a compatibility call for older versions.
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dPhysics fromDictV14(Map<String, dynamic> src) {
     // after version 4
     String? mName;
     if (src.containsKey('name')) {
@@ -91,12 +132,13 @@ class Sp3dPhysics {
         mass: src['mass'],
         speed: src['speed'],
         direction: src['direction'] != null
-            ? Sp3dV3D.fromDict(src['direction'])
+            ? Sp3dV3D.fromDictV14(src['direction'])
             : null,
-        velocity:
-            src['velocity'] != null ? Sp3dV3D.fromDict(src['velocity']) : null,
+        velocity: src['velocity'] != null
+            ? Sp3dV3D.fromDictV14(src['velocity'])
+            : null,
         rotateAxis: src['rotate_axis'] != null
-            ? Sp3dV3D.fromDict(src['rotate_axis'])
+            ? Sp3dV3D.fromDictV14(src['rotate_axis'])
             : null,
         angularVelocity: src['angular_velocity'],
         angle: src['angle'],

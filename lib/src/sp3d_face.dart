@@ -14,7 +14,7 @@ import 'sp3d_v3d.dart';
 ///
 class Sp3dFace {
   static const String className = 'Sp3dFace';
-  static const String version = '12';
+  static const String version = '13';
   List<int> vertexIndexList;
   int? materialIndex;
 
@@ -29,18 +29,40 @@ class Sp3dFace {
   }
 
   /// Convert the object to a dictionary.
+  /// Starting with simple_3d version 15,
+  /// this method excludes printing of class name and version information.
   Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = className;
-    d['version'] = version;
-    d['vertex_index_list'] = vertexIndexList;
-    d['material_index'] = materialIndex;
+    d['vertexIndexList'] = vertexIndexList;
+    d['materialIndex'] = materialIndex;
     return d;
   }
 
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dFace fromDict(Map<String, dynamic> src) {
+    List<int> mVi = [];
+    for (dynamic i in src['vertexIndexList']) {
+      mVi.add(i as int);
+    }
+    return Sp3dFace(mVi, src['materialIndex']);
+  }
+
+  /// Convert the object to a dictionary.
+  /// This is a compatibility call for older versions.
+  Map<String, dynamic> toDictV14() {
+    Map<String, dynamic> d = {};
+    d['class_name'] = className;
+    d['version'] = "12";
+    d['vertex_index_list'] = vertexIndexList;
+    d['material_index'] = materialIndex;
+    return d;
+  }
+
+  /// Restore this object from the dictionary.
+  /// This is a compatibility call for older versions.
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dFace fromDictV14(Map<String, dynamic> src) {
     List<int> mVi = [];
     for (dynamic i in src['vertex_index_list']) {
       mVi.add(i as int);

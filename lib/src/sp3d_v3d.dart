@@ -11,7 +11,7 @@ import 'dart:math';
 ///
 class Sp3dV3D {
   static const String className = 'Sp3dV3D';
-  static const String version = '16';
+  static const String version = '17';
   double x;
   double y;
   double z;
@@ -36,10 +36,10 @@ class Sp3dV3D {
   }
 
   /// Convert the object to a dictionary.
+  /// Starting with simple_3d version 15,
+  /// this method excludes printing of class name and version information.
   Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = className;
-    d['version'] = version;
     d['x'] = x;
     d['y'] = y;
     d['z'] = z;
@@ -49,6 +49,25 @@ class Sp3dV3D {
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dV3D fromDict(Map<String, dynamic> src) {
+    return Sp3dV3D(src['x'], src['y'], src['z']);
+  }
+
+  /// Convert the object to a dictionary.
+  /// This is a compatibility call for older versions.
+  Map<String, dynamic> toDictV14() {
+    Map<String, dynamic> d = {};
+    d['class_name'] = className;
+    d['version'] = "16";
+    d['x'] = x;
+    d['y'] = y;
+    d['z'] = z;
+    return d;
+  }
+
+  /// Restore this object from the dictionary.
+  /// This is a compatibility call for older versions.
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dV3D fromDictV14(Map<String, dynamic> src) {
     return Sp3dV3D(src['x'], src['y'], src['z']);
   }
 

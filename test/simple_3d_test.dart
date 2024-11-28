@@ -28,7 +28,6 @@ void main() {
     // Vertex manipulation
     // You can do many other things with the Sp3dV3D feature.
     sp3dObj.vertices[0] += Sp3dV3D(1, 0, 0);
-    print("usage sample end");
   });
 
   test('create, to_dict, from_dict', () {
@@ -87,18 +86,11 @@ void main() {
         layerNum: 1,
         drawMode: EnumSp3dDrawMode.rect);
     final sp3dObjDict = sp3dObj.toDict();
-    print("to_dict");
-    print(sp3dObjDict);
     final restored = Sp3dObj.fromDict(sp3dObjDict);
-    print("restored");
-    print(restored.toDict());
-    print("is match");
     final pre = jsonEncode(sp3dObjDict);
     final reloaded = jsonEncode(restored.toDict());
-    print(pre == reloaded);
     expect(pre, reloaded);
     // vector test
-    print("vector test");
     final v1 = Sp3dV3D(1, 1, 1);
     final v2 = Sp3dV3D(2, 2, 2);
     final v3 = Sp3dV3D(3, 3, 3);
@@ -119,9 +111,7 @@ void main() {
     expect(nv1, v3);
     nv3.div(scalar);
     expect(nv3, v1);
-    print("move test");
     expect(sp3dObj.move(v1).vertices.first, v1);
-    print("equals_test");
     expect((v1 * 2.5).equals(v2, 0.6), true);
     expect((v1 * 1.5).equals(v2, 0.6), true);
     expect((v1 * 2.7).equals(v2, 0.6), false);
@@ -154,18 +144,11 @@ void main() {
       )
     ], [], physics: Sp3dPhysics());
     final sp3dObjDict = sp3dObj.toDict();
-    print("to_dict");
-    print(sp3dObjDict);
     final restored = Sp3dObj.fromDict(sp3dObjDict);
-    print("restored");
-    print(restored.toDict());
-    print("is match");
     final pre = jsonEncode(sp3dObjDict);
     final reloaded = jsonEncode(restored.toDict());
-    print(pre == reloaded);
     expect(pre, reloaded);
     // vector test
-    print("vector test");
     final v1 = Sp3dV3D(1, 1, 1);
     final v2 = Sp3dV3D(2, 2, 2);
     final v3 = Sp3dV3D(3, 3, 3);
@@ -186,9 +169,7 @@ void main() {
     expect(nv1, v3);
     nv3.div(scalar);
     expect(nv3, v1);
-    print("move test");
     expect(sp3dObj.move(v1).vertices.first, v1);
-    print("equals_test");
     expect((v1 * 2.5).equals(v2, 0.6), true);
     expect((v1 * 1.5).equals(v2, 0.6), true);
     expect((v1 * 2.7).equals(v2, 0.6), false);
@@ -206,18 +187,11 @@ void main() {
           const Color.fromARGB(255, 0, 255, 0))
     ], []);
     final sp3dObjDict = sp3dObj.toDict();
-    print("to_dict");
-    print(sp3dObjDict);
     final restored = Sp3dObj.fromDict(sp3dObjDict);
-    print("restored");
-    print(restored.toDict());
-    print("is match");
     final pre = jsonEncode(sp3dObjDict);
     final reloaded = jsonEncode(restored.toDict());
-    print(pre == reloaded);
     expect(pre, reloaded);
     // vector test
-    print("vector test");
     final v1 = Sp3dV3D(1, 1, 1);
     final v2 = Sp3dV3D(2, 2, 2);
     final v3 = Sp3dV3D(3, 3, 3);
@@ -238,9 +212,7 @@ void main() {
     expect(nv1, v3);
     nv3.div(scalar);
     expect(nv3, v1);
-    print("move test");
     expect(sp3dObj.move(v1).vertices.first, v1);
-    print("equals_test");
     expect((v1 * 2.5).equals(v2, 0.6), true);
     expect((v1 * 1.5).equals(v2, 0.6), true);
     expect((v1 * 2.7).equals(v2, 0.6), false);
@@ -262,16 +234,9 @@ void main() {
     other.fragments.add(Sp3dFragment([
       Sp3dFace([1], 0).rotate(other, Sp3dV3D(0, 0, 1), -90 * 3.14 / 180)
     ]));
-    print("add and rotate face");
-    print(other.toDict());
     other.fragments[1].rotate(other, Sp3dV3D(0, 0, 1), 90 * 3.14 / 180);
-    print("fragment reverse rotate");
-    print(other.toDict());
     sp3dObj.merge(other);
-    print("merge");
-    print(sp3dObj.toDict());
     expect(other.vertices[1] == sp3dObj.vertices[2], true);
-    print("move");
     sp3dObj.fragments.last.move(sp3dObj, Sp3dV3D(1, 0, 0));
     expect(sp3dObj.vertices[2] == Sp3dV3D(2, 0, 0), true);
   });
@@ -298,10 +263,6 @@ void main() {
     final aveObj = sp3dObj.getCenter();
     final aveFragment1 = sp3dObj.fragments.first.getCenter(sp3dObj);
     final aveFragment2 = sp3dObj.fragments.last.getCenter(sp3dObj);
-    print("average");
-    print(aveObj);
-    print(aveFragment1);
-    print(aveFragment2);
     expect(aveObj == Sp3dV3D(2, 2, 2), true);
     expect(aveFragment1 == Sp3dV3D(1, 1, 1), true);
     expect(aveFragment2 == Sp3dV3D(3, 3, 3), true);
@@ -315,7 +276,6 @@ void main() {
       v.copyWith(y: 1),
       v.copyWith(z: 1)
     ];
-    print("copyWith");
     expect(arr[0] == Sp3dV3D(0, 0, 0), true);
     expect(arr[1] == Sp3dV3D(1, 0, 0), true);
     expect(arr[2] == Sp3dV3D(0, 1, 0), true);
@@ -335,7 +295,6 @@ void main() {
         imageIndex: 2,
         textureCoordinates: [const Offset(1, 1)],
         option: {"test": 2});
-    print("copyWith of Sp3dMaterial");
     expect(v1.bg != v2.bg, true);
     expect(v1.isFill != v2.isFill, true);
     expect(v1.strokeWidth != v2.strokeWidth, true);
@@ -380,7 +339,6 @@ void main() {
         ],
       )
     ], [], physics: Sp3dPhysics());
-    print("reverse");
     sp3dObj.reverse();
     expect(sp3dObj.fragments[0].faces[0].vertexIndexList[0] == 2, true);
     expect(sp3dObj.fragments[0].faces[0].vertexIndexList[1] == 1, true);
@@ -431,7 +389,6 @@ void main() {
         ],
       )
     ], [], physics: Sp3dPhysics(), layerNum: 1);
-    print("layerNum");
     expect(sp3dObj.layerNum == 1, true);
     final restoreObj = Sp3dObj.fromDict(sp3dObj.toDict());
     expect(restoreObj.layerNum == 1, true);
@@ -473,23 +430,21 @@ void main() {
       )
     ], [],
         physics: Sp3dPhysics(), layerNum: 1, drawMode: EnumSp3dDrawMode.rect);
-    print("drawMode");
     expect(sp3dObj.drawMode == EnumSp3dDrawMode.rect, true);
     final restoreObj = Sp3dObj.fromDict(sp3dObj.toDict());
     expect(restoreObj.drawMode == EnumSp3dDrawMode.rect, true);
     // pre version test
-    Map<String, dynamic> preVersion10 = sp3dObj.toDict();
+    Map<String, dynamic> preVersion10 = sp3dObj.toDictV14();
     preVersion10['version'] = "10";
     preVersion10['draw_mode'] = 0;
-    final restorePreVerObj1 = Sp3dObj.fromDict(preVersion10);
+    final restorePreVerObj1 = Sp3dObj.fromDictV14(preVersion10);
     expect(restorePreVerObj1.drawMode == EnumSp3dDrawMode.normal, true);
     preVersion10['draw_mode'] = 1;
-    final restorePreVerObj2 = Sp3dObj.fromDict(preVersion10);
+    final restorePreVerObj2 = Sp3dObj.fromDictV14(preVersion10);
     expect(restorePreVerObj2.drawMode == EnumSp3dDrawMode.rect, true);
   });
 
   test('isTouchable flag test', () {
-    print("isTouchable flag test");
     final obj = Sp3dObj([
       Sp3dV3D(3, 0, 0),
       Sp3dV3D(0, 3, 0),
@@ -508,10 +463,10 @@ void main() {
       Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
           const Color.fromARGB(255, 0, 255, 0))
     ], []);
-    Map<String, dynamic> d = obj.toDict();
+    Map<String, dynamic> d = obj.toDictV14();
     d['fragments'][0].remove('is_touchable');
     // フラグが存在しない場合、互換モードによってtrueに変化して復元される。
-    final resumed = Sp3dObj.fromDict(d);
+    final resumed = Sp3dObj.fromDictV14(d);
     expect(resumed.fragments[0].isTouchable == true, true);
     expect(resumed.fragments[1].isTouchable == false, true);
     resumed.setIsTouchableFlags(false);
@@ -519,7 +474,6 @@ void main() {
   });
 
   test('rotateInPlace test', () {
-    print("rotateInPlace test");
     final obj = Sp3dObj([
       Sp3dV3D(0, 0, 0),
       Sp3dV3D(1, 0, 0),
@@ -593,7 +547,6 @@ void main() {
   });
 
   test('rotateBy test', () {
-    print("rotateBy test");
     final obj = Sp3dObj([
       Sp3dV3D(0, 0, 0),
       Sp3dV3D(1, 0, 0),
@@ -668,7 +621,6 @@ void main() {
   });
 
   test('addVertices and addMaterials test', () {
-    print("addVertices and addMaterials test");
     final obj = Sp3dObj([
       Sp3dV3D(0, 0, 0),
       Sp3dV3D(1, 0, 0),
@@ -710,7 +662,6 @@ void main() {
   });
 
   test('addMaterialIfNeeded test', () {
-    print("addMaterialIfNeeded test");
     final obj = Sp3dObj([
       Sp3dV3D(0, 0, 0),
       Sp3dV3D(1, 0, 0),
@@ -910,5 +861,50 @@ void main() {
     expect(clonePart.materials[0] == obj.materials[1], false);
     expect(clonePart.materials[0].imageIndex == 0, true);
     expect(clonePart.images[0].length == obj.images[1].length, true);
+  });
+
+  test('Sp3dObj V15 test', () {
+    final obj = Sp3dObj([
+      Sp3dV3D(0, 0, 0),
+      Sp3dV3D(1, 0, 0),
+      Sp3dV3D(1, 1, 0),
+      Sp3dV3D(0, 1, 1),
+      Sp3dV3D(0, 0, 1),
+    ], [
+      Sp3dFragment([
+        Sp3dFace([0, 1, 2], 0),
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([1, 2, 3], 1),
+      ], isTouchable: false),
+      Sp3dFragment([
+        Sp3dFace([2, 3, 4], 1),
+      ], isTouchable: false),
+    ], [
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0),
+          imageIndex: 0),
+      Sp3dMaterial(const Color.fromARGB(255, 0, 255, 0), true, 1,
+          const Color.fromARGB(255, 0, 255, 0),
+          imageIndex: 1),
+    ], [
+      Uint8List(8),
+      Uint8List(12)
+    ]);
+    final oldFormat = obj.toDictV14();
+    final oldFormatRestored = Sp3dObj.fromDictV14(oldFormat);
+    final oldFormatAutoRestored = Sp3dObj.fromDict(oldFormat);
+    final oldFormatStr = oldFormat.toString();
+    final oldFormatRestoredStr = oldFormatRestored.toDictV14().toString();
+    final oldFormatAutoRestoredStr =
+        oldFormatAutoRestored.toDictV14().toString();
+    expect(oldFormatStr == oldFormatRestoredStr, true);
+    expect(oldFormatStr == oldFormatAutoRestoredStr.toString(), true);
+    final newFormat = obj.toDict();
+    final newFormatRestored = Sp3dObj.fromDict(newFormat);
+    final newFormatStr = newFormat.toString();
+    final newFormatRestoredStr = newFormatRestored.toDict().toString();
+    expect(newFormatStr == newFormatRestoredStr, true);
+    expect(newFormatStr == newFormatRestored.toDictV14().toString(), false);
   });
 }

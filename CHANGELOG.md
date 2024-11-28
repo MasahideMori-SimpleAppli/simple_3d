@@ -1,3 +1,14 @@
+## 15.0.0
+
+* The contents of the output dictionary have been changed to speed up toDict and fromDict and to reduce the output file size.
+* With this change, JSON dictionary keys that were previously written in snake case will now be written in camel case.
+* In this change, the vertex data is converted to the Sp3dV3DList class and then passed toDict and fromDict.
+* In this change, the face data is converted to the Sp3dFaceList class and then passed toDict and fromDict.
+* In this change, the fragment data is converted to the Sp3dFragmentList class and then passed toDict and fromDict.
+* In this change, the material data is converted to the Sp3dMaterialList class and then passed toDict and fromDict.
+* For backward compatibility, fromDictV14 and toDictV14 have been added to each class. You can use these if you are using JSON data in the backend.
+* When loading an older version of Sp3dObj, the fromDict method automatically calls fromDictV14, so no operation is required.
+
 ## 14.0.1
 
 * Hashcodes for Sp3dMaterial option values are now less likely to collide.

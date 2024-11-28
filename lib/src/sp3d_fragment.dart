@@ -1,3 +1,5 @@
+import 'package:simple_3d/src/sp3d_face_list.dart';
+
 import '../simple_3d.dart';
 
 ///
@@ -13,7 +15,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dFragment {
   static const String className = 'Sp3dFragment';
-  static const String version = '11';
+  static const String version = '12';
   List<Sp3dFace> faces;
   bool isParticle;
   double r;
@@ -56,19 +58,15 @@ class Sp3dFragment {
   }
 
   /// Convert the object to a dictionary.
+  /// Starting with simple_3d version 15,
+  /// this method excludes printing of class name and version information.
   Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
-    d['class_name'] = className;
-    d['version'] = version;
-    List<Map<String, dynamic>> f = [];
-    for (var i in faces) {
-      f.add(i.toDict());
-    }
-    d['faces'] = f;
-    d['is_particle'] = isParticle;
+    d['faces'] = Sp3dFaceList(faces).toDict();
+    d['isParticle'] = isParticle;
     d['r'] = r;
     d['physics'] = physics?.toDict();
-    d['is_touchable'] = isTouchable;
+    d['isTouchable'] = isTouchable;
     d['name'] = name;
     d['option'] = option;
     return d;
@@ -77,10 +75,37 @@ class Sp3dFragment {
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dFragment fromDict(Map<String, dynamic> src) {
-    List<Sp3dFace> f = [];
-    for (var i in src['faces']) {
-      f.add(Sp3dFace.fromDict(i));
-    }
+    return Sp3dFragment(Sp3dFaceList.fromDict(src).faces,
+        isParticle: src['isParticle'],
+        r: src['r'],
+        physics: src['physics'] != null
+            ? Sp3dPhysics.fromDict(src['physics'])
+            : null,
+        isTouchable: src['isTouchable'],
+        name: src['name'],
+        option: src['option']);
+  }
+
+  /// Convert the object to a dictionary.
+  /// This is a compatibility call for older versions.
+  Map<String, dynamic> toDictV14() {
+    Map<String, dynamic> d = {};
+    d['class_name'] = className;
+    d['version'] = "11";
+    d['faces'] = Sp3dFaceList(faces).toDictV14();
+    d['is_particle'] = isParticle;
+    d['r'] = r;
+    d['physics'] = physics?.toDictV14();
+    d['is_touchable'] = isTouchable;
+    d['name'] = name;
+    d['option'] = option;
+    return d;
+  }
+
+  /// Restore this object from the dictionary.
+  /// This is a compatibility call for older versions.
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dFragment fromDictV14(Map<String, dynamic> src) {
     // after version 5.
     bool mIsTouchable = true;
     if (src.containsKey('is_touchable')) {
@@ -91,12 +116,12 @@ class Sp3dFragment {
     if (src.containsKey('name')) {
       mName = src['name'];
     }
-    return Sp3dFragment(f,
+    return Sp3dFragment(Sp3dFaceList.fromDictV14(src).faces,
         isParticle: src['is_particle'],
         r: src['r'],
         physics: src.containsKey('physics')
             ? src['physics'] != null
-                ? Sp3dPhysics.fromDict(src['physics'])
+                ? Sp3dPhysics.fromDictV14(src['physics'])
                 : null
             : null,
         isTouchable: mIsTouchable,

@@ -15,7 +15,7 @@ import 'package:flutter/foundation.dart';
 ///
 class Sp3dMaterial {
   static const String className = 'Sp3dMaterial';
-  static const String version = '9';
+  static const String version = '10';
   Color bg;
   bool isFill;
   double strokeWidth;
@@ -101,6 +101,8 @@ class Sp3dMaterial {
   }
 
   /// Convert the object to a dictionary.
+  /// Starting with simple_3d version 15,
+  /// this method excludes printing of class name and version information.
   Map<String, dynamic> toDict() {
     List<double>? tCoord;
     if (textureCoordinates != null) {
@@ -111,8 +113,62 @@ class Sp3dMaterial {
       }
     }
     Map<String, dynamic> d = {};
+    d['bg'] = [bg.alpha, bg.red, bg.green, bg.blue];
+    d['isFill'] = isFill;
+    d['strokeWidth'] = strokeWidth;
+    d['strokeColor'] = [
+      strokeColor.alpha,
+      strokeColor.red,
+      strokeColor.green,
+      strokeColor.blue
+    ];
+    d['imageIndex'] = imageIndex;
+    d['textureCoordinates'] = tCoord;
+    d['name'] = name;
+    d['option'] = option;
+    return d;
+  }
+
+  /// Restore this object from the dictionary.
+  /// * [src] : A dictionary made with toDict of this class.
+  static Sp3dMaterial fromDict(Map<String, dynamic> src) {
+    var mbg =
+        Color.fromARGB(src['bg'][0], src['bg'][1], src['bg'][2], src['bg'][3]);
+    var msc = Color.fromARGB(src['strokeColor'][0], src['strokeColor'][1],
+        src['strokeColor'][2], src['strokeColor'][3]);
+    List<Offset>? tCoord;
+    if (src['textureCoordinates'] != null) {
+      tCoord = [];
+      List<double> cBuff = [];
+      for (double d in src['textureCoordinates']) {
+        cBuff.add(d);
+        if (cBuff.length == 2) {
+          tCoord.add(Offset(cBuff[0], cBuff[1]));
+          cBuff.clear();
+        }
+      }
+    }
+    return Sp3dMaterial(mbg, src['isFill'], src['strokeWidth'], msc,
+        imageIndex: src['imageIndex'],
+        textureCoordinates: tCoord,
+        name: src['name'],
+        option: src['option']);
+  }
+
+  /// Convert the object to a dictionary.
+  /// This is a compatibility call for older versions.
+  Map<String, dynamic> toDictV14() {
+    List<double>? tCoord;
+    if (textureCoordinates != null) {
+      tCoord = [];
+      for (Offset o in textureCoordinates!) {
+        tCoord.add(o.dx);
+        tCoord.add(o.dy);
+      }
+    }
+    Map<String, dynamic> d = {};
     d['class_name'] = className;
-    d['version'] = version;
+    d['version'] = "9";
     d['bg'] = [bg.alpha, bg.red, bg.green, bg.blue];
     d['is_fill'] = isFill;
     d['stroke_width'] = strokeWidth;
@@ -130,8 +186,9 @@ class Sp3dMaterial {
   }
 
   /// Restore this object from the dictionary.
+  /// This is a compatibility call for older versions.
   /// * [src] : A dictionary made with toDict of this class.
-  static Sp3dMaterial fromDict(Map<String, dynamic> src) {
+  static Sp3dMaterial fromDictV14(Map<String, dynamic> src) {
     var mbg =
         Color.fromARGB(src['bg'][0], src['bg'][1], src['bg'][2], src['bg'][3]);
     var msc = Color.fromARGB(src['stroke_color'][0], src['stroke_color'][1],
