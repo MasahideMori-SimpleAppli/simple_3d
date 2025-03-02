@@ -13,7 +13,7 @@ import 'package:simple_3d/simple_3d.dart';
 ///
 class Sp3dMaterialList {
   static const String className = 'Sp3dMaterialList';
-  static const String version = '1';
+  static const String version = '2';
 
   List<Sp3dMaterial> materials;
 
@@ -24,7 +24,7 @@ class Sp3dMaterialList {
     Map<String, dynamic> d = {};
     List<Map<String, dynamic>> mtrs = [];
     for (var i in materials) {
-      mtrs.add(i.toDict());
+      mtrs.add(i.toDict(version: int.parse(version)));
     }
     d['className'] = className;
     d['version'] = version;
@@ -37,7 +37,7 @@ class Sp3dMaterialList {
   static Sp3dMaterialList fromDict(Map<String, dynamic> src) {
     List<Sp3dMaterial> mtrs = [];
     for (var i in src['materials']['material']) {
-      mtrs.add(Sp3dMaterial.fromDict(i));
+      mtrs.add(Sp3dMaterial.fromDict(i, int.parse(src["version"])));
     }
     return Sp3dMaterialList(mtrs);
   }

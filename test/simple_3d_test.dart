@@ -708,15 +708,24 @@ void main() {
     expect(Sp3dFragment.fromDict(m).name == null, true);
   });
 
-  test('version up test of Sp3dMaterial version 7', () {
+  test('version up test of Sp3dMaterial', () {
     final mt = Sp3dMaterial(Colors.black, true, 1, Colors.black, name: 'test');
-    Map<String, dynamic> m = mt.toDict();
+    Map<String, dynamic> m = mt.toDict(version: 1);
     expect(m['name'] == 'test', true);
     m.remove('name');
     expect(m.containsKey('name'), false);
-    expect(Sp3dMaterial.fromDict(m).name == null, true);
-    expect(Sp3dMaterial.fromDict(m).copyWith().name == null, true);
-    expect(Sp3dMaterial.fromDict(m).copyWith(name: 'aaa').name == 'aaa', true);
+    expect(Sp3dMaterial.fromDict(m, 1).name == null, true);
+    expect(Sp3dMaterial.fromDict(m, 1).copyWith().name == null, true);
+    expect(
+        Sp3dMaterial.fromDict(m, 1).copyWith(name: 'aaa').name == 'aaa', true);
+    Map<String, dynamic> m2 = mt.toDict(version: 2);
+    expect(m2['name'] == 'test', true);
+    m2.remove('name');
+    expect(m2.containsKey('name'), false);
+    expect(Sp3dMaterial.fromDict(m2, 2).name == null, true);
+    expect(Sp3dMaterial.fromDict(m2, 2).copyWith().name == null, true);
+    expect(
+        Sp3dMaterial.fromDict(m2, 2).copyWith(name: 'aaa').name == 'aaa', true);
   });
 
   test('version up test of Sp3dPhysics version 4', () {

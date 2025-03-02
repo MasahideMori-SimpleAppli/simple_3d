@@ -1,3 +1,10 @@
+## 16.0.0
+
+* Updated minimum SDK version.
+* The way Dart handles color information has changed from integers to floating point numbers, so this package's color handling has been changed to floating point numbers.
+* In the serialization and deserialization supported by this package, colors from previous versions will be automatically adjusted. 
+* Please be careful when using the serialized results of this package on the server side, etc. The serialized color values have changed from this version.
+
 ## 15.0.0
 
 * The contents of the output dictionary have been changed to speed up toDict and fromDict and to reduce the output file size.

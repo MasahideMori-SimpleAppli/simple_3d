@@ -15,7 +15,7 @@ import 'package:flutter/foundation.dart';
 ///
 class Sp3dMaterial {
   static const String className = 'Sp3dMaterial';
-  static const String version = '10';
+  static const String version = '11';
   Color bg;
   bool isFill;
   double strokeWidth;
@@ -40,9 +40,12 @@ class Sp3dMaterial {
 
   /// Deep copy the object.
   Sp3dMaterial deepCopy() {
-    var mbg = Color.fromARGB(bg.alpha, bg.red, bg.green, bg.blue);
-    var msc = Color.fromARGB(strokeColor.alpha, strokeColor.red,
-        strokeColor.green, strokeColor.blue);
+    var mbg = Color.from(alpha: bg.a, red: bg.r, green: bg.g, blue: bg.b);
+    var msc = Color.from(
+        alpha: strokeColor.a,
+        red: strokeColor.r,
+        green: strokeColor.g,
+        blue: strokeColor.b);
     List<Offset>? tCoord;
     if (textureCoordinates != null) {
       tCoord = [];
@@ -87,13 +90,19 @@ class Sp3dMaterial {
     }
     return Sp3dMaterial(
         bg ??
-            Color.fromARGB(
-                this.bg.alpha, this.bg.red, this.bg.green, this.bg.blue),
+            Color.from(
+                alpha: this.bg.a,
+                red: this.bg.r,
+                green: this.bg.g,
+                blue: this.bg.b),
         isFill ?? this.isFill,
         strokeWidth ?? this.strokeWidth,
         strokeColor ??
-            Color.fromARGB(this.strokeColor.alpha, this.strokeColor.red,
-                this.strokeColor.green, this.strokeColor.blue),
+            Color.from(
+                alpha: this.strokeColor.a,
+                red: this.strokeColor.r,
+                green: this.strokeColor.g,
+                blue: this.strokeColor.b),
         imageIndex: imageIndex ?? this.imageIndex,
         textureCoordinates: textureCoordinates ?? tCoord,
         name: name ?? this.name,
@@ -101,9 +110,10 @@ class Sp3dMaterial {
   }
 
   /// Convert the object to a dictionary.
-  /// Starting with simple_3d version 15,
-  /// this method excludes printing of class name and version information.
-  Map<String, dynamic> toDict() {
+  /// * [version] : The Sp3dMaterialList version.
+  /// If it is 1, RGB is an Int from 0 to 255. If it is 2 or more,
+  /// RGB is a floating point number with a maximum of 1.
+  Map<String, dynamic> toDict({required int version}) {
     List<double>? tCoord;
     if (textureCoordinates != null) {
       tCoord = [];
@@ -113,15 +123,30 @@ class Sp3dMaterial {
       }
     }
     Map<String, dynamic> d = {};
-    d['bg'] = [bg.alpha, bg.red, bg.green, bg.blue];
+    if (version == 1) {
+      d['bg'] = [
+        (bg.a * 255).round(),
+        (bg.r * 255).round(),
+        (bg.g * 255).round(),
+        (bg.b * 255).round()
+      ];
+      d['strokeColor'] = [
+        (strokeColor.a * 255).round(),
+        (strokeColor.r * 255).round(),
+        (strokeColor.g * 255).round(),
+        (strokeColor.b * 255).round()
+      ];
+    } else {
+      d['bg'] = [bg.a, bg.r, bg.g, bg.b];
+      d['strokeColor'] = [
+        strokeColor.a,
+        strokeColor.r,
+        strokeColor.g,
+        strokeColor.b
+      ];
+    }
     d['isFill'] = isFill;
     d['strokeWidth'] = strokeWidth;
-    d['strokeColor'] = [
-      strokeColor.alpha,
-      strokeColor.red,
-      strokeColor.green,
-      strokeColor.blue
-    ];
     d['imageIndex'] = imageIndex;
     d['textureCoordinates'] = tCoord;
     d['name'] = name;
@@ -131,11 +156,29 @@ class Sp3dMaterial {
 
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
-  static Sp3dMaterial fromDict(Map<String, dynamic> src) {
-    var mbg =
-        Color.fromARGB(src['bg'][0], src['bg'][1], src['bg'][2], src['bg'][3]);
-    var msc = Color.fromARGB(src['strokeColor'][0], src['strokeColor'][1],
-        src['strokeColor'][2], src['strokeColor'][3]);
+  /// * [version] : The Sp3dMaterialList version.
+  /// If it is 1, RGB is an Int from 0 to 255. If it is 2 or more,
+  /// RGB is a floating point number with a maximum of 1.
+  static Sp3dMaterial fromDict(Map<String, dynamic> src, int version) {
+    late Color mbg;
+    late Color msc;
+    if (version == 1) {
+      mbg = Color.fromARGB(
+          src['bg'][0], src['bg'][1], src['bg'][2], src['bg'][3]);
+      msc = Color.fromARGB(src['strokeColor'][0], src['strokeColor'][1],
+          src['strokeColor'][2], src['strokeColor'][3]);
+    } else {
+      mbg = Color.from(
+          alpha: src['bg'][0],
+          red: src['bg'][1],
+          green: src['bg'][2],
+          blue: src['bg'][3]);
+      msc = Color.from(
+          alpha: src['strokeColor'][0],
+          red: src['strokeColor'][1],
+          green: src['strokeColor'][2],
+          blue: src['strokeColor'][3]);
+    }
     List<Offset>? tCoord;
     if (src['textureCoordinates'] != null) {
       tCoord = [];
@@ -169,14 +212,19 @@ class Sp3dMaterial {
     Map<String, dynamic> d = {};
     d['class_name'] = className;
     d['version'] = "9";
-    d['bg'] = [bg.alpha, bg.red, bg.green, bg.blue];
+    d['bg'] = [
+      (bg.a * 255).round(),
+      (bg.r * 255).round(),
+      (bg.g * 255).round(),
+      (bg.b * 255).round()
+    ];
     d['is_fill'] = isFill;
     d['stroke_width'] = strokeWidth;
     d['stroke_color'] = [
-      strokeColor.alpha,
-      strokeColor.red,
-      strokeColor.green,
-      strokeColor.blue
+      (strokeColor.a * 255).round(),
+      (strokeColor.r * 255).round(),
+      (strokeColor.g * 255).round(),
+      (strokeColor.b * 255).round()
     ];
     d['image_index'] = imageIndex;
     d['texture_coordinates'] = tCoord;

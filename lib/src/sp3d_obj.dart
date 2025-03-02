@@ -23,7 +23,7 @@ import '../simple_3d.dart';
 ///
 class Sp3dObj extends CloneableFile {
   static const className = 'Sp3dObj';
-  static const version = '21';
+  static const version = '22';
   late List<Sp3dV3D> vertices;
   late List<Sp3dFragment> fragments;
   late List<Sp3dMaterial> materials;
