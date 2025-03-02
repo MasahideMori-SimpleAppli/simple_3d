@@ -110,6 +110,8 @@ class Sp3dMaterial {
   }
 
   /// Convert the object to a dictionary.
+  /// Starting with simple_3d version 15,
+  /// this method excludes printing of class name and version information.
   /// * [version] : The Sp3dMaterialList version.
   /// If it is 1, RGB is an Int from 0 to 255. If it is 2 or more,
   /// RGB is a floating point number with a maximum of 1.
