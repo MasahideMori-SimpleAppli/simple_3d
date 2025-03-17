@@ -1,3 +1,8 @@
+## 16.0.1
+
+* Updated about simple_3d_renderer [issue 12](https://github.com/MasahideMori-SimpleAppli/simple_3d_renderer/issues/12).
+* This is a fix for a mismatch between the flutter version this package requests and the actual flutter version required.
+
 ## 16.0.0
 
 * Updated minimum SDK version.
