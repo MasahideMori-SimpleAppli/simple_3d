@@ -1,3 +1,7 @@
+## 16.0.2
+
+* Updates associated with dependencies library updates.
+
 ## 16.0.1
 
 * Updated about [issue 12](https://github.com/MasahideMori-SimpleAppli/simple_3d_renderer/issues/12) in simple_3d_renderer.
