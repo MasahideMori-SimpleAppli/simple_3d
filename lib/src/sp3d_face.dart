@@ -1,5 +1,5 @@
-import 'sp3d_obj.dart';
-import 'sp3d_v3d.dart';
+import 'package:simple_3d/src/sp3d_obj.dart';
+import 'package:simple_3d/src/sp3d_v3d.dart';
 
 ///
 /// (en) A flutter implementation of Sp3dFace.

@@ -5,8 +5,7 @@ import 'package:file_state_manager/file_state_manager.dart';
 import 'package:simple_3d/src/sp3d_fragment_list.dart';
 import 'package:simple_3d/src/sp3d_material_list.dart';
 import 'package:simple_3d/src/sp3d_v3d_list.dart';
-
-import '../simple_3d.dart';
+import 'package:simple_3d/simple_3d.dart';
 
 ///
 /// (en) Flutter implementation of Sp3dObj.

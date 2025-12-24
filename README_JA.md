@@ -50,7 +50,7 @@ final sp3dObj = Sp3dObj(
     []);
 ```
 ### オブジェクトの操作例
-```dart
+```text
 // 移動
 sp3dObj.move(Sp3dV3D(1,0,0));
 // 回転
@@ -151,6 +151,7 @@ model/x.sp3d
 ## ライセンス
 このソフトウェアはMITライセンスの元配布されます。LICENSEファイルの内容をご覧ください。
 
-## 著作権表示
-The “Dart” name and “Flutter” name are trademarks of Google LLC.  
-*The developer of this package is not Google LLC.
+## Trademarks
+
+- “Dart” and “Flutter” are trademarks of Google LLC.  
+  *This package is not developed or endorsed by Google LLC.*

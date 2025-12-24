@@ -1,4 +1,4 @@
-import 'sp3d_v3d.dart';
+import 'package:simple_3d/src/sp3d_v3d.dart';
 
 ///
 /// (en)A class for managing parameters for physics operations.

@@ -11,7 +11,7 @@ import 'dart:math';
 ///
 class Sp3dV3D {
   static const String className = 'Sp3dV3D';
-  static const String version = '17';
+  static const String version = '18';
   double x;
   double y;
   double z;
@@ -123,6 +123,21 @@ class Sp3dV3D {
     } else {
       return this / length;
     }
+  }
+
+  /// (en) Safe normalization for rendering / UI use.
+  /// This method is not intended for mathematical computations.
+  ///
+  /// (ja) 描画・UI用途向けの安全な正規化を行ったベクトルを返します。
+  /// このメソッドは数学的な計算を目的としたものではありません。
+  ///
+  /// Degenerate, NaN, or extremely small vectors are converted to (0, 0, 0).
+  Sp3dV3D norSafe({double eps = 1e-6}) {
+    final double length = len();
+    if (!length.isFinite || length <= eps) {
+      return Sp3dV3D(0, 0, 0);
+    }
+    return this / length;
   }
 
   /// (en)Return dot product.

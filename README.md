@@ -51,7 +51,7 @@ final sp3dObj = Sp3dObj(
     []);
 ```
 ### Operation example
-```dart
+```text
 // Move
 sp3dObj.move(Sp3dV3D(1,0,0));
 // Rotate
@@ -153,6 +153,7 @@ The C part will be changed at the time of version upgrade.
 ## License
 This software is released under the MIT License, see LICENSE file.  
 
-## Copyright notice
-The “Dart” name and “Flutter” name are trademarks of Google LLC.  
-*The developer of this package is not Google LLC.
+## Trademarks
+
+- “Dart” and “Flutter” are trademarks of Google LLC.  
+  *This package is not developed or endorsed by Google LLC.*

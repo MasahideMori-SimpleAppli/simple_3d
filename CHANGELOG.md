@@ -1,3 +1,8 @@
+## 16.1.0
+
+* Added norSafe() method to Sp3dV3D class for rendering / UI use.
+* Minor internal refactoring without API changes.
+
 ## 16.0.2
 
 * Updates associated with dependencies library updates.
