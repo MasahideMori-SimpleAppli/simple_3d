@@ -131,7 +131,9 @@ class Sp3dV3D {
   /// (ja) 描画・UI用途向けの安全な正規化を行ったベクトルを返します。
   /// このメソッドは数学的な計算を目的としたものではありません。
   ///
-  /// Degenerate, NaN, or extremely small vectors are converted to (0, 0, 0).
+  /// * [eps] : Epsilon value.
+  /// Degenerate, NaN, or vectors with a length less than or equal to this value
+  /// are treated as invalid and converted to (0, 0, 0).
   Sp3dV3D norSafe({double eps = 1e-6}) {
     final double length = len();
     if (!length.isFinite || length <= eps) {

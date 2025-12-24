@@ -1,3 +1,7 @@
+## 16.1.1
+
+* Added missing parameter description to norSafe method of Sp3dV3D class.
+
 ## 16.1.0
 
 * Added norSafe() method to Sp3dV3D class for rendering / UI use.
