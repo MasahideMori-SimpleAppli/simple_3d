@@ -1,3 +1,7 @@
+## 16.1.2
+
+* Improve hash comparison accuracy for Sp3dMaterial class by updating internal dependencies.
+
 ## 16.1.1
 
 * Added missing parameter description to norSafe method of Sp3dV3D class.
