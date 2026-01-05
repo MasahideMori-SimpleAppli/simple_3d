@@ -15,7 +15,7 @@ import 'package:flutter/foundation.dart';
 ///
 class Sp3dMaterial {
   static const String className = 'Sp3dMaterial';
-  static const String version = '11';
+  static const String version = '12';
   Color bg;
   bool isFill;
   double strokeWidth;
@@ -307,18 +307,18 @@ class Sp3dMaterial {
 
   @override
   bool operator ==(Object other) {
-    if (other is Sp3dMaterial) {
-      return bg == other.bg &&
-          isFill == other.isFill &&
-          strokeWidth == other.strokeWidth &&
-          strokeColor == other.strokeColor &&
-          imageIndex == other.imageIndex &&
-          _checkTextureCoordinates(other) &&
-          name == other.name &&
-          mapEquals(option, other.option);
-    } else {
-      return false;
-    }
+    // 1. 同一参照なら即座に終了
+    if (identical(this, other)) return true;
+    // 2. 基本的な型チェック
+    if (other is! Sp3dMaterial) return false;
+    return bg == other.bg &&
+        isFill == other.isFill &&
+        strokeWidth == other.strokeWidth &&
+        strokeColor == other.strokeColor &&
+        imageIndex == other.imageIndex &&
+        _checkTextureCoordinates(other) &&
+        name == other.name &&
+        mapEquals(option, other.option);
   }
 
   @override

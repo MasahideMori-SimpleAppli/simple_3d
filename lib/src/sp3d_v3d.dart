@@ -11,7 +11,7 @@ import 'dart:math';
 ///
 class Sp3dV3D {
   static const String className = 'Sp3dV3D';
-  static const String version = '18';
+  static const String version = '20';
   double x;
   double y;
   double z;
@@ -85,15 +85,6 @@ class Sp3dV3D {
 
   Sp3dV3D operator /(num scalar) {
     return Sp3dV3D(x / scalar, y / scalar, z / scalar);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (other is Sp3dV3D) {
-      return x == other.x && y == other.y && z == other.z;
-    } else {
-      return false;
-    }
   }
 
   /// (en)Overwrites the contents of this vector with the contents of the other vector and returns this vector.
@@ -364,12 +355,12 @@ class Sp3dV3D {
   /// * [other] : other vector.
   /// * [eRange] : The range of error to allow. This must be a positive number.
   bool equals(Sp3dV3D other, double eRange) {
-    return x - eRange <= other.x &&
-        other.x <= x + eRange &&
-        y - eRange <= other.y &&
-        other.y <= y + eRange &&
-        z - eRange <= other.z &&
-        other.z <= z + eRange;
+    // 1. 同一インスタンスなら即座に true
+    if (identical(this, other)) return true;
+    // 2. 絶対値（abs）を使って「差が eRange 以内か」を判定
+    return (x - other.x).abs() <= eRange &&
+        (y - other.y).abs() <= eRange &&
+        (z - other.z).abs() <= eRange;
   }
 
   @override
@@ -378,11 +369,17 @@ class Sp3dV3D {
   }
 
   @override
-  int get hashCode {
-    int result = 17;
-    result = 37 * result + x.hashCode;
-    result = 37 * result + y.hashCode;
-    result = 37 * result + z.hashCode;
-    return result;
+  bool operator ==(Object other) {
+    // 1. 同一インスタンスなら即座に true
+    if (identical(this, other)) return true;
+    // 2. 型チェックと値の比較
+    return other is Sp3dV3D &&
+        runtimeType == other.runtimeType &&
+        x == other.x &&
+        y == other.y &&
+        z == other.z;
   }
+
+  @override
+  int get hashCode => Object.hash(x, y, z);
 }

@@ -1,3 +1,10 @@
+## 17.0.0
+
+* Improved hash calculation accuracy and collision resistance for `Sp3dV3D`.
+* Improved the performance of the `equals` method for `Sp3dV3D`.
+* Optimized `==` operator performance for `Sp3dV3D` and `Sp3dMaterial` using identical reference
+  checks.
+
 ## 16.1.2
 
 * Improve hash comparison accuracy for Sp3dMaterial class by updating internal dependencies.
@@ -17,26 +24,39 @@
 
 ## 16.0.1
 
-* Updated about [issue 12](https://github.com/MasahideMori-SimpleAppli/simple_3d_renderer/issues/12) in simple_3d_renderer.
-* This is a fix for a mismatch between the flutter version this package requests and the actual flutter version required.
+* Updated about [issue 12](https://github.com/MasahideMori-SimpleAppli/simple_3d_renderer/issues/12)
+  in simple_3d_renderer.
+* This is a fix for a mismatch between the flutter version this package requests and the actual
+  flutter version required.
 
 ## 16.0.0
 
 * Updated minimum SDK version.
-* The way Dart handles color information has changed from integers to floating point numbers, so this package's color handling has been changed to floating point numbers.
-* In the serialization and deserialization supported by this package, colors from previous versions will be automatically adjusted. 
-* Please be careful when using the serialized results of this package on the server side, etc. The serialized color values have changed from this version.
+* The way Dart handles color information has changed from integers to floating point numbers, so
+  this package's color handling has been changed to floating point numbers.
+* In the serialization and deserialization supported by this package, colors from previous versions
+  will be automatically adjusted.
+* Please be careful when using the serialized results of this package on the server side, etc. The
+  serialized color values have changed from this version.
 
 ## 15.0.0
 
-* The contents of the output dictionary have been changed to speed up toDict and fromDict and to reduce the output file size.
-* With this change, JSON dictionary keys that were previously written in snake case will now be written in camel case.
-* In this change, the vertex data is converted to the Sp3dV3DList class and then passed toDict and fromDict.
-* In this change, the face data is converted to the Sp3dFaceList class and then passed toDict and fromDict.
-* In this change, the fragment data is converted to the Sp3dFragmentList class and then passed toDict and fromDict.
-* In this change, the material data is converted to the Sp3dMaterialList class and then passed toDict and fromDict.
-* For backward compatibility, fromDictV14 and toDictV14 have been added to each class. You can use these if you are using JSON data in the backend.
-* When loading an older version of Sp3dObj, the fromDict method automatically calls fromDictV14, so no operation is required.
+* The contents of the output dictionary have been changed to speed up toDict and fromDict and to
+  reduce the output file size.
+* With this change, JSON dictionary keys that were previously written in snake case will now be
+  written in camel case.
+* In this change, the vertex data is converted to the Sp3dV3DList class and then passed toDict and
+  fromDict.
+* In this change, the face data is converted to the Sp3dFaceList class and then passed toDict and
+  fromDict.
+* In this change, the fragment data is converted to the Sp3dFragmentList class and then passed
+  toDict and fromDict.
+* In this change, the material data is converted to the Sp3dMaterialList class and then passed
+  toDict and fromDict.
+* For backward compatibility, fromDictV14 and toDictV14 have been added to each class. You can use
+  these if you are using JSON data in the backend.
+* When loading an older version of Sp3dObj, the fromDict method automatically calls fromDictV14, so
+  no operation is required.
 
 ## 14.0.1
 
@@ -44,15 +64,18 @@
 
 ## 14.0.0
 
-* Sp3dObj extended [CloneableFile](https://github.com/MasahideMori-SimpleAppli/file_state_manager/blob/main/lib/src/cloneable_file.dart). This makes it possible to undo and redo using the [file_state_manager](https://pub.dev/packages/file_state_manager) package.
+* Sp3dObj
+  extended [CloneableFile](https://github.com/MasahideMori-SimpleAppli/file_state_manager/blob/main/lib/src/cloneable_file.dart).
+  This makes it possible to undo and redo using
+  the [file_state_manager](https://pub.dev/packages/file_state_manager) package.
 
 ## 13.3.0
 
-* Added clonePart method to Sp3dObj. 
+* Added clonePart method to Sp3dObj.
 * Added getUniqueVerticesIndices method to Sp3dFragment.
 * Added getUniqueMaterialIndices method to Sp3dFragment.
 * Added updateVerticesIndexes method to Sp3dFace and Sp3dFragment.
-* Added updateMaterialIndexes method to Sp3dFace and Sp3dFragment. 
+* Added updateMaterialIndexes method to Sp3dFace and Sp3dFragment.
 * Added updateImageIndexes method to Sp3dMaterial.
 
 ## 13.2.1
