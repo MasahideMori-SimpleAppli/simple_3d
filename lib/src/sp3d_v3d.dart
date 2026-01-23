@@ -11,7 +11,7 @@ import 'dart:math';
 ///
 class Sp3dV3D {
   static const String className = 'Sp3dV3D';
-  static const String version = '20';
+  static const String version = '21';
   double x;
   double y;
   double z;
@@ -216,6 +216,10 @@ class Sp3dV3D {
   /// * [v] : vector.
   /// * [norV] : normalized vector.
   static Sp3dV3D proj(Sp3dV3D v, Sp3dV3D norV) {
+    assert(
+      (norV.len() - 1.0).abs() < 1e-6,
+      'norV must be normalized',
+    );
     return norV * Sp3dV3D.dot(v, norV);
   }
 
@@ -257,6 +261,41 @@ class Sp3dV3D {
     Sp3dV3D c = Sp3dV3D.proj(this, norAxis);
     Sp3dV3D w = this - c;
     return c + (w * cos(radian)) + (Sp3dV3D.cross(norAxis, w) * sin(radian));
+  }
+
+  /// (en) Rotates this vector about the specified center.
+  ///
+  /// (ja) 指定された中心を原点としてこのベクトルを回転します。
+  ///
+  /// * [center] : center of rotation.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dV3D rotateBy(
+    Sp3dV3D center,
+    Sp3dV3D norAxis,
+    double radian,
+  ) {
+    Sp3dV3D c = rotatedBy(center, norAxis, radian);
+    x = c.x;
+    y = c.y;
+    z = c.z;
+    return this;
+  }
+
+  /// (en) Returns a new vector that is this vector rotated around
+  /// the specified center.
+  ///
+  /// (ja) 指定された中心を原点としてこのベクトルを回転した新しいベクトルを返します。
+  ///
+  /// * [center] : center of rotation.
+  /// * [norAxis] : normalized rotate axis vector.
+  /// * [radian] : radian = degree * pi / 180.
+  Sp3dV3D rotatedBy(
+    Sp3dV3D center,
+    Sp3dV3D norAxis,
+    double radian,
+  ) {
+    return (this - center).rotated(norAxis, radian) + center;
   }
 
   /// (en)Return true if parameter is all zero, otherwise false.

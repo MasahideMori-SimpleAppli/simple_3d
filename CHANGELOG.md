@@ -1,3 +1,8 @@
+## 17.1.0
+
+* Added `rotateBy` (in-place) and `rotatedBy` (returns a new vector) methods to the `Sp3dV3D` class.
+* Introduced assert checks in `Sp3dV3D` where normalized vectors are required (debug builds only).
+
 ## 17.0.0
 
 * Improved hash calculation accuracy and collision resistance for `Sp3dV3D`.
