@@ -1,6 +1,8 @@
 ## 17.2.0
 
-* Added `signedAngle`, `signedAngleOnPlane`, `projectOnPlane`, `directionOnPlane` and `angleOnPlane` methods to the `Sp3dV3D` class.
+* Added the following methods to the `Sp3dV3D` class:
+    * `signedAngle`, `signedAngleOnPlane`, `projectOnPlane`, `directionOnPlane`, `angleOnPlane`
+* Added `Sp3dV3D.zero` factory constructor.
 
 ## 17.1.0
 
