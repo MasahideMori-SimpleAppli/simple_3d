@@ -11,7 +11,7 @@ import 'dart:math';
 ///
 class Sp3dV3D {
   static const String className = 'Sp3dV3D';
-  static const String version = '21';
+  static const String version = '22';
   double x;
   double y;
   double z;
@@ -22,12 +22,24 @@ class Sp3dV3D {
   /// * [z] : The z coordinate of the 3D vertex.
   Sp3dV3D(this.x, this.y, this.z);
 
-  /// Deep copy the object.
+  /// (en) Returns a vector with x, y, and z equal to 0.
+  ///
+  /// (ja) x,y,zが0のベクトルを返します。
+  factory Sp3dV3D.zero() {
+    return Sp3dV3D(0, 0, 0);
+  }
+
+  /// (en) Deep copy the object.
+  ///
+  /// (ja) このオブジェクトのディープコピーを返します。
   Sp3dV3D deepCopy() {
     return Sp3dV3D(x, y, z);
   }
 
-  /// Creates a copy with only the specified values rewritten.
+  /// (en) Creates a copy with only the specified values rewritten.
+  ///
+  /// (ja) 指定された値のみを書き換えたコピーを作成します。
+  ///
   /// * [x] : The x coordinate of the 3D vertex.
   /// * [y] : The y coordinate of the 3D vertex.
   /// * [z] : The z coordinate of the 3D vertex.
@@ -35,9 +47,13 @@ class Sp3dV3D {
     return Sp3dV3D(x ?? this.x, y ?? this.y, z ?? this.z);
   }
 
-  /// Convert the object to a dictionary.
+  /// (en) Convert the object to a dictionary.
   /// Starting with simple_3d version 15,
   /// this method excludes printing of class name and version information.
+  ///
+  /// (ja) オブジェクトを辞書に変換します。
+  /// simple_3d バージョン 15 以降では、
+  /// このメソッドはクラス名とバージョン情報の出力を除外します。
   Map<String, dynamic> toDict() {
     Map<String, dynamic> d = {};
     d['x'] = x;
@@ -46,14 +62,20 @@ class Sp3dV3D {
     return d;
   }
 
-  /// Restore this object from the dictionary.
+  /// (en) Restore this object from the dictionary.
+  ///
+  /// (ja) このオブジェクトを辞書から復元します。
+  ///
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dV3D fromDict(Map<String, dynamic> src) {
     return Sp3dV3D(src['x'], src['y'], src['z']);
   }
 
-  /// Convert the object to a dictionary.
+  /// (en) Convert the object to a dictionary.
   /// This is a compatibility call for older versions.
+  ///
+  /// (ja) オブジェクトを辞書に変換します。
+  /// これは古いバージョンとの互換性のための呼び出しです。
   Map<String, dynamic> toDictV14() {
     Map<String, dynamic> d = {};
     d['class_name'] = className;
@@ -64,8 +86,12 @@ class Sp3dV3D {
     return d;
   }
 
-  /// Restore this object from the dictionary.
+  /// (en) Restore this object from the dictionary.
   /// This is a compatibility call for older versions.
+  ///
+  /// (ja) このオブジェクトを辞書から復元します。
+  /// これは古いバージョンとの互換性のための呼び出しです。
+  ///
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dV3D fromDictV14(Map<String, dynamic> src) {
     return Sp3dV3D(src['x'], src['y'], src['z']);
@@ -178,6 +204,166 @@ class Sp3dV3D {
   /// 度に変換する場合は degrees = radian*180/pi です。
   double angleTo(Sp3dV3D other) {
     return angle(this, other);
+  }
+
+  /// (en) Returns the signed angle in radians from vector a to vector b
+  /// around the specified normal axis.
+  /// The result range is (-pi, pi].
+  ///
+  /// The sign of the angle is determined by the right-hand rule:
+  /// if the rotation from a to b follows the direction of the normal,
+  /// the angle is positive; otherwise negative.
+  ///
+  /// Both input vectors do not need to be normalized.
+  /// If either vector has zero length, 0 is returned.
+  ///
+  /// (ja) ベクトルaからベクトルbへの符号付き角度（ラジアン）を、
+  /// 指定した法線軸まわりで返します。
+  /// 戻り値の範囲は (-π, π] です。
+  ///
+  /// 角度の符号は右手系で決まります：
+  /// a→b の回転が normal の向きに一致する場合は正、
+  /// 逆向きの場合は負になります。
+  ///
+  /// 入力ベクトルは正規化されている必要はありません。
+  /// いずれかの長さが0の場合は 0 を返します。
+  ///
+  /// * [a] : Starting vector (it will be normalized internally).
+  /// * [b] : Ending vector (it will be normalized internally).
+  /// * [normal] : reference axis that defines the rotation direction (it will be normalized internally).
+  static double signedAngle(Sp3dV3D a, Sp3dV3D b, Sp3dV3D normal) {
+    final lenA = a.len();
+    final lenB = b.len();
+    final lenN = normal.len(); // normalの長さをチェック
+    // normalが0の場合も、角度を定義できないため0を返す。
+    if (lenA == 0 || lenB == 0 || lenN == 0) return 0.0;
+    final na = a / lenA;
+    final nb = b / lenB;
+    final nn = normal / lenN; // normalを正規化
+    final cross = Sp3dV3D.cross(na, nb);
+    final dot = Sp3dV3D.dot(na, nb).clamp(-1.0, 1.0);
+    // 正規化されたnnを使うことで、signの大きさが適切に保たれる
+    final sign = Sp3dV3D.dot(nn, cross);
+    return atan2(sign, dot);
+  }
+
+  /// (en) Returns the signed angle in radians from vector a to vector b
+  /// after projecting both vectors onto the plane defined by normal.
+  /// Range: (-pi, pi].
+  ///
+  /// This ignores components along the normal and measures rotation
+  /// within the plane only.
+  ///
+  /// (ja) ベクトルaとbをnormalで定義される平面へ射影し、
+  /// 平面内での符号付き角度（ラジアン）を返します。
+  /// 範囲: (-π, π]
+  ///
+  /// * [a] : The starting direction (will be projected onto the plane).
+  /// * [b] : The target direction (will be projected onto the plane).
+  /// * [normal] : The normal vector that defines the plane (it will be normalized internally).
+  static double signedAngleOnPlane(Sp3dV3D a, Sp3dV3D b, Sp3dV3D normal) {
+    final lenN = normal.len();
+    if (lenN == 0) return 0.0; // 法線がない場合は角度を定義できない
+    // normalを正規化（長さ1の単位ベクトルにする）
+    final n = normal / lenN;
+    // 単位ベクトルnを使えば、現在の射影の式で正しく計算できる
+    final pa = a - n * Sp3dV3D.dot(a, n);
+    final pb = b - n * Sp3dV3D.dot(b, n);
+    // 既に正規化済みのnを渡す
+    return signedAngle(pa, pb, n);
+  }
+
+  /// (en) Returns the projection of this vector onto the plane defined by
+  /// the given normal vector.
+  ///
+  /// The component along the normal direction is removed:
+  ///   v_proj = v − (v·n̂) n̂
+  ///
+  /// The normal does not need to be normalized.
+  /// If the normal has zero length, this vector is returned unchanged.
+  ///
+  /// (ja) このベクトルを、指定した法線normalで定義される平面へ
+  /// 射影したベクトルを返します。
+  ///
+  /// normal方向成分が除去されます：
+  ///   v_proj = v − (v·n̂) n̂
+  ///
+  /// normalは正規化されている必要はありません。
+  /// normalの長さが0の場合は、このベクトルをそのまま返します。
+  ///
+  /// * [normal] : plane normal defining the projection plane (it will be normalized internally).
+  Sp3dV3D projectOnPlane(Sp3dV3D normal) {
+    final nLen = normal.len();
+    if (nLen == 0) return this;
+    final n = normal / nLen;
+    return this - n * Sp3dV3D.dot(this, n);
+  }
+
+  /// (en) Returns the unit direction of this vector projected onto the plane
+  /// defined by the given normal.
+  ///
+  /// This is equivalent to:
+  ///   normalize( projectOnPlane(normal) )
+  ///
+  /// If the projected vector has zero length (i.e., this vector is parallel
+  /// to the normal or zero), a zero vector is returned.
+  ///
+  /// The normal does not need to be normalized.
+  ///
+  /// (ja) このベクトルを指定した法線normalの平面へ射影した後、
+  /// 平面内方向の単位ベクトルを返します。
+  ///
+  /// これは次と等価です：
+  ///   normalize( projectOnPlane(normal) )
+  ///
+  /// 射影後ベクトルの長さが0（このベクトルがnormalと平行、
+  /// またはゼロベクトル）の場合はゼロベクトルを返します。
+  ///
+  /// normalは正規化されている必要はありません。
+  ///
+  /// * [normal] : plane normal defining the projection plane (it will be normalized internally).
+  Sp3dV3D directionOnPlane(Sp3dV3D normal) {
+    // すでに projectOnPlane 内で normal の長さチェックと射影計算が完結している
+    final p = projectOnPlane(normal);
+    final len = p.len();
+    // 射影後の長さが 0（元のベクトルが法線と平行）ならゼロベクトルを返す
+    if (len == 0) return Sp3dV3D.zero();
+    return p / len;
+  }
+
+  /// (en) Returns the unsigned angle in radians between vectors a and b
+  /// after projecting both onto the plane defined by the given normal.
+  /// The result range is [0, pi].
+  ///
+  /// This ignores components along the normal direction and measures
+  /// the angle within the plane only.
+  ///
+  /// Input vectors do not need to be normalized.
+  /// If either projected vector has zero length, 0 is returned.
+  ///
+  /// (ja) ベクトルaとbを指定した法線normalの平面へ射影した後、
+  /// 平面内での無符号角度（ラジアン）を返します。
+  /// 戻り値の範囲は [0, π] です。
+  ///
+  /// normal方向成分は無視され、平面内の角度のみを計算します。
+  ///
+  /// 入力ベクトルは正規化されている必要はありません。
+  /// 射影後ベクトルの長さが0の場合は 0 を返します。
+  ///
+  /// * [a] : First vector (it will be projected onto the plane).
+  /// * [b] : Second vector (it will be projected onto the plane).
+  /// * [normal] : Plane normal defining the projection plane (it will be normalized internally).
+  static double angleOnPlane(Sp3dV3D a, Sp3dV3D b, Sp3dV3D normal) {
+    final nLen = normal.len();
+    if (nLen == 0) return 0.0;
+    // normalを正規化（正しい射影計算のため）
+    final n = normal / nLen;
+    // 平面への射影
+    final pa = a - n * Sp3dV3D.dot(a, n);
+    final pb = b - n * Sp3dV3D.dot(b, n);
+    // 射影後の長さが0なら0を返す
+    if (pa.len() == 0 || pb.len() == 0) return 0.0;
+    return angle(pa, pb);
   }
 
   /// (en)Calculates and returns the surface normal.

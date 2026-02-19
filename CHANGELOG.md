@@ -1,3 +1,7 @@
+## 17.2.0
+
+* Added `signedAngle`, `signedAngleOnPlane`, `projectOnPlane`, `directionOnPlane` and `angleOnPlane` methods to the `Sp3dV3D` class.
+
 ## 17.1.0
 
 * Added `rotateBy` (in-place) and `rotatedBy` (returns a new vector) methods to the `Sp3dV3D` class.
