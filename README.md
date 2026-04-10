@@ -102,7 +102,7 @@ Advanced graphics.
                     - materialIndex: int?
             - isParticle: bool.
             - r: double, Radius for particle type.
-            - physics: Sp3dPhysics?
+            - physics: Sp3dPhysics?, An object with multiple variables used in physical calculations.
             - isTouchable: bool, If false, rendered this fragment will be excluded from touche calculation.
             - name: String?, The fragment name.
             - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
@@ -121,24 +121,10 @@ Advanced graphics.
     - id: String?
     - name: String?
     - author: String?
-    - physics: Sp3dPhysics?
-        - mass: double?, (kg). However, the unit should be changed for the calculation of atoms etc.
-        - speed: double?, (m/s). However, the unit should be changed for the calculation of atoms etc.
-        - direction: Sp3dV3D?, Unit vector.
-        - velocity: Sp3dV3D?, Use for move.
-        - rotateAxis: Sp3dV3D?
-        - angularVelocity: double?, (rad/s).
-        - angle: double?, rad.
-        - name: String?, Name of the action.
-        - others: Map<String, dynamic>?, If you want to use other parameters, add here To do.
+    - physics: Sp3dPhysics?, An object with multiple variables used in physical calculations. 
     - option: Map<String, dynamic>?, Optional attributes that may be added for each app. However, only parameters that can be converted to JSON can be entered.
     - layerNum: int, Drawing priority in the depth direction that is enabled for rendering software. Layers with smaller numbers are drawn first.
-    - drawMode: enum, Enum for specifying the mode in which the Sp3dObj is drawn by the renderer.  
-
-## Parameter Note
-If you use Sp3dObj to calculate a large number of atoms, consider using the isParticle flag and r(radius).  
-Each atom has one vertex when calculated or saved, and you can draw a sphere using UtilSp3dGeometry etc. only when drawing on the screen.  
-(That is, create a new Sp3dObj when drawing).
+    - drawMode: enum, Enum for specifying the mode in which the Sp3dObj is drawn by the renderer.
 
 ## About version control
 It is as follows in version 3.1.0 or later.  

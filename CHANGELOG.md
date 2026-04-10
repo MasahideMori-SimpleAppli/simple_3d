@@ -1,3 +1,16 @@
+## 17.3.0
+
+* Added `force` and `torque` fields (`Sp3dV3D?`) to `Sp3dPhysics`.
+    * Both are per-timestep scratch buffers intended for force-based physics integrators.
+    * Default value is `null`; they are zeroed at the start of each integration step,
+      accumulated during the force-calculation phase, and consumed by the integrator.
+    * Included in `deepCopy()`, `toDict()`, and `fromDict()` with null-safe backward compatibility.
+    * The unit system is application-defined and must be consistent with `mass`, `velocity`,
+      and the integrator time step.
+* Updated `Sp3dPhysics` parameter documentation to clarify that all physical units
+  are application-defined (not fixed to SI units).
+* Updated README.
+
 ## 17.2.0
 
 * Added the following methods to the `Sp3dV3D` class:

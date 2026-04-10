@@ -101,7 +101,7 @@ model/x.sp3d
                     - materialIndex: int?
             - isParticle: bool.
             - r: double, particleの場合の半径です。
-            - physics: Sp3dPhysics?, 物理演算用の変数です。
+            - physics: Sp3dPhysics?, 物理計算で使用される、複数の変数を持つオブジェクト。
             - isTouchable: bool, Falseの場合はレンダリングされたこのフラグメントがタッチ計算の対象外になります。
             - name: String?, フラグメント名。
             - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
@@ -120,23 +120,10 @@ model/x.sp3d
     - id: String?
     - name: String?
     - author: String?
-    - physics: Sp3dPhysics?, 物理演算用の変数です。
-        - mass: double?, 質量(kg)。ただし、原子の計算などの場合は適切な単位に変更すべきです。
-        - speed: double?, 速さ(m/s)。計算時の簡単のためにあります。ただし、原子の計算などの場合は適切な単位に変更すべきです。
-        - direction: Sp3dV3D?, 進行方向の向きベクトル（単位ベクトル）。計算時の簡単のためにあります。
-        - velocity: Sp3dV3D?, 速度。速さと向きの両方を含みます。moveする時に使います。
-        - rotateAxis: Sp3dV3D?, 回転軸。
-        - angularVelocity: double?, 角速度(rad/s)。回転と移動は分離して考えます。単位はラジアン毎秒です。
-        - angle: double?, ラジアン(rad)。
-        - name: String?, 動作の名前。
-        - others: Map<String, dynamic>?
+    - physics: Sp3dPhysics?, 物理計算で使用される、複数の変数を持つオブジェクト。
     - option: Map<String, dynamic>?, アプリ毎に拡張可能なオプション属性です。ただし、JSON化出来るパラメータのみ入れられます。
     - layerNum: int, レンダリングソフトに対して有効になる、奥行方向の描画優先度。レイヤー番号が小さい方から先に描画されます。
     - drawMode: enum, Sp3dObjがレンダラーで描画される時の、モード指定のための値です。 
-
-## パラメータのメモ
-多数の原子の計算にSp3dObjを使用する場合は、isParticleフラグとr（半径）の使用を検討してください。  
-各原子は計算または保存時に1つの頂点を持ち、画面上に描画する場合にのみUtilSp3dGeometryなどを使用して球を描画することが出来ます。（つまり、描画の時には新しいSp3dObjを作ります）。  
 
 ## バージョン管理について
 バージョン3.1.0以降において以下のようになっています。  

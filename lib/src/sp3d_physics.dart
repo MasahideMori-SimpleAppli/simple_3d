@@ -10,7 +10,7 @@ import 'package:simple_3d/src/sp3d_v3d.dart';
 ///
 class Sp3dPhysics {
   static const String className = 'Sp3dPhysics';
-  static const String version = '5';
+  static const String version = '6';
   bool isLocked;
   double? mass;
   double? speed;
@@ -20,44 +20,80 @@ class Sp3dPhysics {
   double? angularVelocity;
   double? angle;
   String? name;
+
+  /// Accumulated force vector for the current timestep.
+  ///
+  /// This is a per-step scratch buffer: it should be zeroed at the start of
+  /// each integration step, accumulated by force interactions, and read by
+  /// the integrator to update [velocity].  It is not meaningful as persistent
+  /// state and will typically be null in serialised data.
+  ///
+  /// The unit system is application-defined and must be consistent with
+  /// [mass], [velocity], and the time step used by the integrator.
+  Sp3dV3D? force;
+
+  /// Accumulated torque vector for the current timestep.
+  ///
+  /// Same lifecycle as [force]: zero → accumulate → integrate → zero.
+  /// Used for rigid-body angular acceleration: α = I⁻¹ · torque.
+  ///
+  /// The unit system is application-defined and must be consistent with
+  /// the inertia tensor and time step used by the integrator.
+  Sp3dV3D? torque;
+
   Map<String, dynamic>? others;
 
   /// Constructor
   /// * [isLocked] : If true, Treat it as a fixed object.
-  /// * [mass] : The mass(kg) of the object.
-  /// * [speed] : The speed(m/s) of the object. Retained primarily for calculations.
-  /// * [direction] : The direction(Unit vector) of the object. Retained primarily for calculations.
-  /// * [velocity] : The velocity of the object. Used for moving objects.
+  /// * [mass] : The mass of the object. The unit is application-defined
+  ///   (e.g. kg, g/mol, or any consistent unit).
+  /// * [speed] : The speed of the object. The unit is application-defined
+  ///   (e.g. m/s). Retained primarily for calculations.
+  /// * [direction] : The direction (unit vector) of the object.
+  ///   Retained primarily for calculations.
+  /// * [velocity] : The velocity of the object. The unit is application-defined
+  ///   and must be consistent with [mass] and the time step. Used for moving objects.
   /// * [rotateAxis] : The rotate axis of the object.
   /// * [angularVelocity] : The angular velocity of the object.
-  /// * [angle] : The rotated angle of the object.
+  ///   The unit is application-defined (e.g. rad/s or rad/tick).
+  /// * [angle] : The rotated angle of the object (application-defined unit).
   /// * [name] : Name of the action.
+  /// * [force] : Accumulated force buffer for the current timestep. Typically
+  ///   left null; managed by the physics integrator each tick.
+  /// * [torque] : Accumulated torque buffer for the current timestep. Typically
+  ///   left null; managed by the physics integrator each tick.
   /// * [others] : Optional attributes that may be added for each app.
-  Sp3dPhysics(
-      {this.isLocked = false,
-      this.mass,
-      this.speed,
-      this.direction,
-      this.velocity,
-      this.rotateAxis,
-      this.angularVelocity,
-      this.angle,
-      this.name,
-      this.others});
+  Sp3dPhysics({
+    this.isLocked = false,
+    this.mass,
+    this.speed,
+    this.direction,
+    this.velocity,
+    this.rotateAxis,
+    this.angularVelocity,
+    this.angle,
+    this.name,
+    this.force,
+    this.torque,
+    this.others,
+  });
 
   /// Deep copy the object.
   Sp3dPhysics deepCopy() {
     return Sp3dPhysics(
-        isLocked: isLocked,
-        mass: mass,
-        speed: speed,
-        direction: direction?.deepCopy(),
-        velocity: velocity?.deepCopy(),
-        rotateAxis: rotateAxis?.deepCopy(),
-        angularVelocity: angularVelocity,
-        angle: angle,
-        name: name,
-        others: others != null ? {...others!} : null);
+      isLocked: isLocked,
+      mass: mass,
+      speed: speed,
+      direction: direction?.deepCopy(),
+      velocity: velocity?.deepCopy(),
+      rotateAxis: rotateAxis?.deepCopy(),
+      angularVelocity: angularVelocity,
+      angle: angle,
+      name: name,
+      force: force?.deepCopy(),
+      torque: torque?.deepCopy(),
+      others: others != null ? {...others!} : null,
+    );
   }
 
   /// Convert the object to a dictionary.
@@ -74,6 +110,8 @@ class Sp3dPhysics {
     d['angularVelocity'] = angularVelocity;
     d['angle'] = angle;
     d['name'] = name;
+    d['force'] = force?.toDict();
+    d['torque'] = torque?.toDict();
     d['others'] = others;
     return d;
   }
@@ -82,21 +120,23 @@ class Sp3dPhysics {
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dPhysics fromDict(Map<String, dynamic> src) {
     return Sp3dPhysics(
-        isLocked: src['isLocked'],
-        mass: src['mass'],
-        speed: src['speed'],
-        direction: src['direction'] != null
-            ? Sp3dV3D.fromDict(src['direction'])
-            : null,
-        velocity:
-            src['velocity'] != null ? Sp3dV3D.fromDict(src['velocity']) : null,
-        rotateAxis: src['rotateAxis'] != null
-            ? Sp3dV3D.fromDict(src['rotateAxis'])
-            : null,
-        angularVelocity: src['angularVelocity'],
-        angle: src['angle'],
-        name: src['name'],
-        others: src['others']);
+      isLocked: src['isLocked'],
+      mass: src['mass'],
+      speed: src['speed'],
+      direction:
+          src['direction'] != null ? Sp3dV3D.fromDict(src['direction']) : null,
+      velocity:
+          src['velocity'] != null ? Sp3dV3D.fromDict(src['velocity']) : null,
+      rotateAxis: src['rotateAxis'] != null
+          ? Sp3dV3D.fromDict(src['rotateAxis'])
+          : null,
+      angularVelocity: src['angularVelocity'],
+      angle: src['angle'],
+      name: src['name'],
+      force: src['force'] != null ? Sp3dV3D.fromDict(src['force']) : null,
+      torque: src['torque'] != null ? Sp3dV3D.fromDict(src['torque']) : null,
+      others: src['others'],
+    );
   }
 
   /// Convert the object to a dictionary.
