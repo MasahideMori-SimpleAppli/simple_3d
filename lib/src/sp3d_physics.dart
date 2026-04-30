@@ -116,13 +116,16 @@ class Sp3dPhysics {
     return d;
   }
 
+  /// 変換用
+  static double _d(dynamic value) => (value as num).toDouble();
+
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dPhysics fromDict(Map<String, dynamic> src) {
     return Sp3dPhysics(
       isLocked: src['isLocked'],
-      mass: src['mass'],
-      speed: src['speed'],
+      mass: src['mass'] != null ? _d(src['mass']) : null,
+      speed: src['speed'] != null ? _d(src['speed']) : null,
       direction:
           src['direction'] != null ? Sp3dV3D.fromDict(src['direction']) : null,
       velocity:
@@ -130,8 +133,9 @@ class Sp3dPhysics {
       rotateAxis: src['rotateAxis'] != null
           ? Sp3dV3D.fromDict(src['rotateAxis'])
           : null,
-      angularVelocity: src['angularVelocity'],
-      angle: src['angle'],
+      angularVelocity:
+          src['angularVelocity'] != null ? _d(src['angularVelocity']) : null,
+      angle: src['angle'] != null ? _d(src['angle']) : null,
       name: src['name'],
       force: src['force'] != null ? Sp3dV3D.fromDict(src['force']) : null,
       torque: src['torque'] != null ? Sp3dV3D.fromDict(src['torque']) : null,
@@ -169,8 +173,8 @@ class Sp3dPhysics {
     }
     return Sp3dPhysics(
         isLocked: src['is_locked'],
-        mass: src['mass'],
-        speed: src['speed'],
+        mass: src['mass'] != null ? _d(src['mass']) : null,
+        speed: src['speed'] != null ? _d(src['speed']) : null,
         direction: src['direction'] != null
             ? Sp3dV3D.fromDictV14(src['direction'])
             : null,
@@ -180,8 +184,10 @@ class Sp3dPhysics {
         rotateAxis: src['rotate_axis'] != null
             ? Sp3dV3D.fromDictV14(src['rotate_axis'])
             : null,
-        angularVelocity: src['angular_velocity'],
-        angle: src['angle'],
+        angularVelocity: src['angular_velocity'] != null
+            ? _d(src['angular_velocity'])
+            : null,
+        angle: src['angle'] != null ? _d(src['angle']) : null,
         name: mName,
         others: src['others']);
   }

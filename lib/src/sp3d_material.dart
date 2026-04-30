@@ -156,6 +156,9 @@ class Sp3dMaterial {
     return d;
   }
 
+  /// 変換用
+  static double _d(dynamic value) => (value as num).toDouble();
+
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
   /// * [version] : The Sp3dMaterialList version.
@@ -171,29 +174,29 @@ class Sp3dMaterial {
           src['strokeColor'][2], src['strokeColor'][3]);
     } else {
       mbg = Color.from(
-          alpha: src['bg'][0],
-          red: src['bg'][1],
-          green: src['bg'][2],
-          blue: src['bg'][3]);
+          alpha: _d(src['bg'][0]),
+          red: _d(src['bg'][1]),
+          green: _d(src['bg'][2]),
+          blue: _d(src['bg'][3]));
       msc = Color.from(
-          alpha: src['strokeColor'][0],
-          red: src['strokeColor'][1],
-          green: src['strokeColor'][2],
-          blue: src['strokeColor'][3]);
+          alpha: _d(src['strokeColor'][0]),
+          red: _d(src['strokeColor'][1]),
+          green: _d(src['strokeColor'][2]),
+          blue: _d(src['strokeColor'][3]));
     }
     List<Offset>? tCoord;
     if (src['textureCoordinates'] != null) {
       tCoord = [];
       List<double> cBuff = [];
-      for (double d in src['textureCoordinates']) {
-        cBuff.add(d);
+      for (final dynamic raw in src['textureCoordinates']) {
+        cBuff.add(_d(raw));
         if (cBuff.length == 2) {
           tCoord.add(Offset(cBuff[0], cBuff[1]));
           cBuff.clear();
         }
       }
     }
-    return Sp3dMaterial(mbg, src['isFill'], src['strokeWidth'], msc,
+    return Sp3dMaterial(mbg, src['isFill'], _d(src['strokeWidth']), msc,
         imageIndex: src['imageIndex'],
         textureCoordinates: tCoord,
         name: src['name'],
@@ -248,8 +251,8 @@ class Sp3dMaterial {
       if (src['texture_coordinates'] != null) {
         tCoord = [];
         List<double> cBuff = [];
-        for (double d in src['texture_coordinates']) {
-          cBuff.add(d);
+        for (final dynamic raw in src['texture_coordinates']) {
+          cBuff.add(_d(raw));
           if (cBuff.length == 2) {
             tCoord.add(Offset(cBuff[0], cBuff[1]));
             cBuff.clear();
@@ -262,7 +265,7 @@ class Sp3dMaterial {
     if (src.containsKey('name')) {
       mName = src['name'];
     }
-    return Sp3dMaterial(mbg, src['is_fill'], src['stroke_width'], msc,
+    return Sp3dMaterial(mbg, src['is_fill'], _d(src['stroke_width']), msc,
         imageIndex: src['image_index'],
         textureCoordinates: tCoord,
         name: mName,

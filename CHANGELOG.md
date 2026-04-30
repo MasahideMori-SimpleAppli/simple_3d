@@ -1,3 +1,12 @@
+## 17.3.1
+
+* Fixed a type error in `fromDict` / `fromDictV14` where JSON-decoded integer values
+  were not safely converted to `double` in certain environments (e.g. iOS app mode on macOS).
+    * Affected classes: `Sp3dV3D`, `Sp3dPhysics`, `Sp3dMaterial`, `Sp3dFragment`.
+    * Added a private helper `_d(dynamic value)` to each class that performs
+      `(value as num).toDouble()`, and applied it to all `double`-typed field assignments
+      in the above `fromDict` / `fromDictV14` methods.
+
 ## 17.3.0
 
 * Added `force` and `torque` fields (`Sp3dV3D?`) to `Sp3dPhysics`.

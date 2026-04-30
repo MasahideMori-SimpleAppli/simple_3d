@@ -62,13 +62,16 @@ class Sp3dV3D {
     return d;
   }
 
+  /// 変換用
+  static double _d(dynamic value) => (value as num).toDouble();
+
   /// (en) Restore this object from the dictionary.
   ///
   /// (ja) このオブジェクトを辞書から復元します。
   ///
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dV3D fromDict(Map<String, dynamic> src) {
-    return Sp3dV3D(src['x'], src['y'], src['z']);
+    return Sp3dV3D(_d(src['x']), _d(src['y']), _d(src['z']));
   }
 
   /// (en) Convert the object to a dictionary.
@@ -94,7 +97,7 @@ class Sp3dV3D {
   ///
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dV3D fromDictV14(Map<String, dynamic> src) {
-    return Sp3dV3D(src['x'], src['y'], src['z']);
+    return Sp3dV3D(_d(src['x']), _d(src['y']), _d(src['z']));
   }
 
   Sp3dV3D operator +(Sp3dV3D v) {

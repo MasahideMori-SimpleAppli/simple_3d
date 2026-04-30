@@ -71,12 +71,15 @@ class Sp3dFragment {
     return d;
   }
 
+  /// 変換用
+  static double _d(dynamic value) => (value as num).toDouble();
+
   /// Restore this object from the dictionary.
   /// * [src] : A dictionary made with toDict of this class.
   static Sp3dFragment fromDict(Map<String, dynamic> src) {
     return Sp3dFragment(Sp3dFaceList.fromDict(src).faces,
         isParticle: src['isParticle'],
-        r: src['r'],
+        r: _d(src['r']),
         physics: src['physics'] != null
             ? Sp3dPhysics.fromDict(src['physics'])
             : null,
@@ -117,7 +120,7 @@ class Sp3dFragment {
     }
     return Sp3dFragment(Sp3dFaceList.fromDictV14(src).faces,
         isParticle: src['is_particle'],
-        r: src['r'],
+        r: _d(src['r']),
         physics: src.containsKey('physics')
             ? src['physics'] != null
                 ? Sp3dPhysics.fromDictV14(src['physics'])
